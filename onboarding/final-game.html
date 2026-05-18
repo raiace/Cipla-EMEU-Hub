@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Signal Room — Cultural Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--teal:#006666;--dark:#002e2e;--gold:#c8902a;--gold-l:#e8b960;--cream:#faf8f4;--warm:#fdfcf9;--border:#d8d3ca;--muted:#6e6e6e;--ok:#2a8c6a;--err:#c0392b}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{height:100%}
+body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(160deg,#faf8f4,#f0ede6 50%,#e8e3d9);color:var(--dark);min-height:100%;-webkit-font-smoothing:antialiased;user-select:none}
+h1,h2,h3,h4{font-family:'Playfair Display',Georgia,serif}
+body::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(circle at 15% 85%,rgba(0,102,102,.04),transparent 50%),radial-gradient(circle at 85% 15%,rgba(200,144,42,.05),transparent 50%);pointer-events:none}
+
+/* ── SCREENS ── */
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;opacity:0;pointer-events:none;transition:opacity .45s,transform .45s;transform:scale(.97) translateY(6px);z-index:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.active{opacity:1;pointer-events:all;transform:scale(1) translateY(0)}
+
+/* ── INTRO ── */
+.intro-wrap{width:100%;max-width:700px;padding:28px 20px 48px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.sr-icon{margin-bottom:18px;animation:float 4s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.ring-1{animation:spin1 12s linear infinite;transform-origin:center}
+.ring-2{animation:spin2 18s linear infinite;transform-origin:center}
+@keyframes spin1{to{transform:rotate(360deg)}}
+@keyframes spin2{to{transform:rotate(-360deg)}}
+.intro-badge{display:inline-block;font-size:.6rem;text-transform:uppercase;letter-spacing:3px;font-weight:700;color:var(--gold);background:rgba(200,144,42,.08);padding:5px 16px;border-radius:20px;margin-bottom:14px}
+.intro h1{font-size:clamp(2rem,6vw,3.2rem);color:var(--dark);line-height:1.1;margin-bottom:10px}
+.intro h1 span{color:var(--teal)}
+.intro-sub{font-size:clamp(.82rem,2.5vw,.92rem);color:var(--muted);max-width:440px;line-height:1.7;margin-bottom:30px}
+.track-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:640px;margin-bottom:12px}
+.track-card{background:var(--warm);border:2px solid var(--border);border-radius:20px;padding:22px 18px 18px;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);text-align:left;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden}
+.track-card::after{content:'';position:absolute;inset:0;opacity:0;transition:.3s;pointer-events:none}
+.track-card.global-track::after{background:linear-gradient(135deg,rgba(0,102,102,.04),transparent 70%)}
+.track-card.india-track::after{background:linear-gradient(135deg,rgba(200,144,42,.05),transparent 70%)}
+.track-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,46,46,.12)}
+.track-card:hover::after{opacity:1}
+.track-card.global-track:hover{border-color:var(--teal)}
+.track-card.india-track:hover{border-color:var(--gold)}
+.track-emoji{font-size:1.8rem;line-height:1;margin-bottom:2px}
+.track-for{font-size:.56rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--muted)}
+.track-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--dark);line-height:1.25}
+.track-desc{font-size:.75rem;color:var(--muted);line-height:1.55}
+.track-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.t-tag{font-size:.58rem;font-weight:600;padding:2px 8px;border-radius:20px}
+.global-track .t-tag{background:rgba(0,102,102,.07);color:var(--teal)}
+.india-track .t-tag{background:rgba(200,144,42,.09);color:var(--gold)}
+.track-cta{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;color:#fff;padding:8px 16px;border-radius:50px;border:none;cursor:pointer;transition:all .2s;margin-top:2px;align-self:flex-start}
+.global-track .track-cta{background:var(--teal)}
+.india-track .track-cta{background:var(--gold)}
+.track-cta svg{width:13px;height:13px}
+.intro-note{font-size:.68rem;color:var(--muted)}
+
+/* ── GAME ── */
+.game-wrap{width:100%;max-width:840px;padding:14px 16px;display:flex;flex-direction:column;gap:0}
+.game-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.gtl{display:flex;align-items:center;gap:7px}
+.track-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.track-dot.t-india{background:var(--teal)}
+.track-dot.t-global{background:var(--gold)}
+.gtl-name{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:600}
+.pips{display:flex;gap:6px}
+.pip{width:9px;height:9px;border-radius:50%;background:var(--border);transition:.3s}
+.pip.done{background:var(--ok)}.pip.cur{background:var(--gold);box-shadow:0 0 0 3px rgba(200,144,42,.22)}
+.gscore{font-size:.8rem;font-weight:600;color:var(--muted)}
+.gscore b{color:var(--teal);font-family:'Playfair Display',serif;font-size:.95rem}
+.prog-bar{height:4px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--teal),var(--gold));border-radius:3px;transition:width .55s cubic-bezier(.22,1,.36,1)}
+.game-body{display:grid;grid-template-columns:290px 1fr;gap:18px;align-items:flex-start}
+
+/* Signal card */
+.signal-card{background:var(--warm);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,46,46,.07);transition:box-shadow .3s}
+.sig-hdr{display:flex;align-items:center;gap:7px;padding:9px 13px;border-bottom:1px solid var(--border);background:rgba(0,102,102,.02)}
+.sig-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:blink 2.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+.sig-type{font-size:.58rem;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--muted)}
+.sig-body{min-height:190px}
+
+/* Mock: WhatsApp */
+.mk-wa{background:#075E54;padding:10px 10px 12px;min-height:200px;display:flex;flex-direction:column}
+.mk-wa-hdr{display:flex;align-items:center;gap:8px;padding-bottom:8px;margin-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1)}
+.mk-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;color:#fff;flex-shrink:0}
+.mk-gname{font-size:.72rem;font-weight:600;color:#fff;line-height:1.2}
+.mk-gsub{font-size:.58rem;color:rgba(255,255,255,.55)}
+.mk-bbl{max-width:90%;padding:5px 9px;border-radius:7px;margin-bottom:4px;font-size:.69rem;line-height:1.4;color:#fff}
+.mk-bbl.th{background:rgba(255,255,255,.14);border-radius:0 7px 7px 7px}
+.mk-bbl.me{background:#128C7E;align-self:flex-end;margin-left:auto;border-radius:7px 7px 0 7px}
+.mk-bbl .bt{font-size:.55rem;opacity:.55;margin-top:1px;text-align:right}
+.mk-badge{background:rgba(200,144,42,.85);color:#fff;border-radius:20px;padding:3px 12px;font-size:.63rem;font-weight:700;text-align:center;margin:6px auto 0;align-self:center}
+
+/* Mock: Meeting */
+.mk-meet{background:#1a1a2e;padding:10px;min-height:200px;display:flex;flex-direction:column;gap:8px}
+.mk-tiles{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.mk-tile{background:#2a2a40;border-radius:7px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:60px}
+.mk-tav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.63rem;font-weight:700;color:#fff}
+.mk-tname{font-size:.55rem;color:rgba(255,255,255,.6)}
+.mk-speech{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;color:rgba(255,255,255,.78);font-size:.68rem;font-style:italic;text-align:center;line-height:1.45}
+
+/* Mock: Email Inbox */
+.mk-inbox{padding:10px;min-height:200px;display:flex;flex-direction:column;gap:0}
+.mk-row{display:flex;align-items:center;gap:7px;padding:6px 2px;border-bottom:1px solid var(--border)}
+.mk-row:last-of-type{border-bottom:none}
+.mk-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.mk-dot.sent{background:var(--teal)}.mk-dot.nr{background:var(--border)}
+.mk-ri{flex:1;min-width:0}
+.mk-rfrom{font-size:.67rem;font-weight:600;color:var(--dark)}
+.mk-rsub{font-size:.61rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mk-rdate{font-size:.58rem;color:var(--muted);flex-shrink:0}
+.mk-noreply{text-align:center;font-size:.63rem;color:var(--err);margin-top:6px;padding:4px;background:rgba(192,57,43,.04);border-radius:6px}
+
+/* Mock: Video call */
+.mk-vc{background:#111827;padding:10px;min-height:200px;display:flex;flex-direction:column;gap:8px}
+.mk-vc-tiles{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.mk-vt{background:#1f2937;border-radius:7px;aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;position:relative}
+.mk-vtav{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff}
+.mk-vtname{position:absolute;bottom:4px;left:6px;font-size:.52rem;color:rgba(255,255,255,.65)}
+.mk-qbbl{background:rgba(200,144,42,.88);border-radius:8px 8px 8px 0;padding:7px 10px;font-size:.69rem;color:#fff;line-height:1.45}
+
+/* Mock: Status / Presence */
+.mk-status{padding:14px 12px;min-height:190px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.mk-stime{text-align:center;font-size:1.8rem;font-family:'Playfair Display',serif;color:var(--dark);font-weight:700;letter-spacing:-1px}
+.mk-slabel{text-align:center;font-size:.62rem;color:var(--muted);margin-top:-4px;margin-bottom:4px}
+.mk-presence{display:flex;align-items:center;gap:8px;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+.mk-online{width:9px;height:9px;border-radius:50%;background:#22c55e;flex-shrink:0}
+.mk-pname{font-size:.72rem;font-weight:600;color:var(--dark)}
+.mk-pstatus{font-size:.6rem;color:var(--muted)}
+.mk-ptime{font-size:.6rem;color:var(--muted);margin-left:auto;flex-shrink:0}
+.mk-snote{text-align:center;font-size:.62rem;color:var(--muted);line-height:1.45}
+
+/* Mock: Calendar */
+.mk-cal{padding:11px;min-height:200px;display:flex;flex-direction:column;gap:8px}
+.mk-calhdr{font-size:.68rem;font-weight:700;color:var(--dark);text-align:center}
+.mk-calgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:2px}
+.mk-calday{aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.5rem;font-weight:600}
+.mk-calday.norm{background:var(--cream);color:var(--muted)}
+.mk-calday.today{background:var(--gold);color:#fff}
+.mk-calday.dead{background:rgba(192,57,43,.12);color:var(--err);border:1px solid rgba(192,57,43,.25)}
+.mk-commit{background:rgba(0,102,102,.07);border:1px solid rgba(0,102,102,.14);border-radius:8px;padding:6px 10px;font-size:.68rem;color:var(--teal);font-weight:600}
+.mk-result{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.2);border-radius:8px;padding:6px 10px;font-size:.68rem;color:var(--err);font-weight:600}
+
+/* Mock: Empty Inbox */
+.mk-empty{padding:16px 12px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.mk-emico{font-size:1.8rem}
+.mk-callended{background:var(--cream);border:1px solid var(--border);border-radius:9px;padding:7px 12px;font-size:.68rem;color:var(--muted);text-align:center;width:100%}
+.mk-timeago{font-size:.63rem;font-weight:600;color:var(--err);text-align:center}
+.mk-emtitle{font-size:.78rem;font-weight:700;color:var(--dark)}
+.mk-emsub{font-size:.65rem;color:var(--muted);text-align:center;line-height:1.5;max-width:200px}
+
+/* Mock: Short call */
+.mk-short{background:#111827;padding:10px;min-height:200px;display:flex;flex-direction:column;gap:7px}
+.mk-skip{background:rgba(255,200,50,.1);border:1px solid rgba(255,200,50,.25);border-radius:7px;padding:5px 8px;font-size:.64rem;color:rgba(255,210,60,.9);text-align:center}
+.mk-slide{background:#1e3a5f;border-radius:8px;padding:10px 12px;flex:1;display:flex;flex-direction:column;justify-content:center}
+.mk-slide-hdr{font-size:.55rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(255,255,255,.45);margin-bottom:5px}
+.mk-slide-title{font-size:.82rem;font-weight:700;color:#fff;margin-bottom:3px}
+.mk-slide-sub{font-size:.62rem;color:rgba(255,255,255,.55)}
+
+/* Mock: Feedback email */
+.mk-fbemail{padding:11px;min-height:200px;display:flex;flex-direction:column;gap:6px}
+.mk-fbfrom{font-size:.64rem;color:var(--muted)}
+.mk-fbsubject{font-size:.78rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.mk-fbbody{font-size:.7rem;color:var(--dark);line-height:1.6;padding:9px 11px;background:var(--cream);border-radius:8px;border-left:3px solid var(--teal)}
+.mk-fbbody p{margin-bottom:3px}.mk-fbbody p:last-child{margin-bottom:0}
+
+/* Mock: Timer */
+.mk-timer{padding:12px;min-height:190px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.mk-trow{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:10px;background:var(--cream)}
+.mk-tico{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.75rem}
+.mk-tinfo{flex:1}
+.mk-tlabel{font-size:.7rem;font-weight:600;color:var(--dark)}
+.mk-ttime{font-size:.6rem;color:var(--muted)}
+.mk-tbadge{font-size:.58rem;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0}
+.mk-tnote{text-align:center;font-size:.63rem;color:var(--muted);line-height:1.45}
+
+/* Q Panel */
+.q-panel{display:flex;flex-direction:column;gap:9px}
+.q-tag{font-size:.56rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--gold);background:rgba(200,144,42,.09);padding:3px 10px;border-radius:20px;width:fit-content}
+.q-title{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--dark);font-weight:700}
+.q-text{font-size:.86rem;color:var(--dark);line-height:1.6}
+.options{display:flex;flex-direction:column;gap:7px}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:10px 14px;background:var(--warm);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;font-size:.8rem;font-weight:500;color:var(--dark);transition:all .22s;-webkit-tap-highlight-color:transparent;line-height:1.45;text-align:left}
+.opt:hover:not(.chosen){border-color:var(--teal);background:rgba(0,102,102,.03);transform:translateX(3px)}
+.opt.correct{border-color:var(--ok);background:rgba(42,140,106,.08);color:var(--ok)}
+.opt.wrong{border-color:var(--err);background:rgba(192,57,43,.06);color:var(--err);opacity:.7}
+.opt.chosen{pointer-events:none}
+.opt-l{width:21px;height:21px;border-radius:6px;background:rgba(0,102,102,.07);display:flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;color:var(--teal);flex-shrink:0;transition:.22s;margin-top:1px}
+.opt.correct .opt-l{background:var(--ok);color:#fff}
+.opt.wrong .opt-l{background:var(--err);color:#fff}
+.q-feedback{font-size:.78rem;padding:9px 13px;border-radius:10px;animation:fadeUp .28s ease;line-height:1.5}
+.q-feedback.ok{color:var(--ok);background:rgba(42,140,106,.06);border-left:3px solid var(--ok)}
+.q-feedback.nope{color:var(--err);background:rgba(192,57,43,.05);border-left:3px solid var(--err)}
+.insight-box{background:rgba(200,144,42,.06);border:1px solid rgba(200,144,42,.18);border-radius:10px;padding:9px 13px;animation:fadeUp .35s ease .08s both}
+.insight-lbl{font-size:.55rem;text-transform:uppercase;letter-spacing:2px;font-weight:700;color:var(--gold);margin-bottom:3px}
+.insight-txt{font-size:.76rem;color:var(--dark);line-height:1.55}
+@keyframes fadeUp{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:none;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.86rem;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1)}
+.btn-primary{background:linear-gradient(135deg,var(--teal),#008078);color:#fff;box-shadow:0 6px 22px rgba(0,102,102,.26)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 34px rgba(0,102,102,.3)}
+.btn-next{padding:9px 20px;font-size:.78rem;align-self:flex-start}
+.btn svg{width:15px;height:15px;flex-shrink:0}
+
+/* ── REGION HUB ── */
+.region-wrap{width:100%;max-width:840px;padding:20px 16px 48px}
+.rh-header{text-align:center;margin-bottom:22px}
+.unlock-badge{display:inline-flex;align-items:center;gap:6px;font-size:.58rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--gold);background:rgba(200,144,42,.09);padding:5px 14px;border-radius:20px;margin-bottom:11px}
+.unlock-badge svg{width:11px;height:11px}
+.rh-header h2{font-size:clamp(1.5rem,4vw,2.1rem);color:var(--dark);margin-bottom:7px}
+.rh-header h2 span{color:var(--teal)}
+.rh-header p{font-size:.82rem;color:var(--muted);max-width:440px;margin:0 auto;line-height:1.65}
+.region-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-bottom:20px}
+.r-card{background:var(--warm);border:1.5px solid var(--border);border-radius:15px;padding:15px 14px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.r-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold));opacity:0;transition:.22s}
+.r-card:hover{border-color:rgba(0,102,102,.3);transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,102,102,.1)}
+.r-card:hover::before{opacity:1}
+.r-flag{font-size:1.5rem;margin-bottom:6px;line-height:1}
+.r-name{font-size:.82rem;font-weight:700;color:var(--dark);font-family:'Playfair Display',serif;margin-bottom:3px}
+.r-countries{font-size:.62rem;color:var(--muted)}
+.r-arrow{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--teal);opacity:.3;font-size:.8rem;transition:.22s}
+.r-card:hover .r-arrow{opacity:.8;transform:translateY(-50%) translateX(2px)}
+.r-continue{width:100%;padding:13px;background:linear-gradient(135deg,var(--teal),#008078);color:#fff;border:none;border-radius:13px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .22s;box-shadow:0 4px 18px rgba(0,102,102,.22)}
+.r-continue:hover{opacity:.92;transform:translateY(-2px)}
+
+/* Region Detail Overlay */
+.rd-overlay{position:fixed;inset:0;z-index:200;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .28s}
+.rd-overlay.open{opacity:1;pointer-events:all}
+.rd-bg{position:absolute;inset:0;background:rgba(0,46,46,.38);backdrop-filter:blur(3px)}
+.rd-sheet{position:relative;z-index:1;width:100%;max-width:580px;margin:0 auto;background:var(--warm);border-radius:22px 22px 0 0;max-height:88vh;overflow-y:auto;transform:translateY(100%);transition:transform .38s cubic-bezier(.22,1,.36,1)}
+.rd-overlay.open .rd-sheet{transform:translateY(0)}
+.rd-handle{width:38px;height:4px;background:var(--border);border-radius:2px;margin:11px auto 0}
+.rd-hero{padding:18px 22px 14px;border-bottom:1px solid var(--border)}
+.rd-hflag{font-size:2rem;margin-bottom:7px;line-height:1}
+.rd-hname{font-family:'Playfair Display',serif;font-size:1.35rem;color:var(--dark);margin-bottom:3px}
+.rd-hcountries{font-size:.72rem;color:var(--muted)}
+.rd-body{padding:18px 22px 24px;display:flex;flex-direction:column;gap:14px}
+.rd-sec-lbl{font-size:.55rem;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.rd-norm{display:flex;gap:9px;padding:9px 11px;background:var(--cream);border-radius:10px;margin-bottom:7px}
+.rd-norm:last-child{margin-bottom:0}
+.rd-nnum{width:18px;height:18px;border-radius:5px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.rd-nttl{font-size:.75rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.rd-ntxt{font-size:.7rem;color:var(--muted);line-height:1.5}
+.rd-dont{background:rgba(192,57,43,.04);border:1px solid rgba(192,57,43,.14);border-radius:10px;padding:10px 12px}
+.rd-dont-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:var(--err);margin-bottom:4px}
+.rd-dont-txt{font-size:.73rem;color:var(--dark);line-height:1.55}
+.rd-do{background:rgba(42,140,106,.04);border:1px solid rgba(42,140,106,.18);border-radius:10px;padding:10px 12px}
+.rd-do-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:var(--ok);margin-bottom:4px}
+.rd-do-txt{font-size:.73rem;color:var(--dark);line-height:1.55}
+.rd-bridge{background:rgba(200,144,42,.05);border:1px solid rgba(200,144,42,.18);border-radius:10px;padding:10px 12px}
+.rd-bridge-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.rd-bridge-txt{font-size:.73rem;color:var(--dark);line-height:1.55}
+.rd-close{width:100%;padding:11px;background:var(--dark);color:#fff;border:none;border-radius:11px;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .2s;margin-top:4px}
+.rd-close:hover{background:#003d3d}
+
+/* ── COMPLETE ── */
+.complete-wrap{width:100%;max-width:500px;padding:28px 20px 48px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.comp-icon{margin-bottom:18px;animation:float 4s ease-in-out infinite}
+.complete h1{font-size:clamp(1.8rem,5vw,2.6rem);color:var(--dark);margin-bottom:6px}
+.complete h1 span{color:var(--teal)}
+.comp-sub{font-size:.86rem;color:var(--muted);max-width:390px;line-height:1.65;margin-bottom:6px}
+.comp-score{font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--gold);font-weight:700;margin:12px 0}
+.chips-lbl{font-size:.58rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:700;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:420px;margin:0 auto 26px}
+.chip{padding:6px 14px;background:rgba(0,102,102,.07);border:1.5px solid rgba(0,102,102,.13);border-radius:24px;font-size:.7rem;font-weight:600;color:var(--teal);opacity:0;animation:chipIn .45s forwards}
+@keyframes chipIn{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.comp-tagline{font-family:'Playfair Display',serif;font-size:.92rem;font-style:italic;color:var(--gold);margin-top:18px}
+
+/* Confetti */
+.cw{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.cp{position:absolute;top:-12px;border-radius:2px;animation:cF linear forwards}
+@keyframes cF{0%{transform:translateY(0) rotate(0);opacity:1}85%{opacity:1}100%{transform:translateY(110vh) rotate(800deg);opacity:0}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px){
+  .track-grid{grid-template-columns:1fr}
+  .game-body{grid-template-columns:1fr;gap:10px}
+  .signal-card{width:100%}
+  .region-grid{grid-template-columns:1fr 1fr}
+  .game-wrap,.region-wrap{padding:12px 12px}
+  .q-text{font-size:.8rem}
+  .opt{font-size:.77rem;padding:9px 12px}
+}
+@media(max-width:380px){
+  .region-grid{grid-template-columns:1fr}
+  .rd-body{padding:14px 16px 20px}
+  .rd-hero{padding:14px 16px 12px}
+  .intro-wrap{padding:20px 14px 40px}
+}
+*:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<!-- ────────────────── INTRO ────────────────── -->
+<div class="screen intro active" id="introScreen">
+  <div class="intro-wrap">
+    <div class="sr-icon">
+      <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+        <circle cx="38" cy="38" r="10" fill="rgba(0,102,102,.12)" stroke="#006666" stroke-width="2.5"/>
+        <circle cx="38" cy="38" r="5" fill="#006666"/>
+        <circle cx="38" cy="38" r="22" stroke="#006666" stroke-width="1.5" stroke-dasharray="5 3.5" class="ring-1"/>
+        <circle cx="38" cy="38" r="34" stroke="#c8902a" stroke-width="1" stroke-dasharray="3 5" class="ring-2"/>
+        <path d="M38 14v4M38 58v4M14 38h4M58 38h4" stroke="#006666" stroke-width="1.5" stroke-linecap="round" opacity=".35"/>
+      </svg>
+    </div>
+    <div class="intro-badge">Final Module · Cultural Intelligence</div>
+    <h1>The Signal <span>Room</span></h1>
+    <p class="intro-sub">Signals arrive from across the world — messages, meetings, emails. Your job is to read them correctly, decode what's really being communicated, and respond in a way that builds the relationship — not breaks it.</p>
+    <div class="track-grid">
+      <div class="track-card global-track" onclick="selectTrack('india')" role="button" tabindex="0">
+        <div class="track-emoji">🌍</div>
+        <div class="track-for">For Global Employees</div>
+        <div class="track-title">Working with India</div>
+        <div class="track-desc">Decode Indian workplace signals and build stronger partnerships with your Cipla India colleagues.</div>
+        <div class="track-tags">
+          <span class="t-tag">Europe</span><span class="t-tag">LATAM</span><span class="t-tag">ANZ</span><span class="t-tag">China</span><span class="t-tag">SEA</span><span class="t-tag">Middle East</span>
+        </div>
+        <button class="track-cta" onclick="selectTrack('india')">Enter Track <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+      <div class="track-card india-track" onclick="selectTrack('global')" role="button" tabindex="0">
+        <div class="track-emoji">🌐</div>
+        <div class="track-for">For India-Based Employees</div>
+        <div class="track-title">Working with Global</div>
+        <div class="track-desc">Understand how your work style lands abroad and adapt to build trust with your global Cipla colleagues.</div>
+        <div class="track-tags">
+          <span class="t-tag">UK &amp; Germany</span><span class="t-tag">ANZ</span><span class="t-tag">LATAM</span><span class="t-tag">Middle East</span>
+        </div>
+        <button class="track-cta" onclick="selectTrack('global')">Enter Track <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
+    </div>
+    <p class="intro-note">You can explore both tracks after completing one</p>
+  </div>
+</div>
+
+<!-- ────────────────── GAME ────────────────── -->
+<div class="screen" id="gameScreen">
+  <div class="game-wrap">
+    <div class="game-top">
+      <div class="gtl">
+        <div class="track-dot" id="tDot"></div>
+        <div class="gtl-name" id="tLabel">Working with India</div>
+      </div>
+      <div class="pips" id="pips"></div>
+      <div class="gscore">Score: <b id="scoreNum">0</b></div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    <div class="game-body">
+      <div class="signal-card" id="signalCard">
+        <div class="sig-hdr">
+          <div class="sig-dot"></div>
+          <div class="sig-type" id="sigType">Incoming Signal</div>
+        </div>
+        <div class="sig-body" id="sigBody"></div>
+      </div>
+      <div class="q-panel" id="qPanel"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ────────────────── REGION HUB ────────────────── -->
+<div class="screen" id="regionScreen">
+  <div class="region-wrap">
+    <div class="rh-header">
+      <div class="unlock-badge">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" fill="#c8902a"/></svg>
+        Global Playbook Unlocked
+      </div>
+      <h2>Your Global <span>Playbook</span></h2>
+      <p>Well done on completing the core module. At Cipla, every employee works across regions — so every employee needs this. Explore the deep dives for the markets most relevant to you, and come back to others over time.</p>
+    </div>
+    <div class="region-grid" id="regionGrid"></div>
+    <button class="r-continue" onclick="showComplete()">I'm ready — Complete Module →</button>
+  </div>
+</div>
+
+<!-- ────────────────── COMPLETE ────────────────── -->
+<div class="screen" id="completeScreen">
+  <div class="complete-wrap">
+    <div class="comp-icon">
+      <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+        <circle cx="45" cy="45" r="34" fill="rgba(200,144,42,.07)" stroke="#c8902a" stroke-width="2.5"/>
+        <path d="M29 46l11 11 21-23" stroke="#2a8c6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="45" cy="45" r="42" stroke="#c8902a" stroke-width="1" stroke-dasharray="4 3.5" opacity=".22"/>
+      </svg>
+    </div>
+    <h1 class="complete"><span id="complH1a">Signal</span> <span id="complH1b" style="color:var(--teal)">Master!</span></h1>
+    <p class="comp-sub" id="complSub">You've decoded the cultural signals. Use these insights in every cross-regional interaction — the difference between friction and trust often lives in a single moment.</p>
+    <div class="comp-score" id="compScore">5 / 5</div>
+    <div class="chips-lbl">What You've Decoded</div>
+    <div class="chips" id="chips"></div>
+    <button class="btn btn-primary" id="doneBtn" onclick="completeModule()">
+      <span>Complete Module</span>
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="comp-tagline">"Caring for life, every step of the way."</p>
+  </div>
+</div>
+
+<!-- ────────────────── REGION DETAIL OVERLAY ────────────────── -->
+<div class="rd-overlay" id="rdOverlay" onclick="handleRdBg(event)">
+  <div class="rd-bg"></div>
+  <div class="rd-sheet" id="rdSheet">
+    <div class="rd-handle"></div>
+    <div id="rdContent"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════ */
+
+const SIGNALS = {
+  whatsapp:`<div class="mk-wa"><div class="mk-wa-hdr"><div class="mk-av" style="background:#c8902a">C</div><div><div class="mk-gname">Cipla Project Group</div><div class="mk-gsub">Vikram, Priya, Neha, +6</div></div></div><div class="mk-bbl th">Schedule confirmed for Thursday 3pm IST<div class="bt">2:14 PM</div></div><div class="mk-bbl th">Also check the updated spec doc I shared<div class="bt">3:41 PM</div></div><div class="mk-bbl me">Got it, will review<div class="bt">6:02 PM</div></div><div class="mk-bbl th">Decision approved ✓ moving forward with Option B<div class="bt">8:33 PM</div></div><div class="mk-badge">📌 47 messages you haven't seen</div></div>`,
+
+  meeting:`<div class="mk-meet"><div class="mk-tiles"><div class="mk-tile"><div class="mk-tav" style="background:#006666">VB</div><div class="mk-tname">Vikram · Mumbai</div></div><div class="mk-tile"><div class="mk-tav" style="background:#c8902a">PR</div><div class="mk-tname">Priya · Mumbai</div></div><div class="mk-tile"><div class="mk-tav" style="background:#2a8c6a">YO</div><div class="mk-tname">You</div></div><div class="mk-tile" style="opacity:.35"><div style="font-size:.52rem;color:rgba(255,255,255,.4);text-align:center">Meeting ended</div></div></div><div class="mk-speech">"This has been very helpful. We will take this back and revert with our recommendation by end of next week."</div></div>`,
+
+  inbox:`<div class="mk-inbox"><div class="mk-row"><div class="mk-dot sent"></div><div class="mk-ri"><div class="mk-rfrom">You → Mumbai Regulatory</div><div class="mk-rsub">Sign-off required: 3 documents</div></div><div class="mk-rdate">Oct 22</div></div><div class="mk-row"><div class="mk-dot nr"></div><div class="mk-ri"><div class="mk-rfrom">Mumbai Regulatory</div><div class="mk-rsub" style="color:var(--border);font-style:italic">— No response —</div></div><div class="mk-rdate">Oct 23</div></div><div class="mk-row"><div class="mk-dot nr"></div><div class="mk-ri"><div class="mk-rfrom">Mumbai Regulatory</div><div class="mk-rsub" style="color:var(--border);font-style:italic">— No response —</div></div><div class="mk-rdate">Oct 24</div></div><div class="mk-row"><div class="mk-dot nr"></div><div class="mk-ri"><div class="mk-rfrom">Mumbai Regulatory</div><div class="mk-rsub" style="color:var(--border);font-style:italic">— No response —</div></div><div class="mk-rdate">Oct 25</div></div><div class="mk-noreply">📭 4 days · No reply from the full team</div></div>`,
+
+  videocall:`<div class="mk-vc"><div class="mk-vc-tiles"><div class="mk-vt"><div class="mk-vtav" style="background:#006666">AN</div><div class="mk-vtname">Ananya · Mumbai</div></div><div class="mk-vt"><div class="mk-vtav" style="background:#4a6fa5">YO</div><div class="mk-vtname">You</div></div></div><div class="mk-qbbl">💬 "Are you married? Do you have children? What does your family do?"</div></div>`,
+
+  status:`<div class="mk-status"><div class="mk-stime">9:30 PM</div><div class="mk-slabel">Your local time</div><div class="mk-presence"><div class="mk-online"></div><div style="flex:1"><div class="mk-pname">Kavya · Mumbai</div><div class="mk-pstatus">Active now · replied to 3 messages</div></div><div class="mk-ptime">11:00 PM IST</div></div><div class="mk-snote">Kavya just replied to your shared<br>project channel — you can see her activity</div></div>`,
+
+  calendar:`<div class="mk-cal"><div class="mk-calhdr">November — Deadline Week</div><div class="mk-calgrid"><div class="mk-calday norm" style="font-size:.48rem">MON<br>28</div><div class="mk-calday norm" style="font-size:.48rem">TUE<br>29</div><div class="mk-calday norm" style="font-size:.48rem">WED<br>30</div><div class="mk-calday today" style="font-size:.48rem">THU<br>31</div><div class="mk-calday dead" style="font-size:.48rem">FRI<br>1</div></div><div class="mk-commit">✓ "Yes, Friday is fine — I'll have it ready."</div><div class="mk-result">✗ Friday arrives. No report delivered.</div></div>`,
+
+  emptyinbox:`<div class="mk-empty"><div class="mk-emico">📭</div><div class="mk-callended">Project call ended · major decisions made · warm goodbyes</div><div class="mk-timeago">3 hours ago · No follow-up email sent</div><div class="mk-emtitle" style="margin-top:6px">UK colleague Emma is waiting</div><div class="mk-emsub">Action items, owners, next steps — she needs them in writing to plan her week</div></div>`,
+
+  shortcall:`<div class="mk-short"><div class="mk-vc-tiles" style="margin-bottom:4px"><div class="mk-vt" style="background:#1f2937"><div class="mk-vtav" style="background:#2a8c6a">RO</div><div class="mk-vtname">Rohit · India</div></div><div class="mk-vt" style="background:#1f2937"><div class="mk-vtav" style="background:#4a6fa5">BN</div><div class="mk-vtname">Ben · Sydney</div></div></div><div class="mk-skip">⚡ "OK, let's go through the distributor list" — no warmup, straight to agenda</div><div class="mk-slide"><div class="mk-slide-hdr">Agenda Item 1 of 5</div><div class="mk-slide-title">Q4 Distributor List</div><div class="mk-slide-sub">ANZ Region · Review &amp; decisions</div></div></div>`,
+
+  feedbackemail:`<div class="mk-fbemail"><div class="mk-fbfrom">From: Erik van der Berg &lt;e.vandenberg@cipla.com&gt;</div><div class="mk-fbsubject">Re: Market Analysis — Netherlands</div><div class="mk-fbbody"><p>The market sizing is off.</p><p>The methodology doesn't account for parallel imports, which are significant in this market.</p><p>I've added my notes directly in the document.</p><p><strong>Please revise before we share with leadership.</strong></p></div></div>`,
+
+  timer:`<div class="mk-timer"><div class="mk-trow"><div class="mk-tico" style="background:rgba(42,140,106,.1)">✅</div><div class="mk-tinfo"><div class="mk-tlabel">Astrid · Germany</div><div class="mk-ttime">Joined at 1:58 PM — 2 min early</div></div><div class="mk-tbadge" style="background:rgba(42,140,106,.1);color:var(--ok)">Ready</div></div><div class="mk-trow"><div class="mk-tico" style="background:rgba(192,57,43,.1)">⏱</div><div class="mk-tinfo"><div class="mk-tlabel">You</div><div class="mk-ttime">Joined at 2:06 PM</div></div><div class="mk-tbadge" style="background:rgba(192,57,43,.1);color:var(--err)">+6 min</div></div><div class="mk-tnote">Meeting scheduled 2:00 PM · No advance notice of delay sent</div></div>`
+};
+
+const SCENARIOS = {
+  india:[
+    {
+      title:"The WhatsApp Office",
+      sigType:"WhatsApp Group · Work Channel",
+      signal:"whatsapp",
+      q:"You've been on project calls but key decisions you weren't part of are being referenced. You later find they happened on a WhatsApp group you were never added to. What does this mean?",
+      opts:["The Indian team is deliberately excluding you from important conversations","WhatsApp is a primary professional work channel in India — you're missing real operational conversations","The platform was set up incorrectly and should be reported to IT"],
+      correct:1,
+      insight:"In India, WhatsApp isn't just social — it's where approvals, updates, and quick decisions happen in real time. Ask to be added to the project group. Being in the thread changes everything."
+    },
+    {
+      title:"Decisions Happen Offline",
+      sigType:"Meeting End · Mumbai Team",
+      signal:"meeting",
+      q:"You scheduled a vendor decision meeting with your Mumbai team. The meeting runs its full time with engaged discussion. It ends with: 'We'll take this back and revert by next week.' You needed a decision today. What happened?",
+      opts:["In Indian organisations, meetings often ratify decisions made through informal consensus-building beforehand — the meeting was an information step, not the decision point","The team wasn't prepared and needs more time to review the shortlist","They prefer a different vendor but won't say so directly in the meeting"],
+      correct:0,
+      insight:"'Taking it back' isn't stalling — it's the actual process. Ask beforehand: 'Will the team in this meeting have full authority to decide today?' If not, restructure it as an alignment session."
+    },
+    {
+      title:"Festival Clusters",
+      sigType:"Email Inbox · October",
+      signal:"inbox",
+      q:"It's late October. You need sign-off from your Mumbai regulatory team on 3 critical documents. Emails go unanswered for 4 days — across the whole team simultaneously. What is most likely happening?",
+      opts:["The Indian team is overwhelmed with other work and has deprioritised your documents","There's an internal Cipla escalation and your emails are caught in the middle","Diwali season is underway — India's most significant festival affects productivity across the entire country simultaneously"],
+      correct:2,
+      insight:"Diwali (October/November) is a multi-day national festival — equivalent to planning a critical sign-off over Christmas week in Europe. Get an Indian festival calendar at the start of each year and build buffer weeks around major festivals."
+    },
+    {
+      title:"Warmth of Personal Questions",
+      sigType:"Video Call · First Meeting",
+      signal:"videocall",
+      q:"You're on a first introductory call with your new Mumbai counterpart Ananya. Within 10 minutes she asks: 'Are you married? Do you have children? What does your family do?' You feel uncomfortable. What is actually happening?",
+      opts:["Ananya is being unprofessional and crossing personal boundaries","Ananya is genuinely building a human connection — this is how Indian professionals establish the trust that working relationships run on","Ananya is making small talk to fill time before the meeting ends"],
+      correct:1,
+      insight:"In Indian culture, personal rapport is not separate from professional relationship — it IS the professional relationship. A warm, brief answer builds more working capital than any formal introduction. Your warmth matters more than what you share."
+    },
+    {
+      title:"The Late Online Signal",
+      sigType:"Teams Status · 9:30 PM",
+      signal:"status",
+      q:"It's 9:30 PM your local time. You see your Mumbai colleague Kavya is active on Teams and has just replied to three messages in your shared project channel. What does this mean for you?",
+      opts:["This is Kavya's natural work rhythm — Indian professionals often have fluid hours. She doesn't expect you to respond tonight.","There's likely a crisis Kavya is managing — you should check in immediately","Being online late is an implied team norm — you should respond to show commitment"],
+      correct:0,
+      insight:"Many Indian professionals work flexible hours — late evenings, weekends. This is personal rhythm, not expectation. You have zero obligation to respond outside your working hours. If you ever feel implicit pressure, name it directly with your manager."
+    }
+  ],
+  global:[
+    {
+      title:"Over-Promising Kills Trust",
+      sigType:"Calendar · Deadline Commitment",
+      signal:"calendar",
+      q:"Your German colleague Stefan asks if a market report can be ready by Friday. You want to be helpful and say 'Yes, Friday is fine.' The report arrives Monday. What was the root mistake?",
+      opts:["Not working hard enough to meet the Friday deadline","Not warning Stefan earlier when you realised the timeline was at risk","Saying 'yes' before confirming it was genuinely achievable — in European work cultures, yes to a deadline is a contract, not an intention"],
+      correct:2,
+      insight:"In German, Dutch, UK and ANZ cultures, 'yes' means they plan around it. The fix isn't working harder — it's committing more carefully. 'Friday is likely — let me confirm by tomorrow' is more professional than an optimistic yes that breaks."
+    },
+    {
+      title:"The Follow-Up Email Is Not Optional",
+      sigType:"Inbox · After Decision Call",
+      signal:"emptyinbox",
+      q:"You've had a productive project call with your UK team. Big decisions made, warm goodbyes. No summary email follows. Three weeks later, you and your UK colleague Emma have conflicting memories of what was agreed. What should have happened?",
+      opts:["Emma should have sent the summary — she's on the receiving end","A brief summary email within an hour of every decision call is essential in European and ANZ work culture — without it, the meeting effectively didn't happen in their professional reality","A follow-up is only necessary when formal legal commitments are made"],
+      correct:1,
+      insight:"Not a formal document — just 4 sentences, 3 action items, named owners and dates. Send within an hour. This single habit transforms how professional you appear to global colleagues — and protects you when memories diverge."
+    },
+    {
+      title:"Small Talk Is Big Work",
+      sigType:"Video Call · Sydney · Regular Check-in",
+      signal:"shortcall",
+      q:"You're on a regular check-in with your Australian colleague Ben. 30 minutes. You jump straight in: 'Let's go through the distributor list.' Over time Ben becomes less engaged and proactive. What's the likely connection?",
+      opts:["Ben is under pressure from his own management and has deprioritised the project","The distributor list wasn't the right agenda item to lead with in these calls","Skipping warmup signals to ANZ, LATAM and European colleagues that you see them as a task-executor — not a colleague. The relationship never gets warm enough for proactive partnership."],
+      correct:2,
+      insight:"3–5 minutes of genuine warmup is relationship investment that makes everything else work better. 'How was the weekend?' 'How are things in Sydney?' — this IS the work. Colleagues who feel warmth from you will go the extra mile for you."
+    },
+    {
+      title:"The Direct Feedback",
+      sigType:"Email · Netherlands Colleague",
+      signal:"feedbackemail",
+      q:"Your Dutch colleague Erik reviews your market analysis and replies bluntly: the sizing is off, methodology is flawed, please revise. You feel the email is harsh and dismissive. What is actually happening?",
+      opts:["Erik is delivering direct, efficient professional feedback in the Dutch communication style — this is high-quality review and he's done you a favour","Erik is expressing underlying frustration or disapproval through overly blunt language","Erik made valid points but should have acknowledged the good parts of the analysis first"],
+      correct:0,
+      insight:"German and Dutch professionals separate the work from the person. 'The analysis is wrong' ≠ 'you are wrong.' The directness is respect — they're not softening feedback because they consider you capable of hearing the truth. 'Thanks for the detailed notes — addressing by Thursday' builds serious trust."
+    },
+    {
+      title:"Punctuality Is a Core Value",
+      sigType:"Meeting Timer · Germany",
+      signal:"timer",
+      q:"You join a project call with your German colleague Astrid at 2:06 PM — scheduled for 2:00 PM. You were on another call that ran over. Astrid is noticeably brief and direct for the rest of the call. What most likely happened?",
+      opts:["Astrid was already having a difficult day and the small delay added to it","In German, Dutch and UK work cultures, being 6 minutes late without notice signals that your time is more important than theirs — punctuality is a professional value, not just courtesy","Astrid prefers meetings without small talk and the late entry disrupted her focus"],
+      correct:1,
+      insight:"Be on the call before the start time — every single time. If you're running late, send a message 2 minutes before: 'Running 5 mins behind — so sorry.' That message preserves the relationship. The apology and the advance notice both matter."
+    }
+  ]
+};
+
+const REGIONS = [
+  {id:'anz',flag:'🦘',name:'Australia & New Zealand',countries:'Australia, New Zealand',
+   norms:[{t:'First Name — Always',d:'Everyone goes by first name — from the CEO down. Using formal titles after being asked not to is awkward, not respectful. It signals you don\'t quite trust the culture.'},
+          {t:'Tall Poppy Syndrome',d:'Australians distrust people who lead with credentials or seniority. The person who earns trust is the one who shows up as a peer, asks good questions, and doesn\'t try to impress.'},
+          {t:'Humour Is Professional',d:'Dry, self-deprecating humour in meetings is completely normal — even in serious ones. A relaxed, warm demeanour goes a long way. You don\'t need to tell jokes, just don\'t look uncomfortable.'}],
+   dont:"Never send a work message after 6 PM their local time. Work-life boundary is a genuine value — one violation marks you as someone who doesn't understand limits.",
+   do:"Ask what they did over the weekend and genuinely listen. ANZ colleagues build relationships through shared warmth about life outside work — sport, outdoors, family. That's your entry point.",
+   bridge:"Both cultures value warmth and genuine human connection. Indians build it through personal questions; ANZ builds it through shared informality. The goal is identical — just learn their form."},
+
+  {id:'latam',flag:'🌎',name:'LATAM',countries:'Brazil, Mexico, Colombia',
+   norms:[{t:'Relationship Is the Deal',d:'No significant work relationship moves without personal connection first. The 10 minutes of warmup before the agenda starts is often the most important part of the meeting.'},
+          {t:'Brazil Speaks Portuguese',d:'Brazilians are NOT part of the Spanish-speaking bloc — linguistically, culturally, or nationally. Treating Brazil as an extension of Mexico or Colombia is genuinely offensive.'},
+          {t:'Delays Are Communicated Warmly',d:'LATAM timelines are flexible — but unlike India, delays are communicated openly and warmly. "A couple more days" means exactly that. No reading between lines needed.'}],
+   dont:"Never open a call with 'let's get straight to the agenda.' In Brazil, Colombia and Mexico, this signals you don't value the relationship.",
+   do:"Learn one word of the local language — 'obrigado' for Brazil, 'muchas gracias' for Mexico/Colombia. The gesture signals: I see you as a specific person from a specific place.",
+   bridge:"This is your most natural cultural partner. Both cultures are relationship-first, warmth-forward, and family-centred. More in common here than anywhere else. Lean into it."},
+
+  {id:'europe',flag:'🇪🇺',name:'Europe',countries:'UK, Spain, Germany, Netherlands',
+   norms:[{t:'UK: Decode the Politeness',d:'"That\'s quite interesting" = I have serious concerns. "We\'ll take it on board" = We won\'t act on this. "Not bad at all" = This is actually good. British polite phrases often mean the opposite.'},
+          {t:'Germany & Netherlands: Directness Is Respect',d:'"This report is wrong" is not harsh — it\'s efficient and honest. They separate the work from the person completely. Receive it as information, not judgment.'},
+          {t:'After-Hours Contact Violates Boundaries',d:'France and Germany have right-to-disconnect laws. Even where it\'s not law, a WhatsApp at 8 PM from a work contact creates genuine stress. Don\'t do it.'}],
+   dont:"Never contact a European colleague after working hours — not even a message that says 'no rush.' The act of sending it at that hour is the problem.",
+   do:"Send a summary email within an hour of every decision call. 4 sentences, 3 action items, named owners, dates. This single habit transforms your professional reputation with European colleagues.",
+   bridge:"Reliability is the currency. Not effort, not warmth — reliability. European colleagues who can count on your commitments will champion you across the organisation."},
+
+  {id:'china',flag:'🇨🇳',name:'China',countries:'Mainland China',
+   norms:[{t:'WeChat Is the Work Channel',d:'WeChat is China\'s WhatsApp for professional communication. Emails may sit unread for days while WeChat messages get responses in minutes. Get on WeChat.'},
+          {t:'The Great Firewall Is Real',d:'Google Meet, Google Docs, Gmail, LinkedIn — blocked in mainland China. Always check platform access before sending links. Never assume Google tools work.'},
+          {t:'"There Are Complications" = No',d:'Chinese indirect refusals are procedural: "We need to study this further." Follow up privately: "What would make this easier to move forward?" — that question unlocks the real barrier.'}],
+   dont:"Never criticise a Chinese colleague's work in front of others — even a small group. Public loss of dignity (mianzi) is a serious, lasting harm that can end a working relationship.",
+   do:"Show patience. 'Take the time you need — let's schedule a proper review' signals you're a long-term partner, not a demanding one.",
+   bridge:"Both cultures value relationship-building, face-saving, and indirect refusals. Chinese trust is built through repeated reliable interaction over time — not through personal questions but through consistent follow-through."},
+
+  {id:'sea',flag:'🌏',name:'SEA',countries:'Myanmar, Malaysia',
+   norms:[{t:'Myanmar: The Gentlest No',d:'"We will do our best" can mean "we have serious constraints." Ask privately: "What would make this easier for you?" rather than "Can you do this?" — the private space matters.'},
+          {t:'Malaysia: Three Cultures in One',d:'Malaysia is Malay, Chinese-Malaysian and Indian-Malaysian communities with different communication norms in the same workplace. Don\'t assume uniformity within a Malaysian team.'},
+          {t:'Ramadan Significantly Affects Malaysia',d:'During Ramadan, official hours shorten, afternoon energy drops, and office rhythm shifts. Plan around it — awareness itself is the strongest relationship-builder.'}],
+   dont:"Never display visible frustration or raise your voice in SEA contexts. This is a face-loss event that can permanently damage the relationship regardless of the issue.",
+   do:"'Selamat Hari Raya' at Eid for Malaysian colleagues. Acknowledging local moments signals: I see you as a specific person in a specific place, not just a resource.",
+   bridge:"The face-saving instinct is deeply shared between India and SEA. The difference: SEA indirect communication is even softer. Create private spaces for honest input — never push for a public yes."},
+
+  {id:'me',flag:'🕌',name:'Middle East',countries:'Oman, Saudi Arabia, UAE',
+   norms:[{t:'The Weekend Differs by Country',d:'Saudi & Oman: Friday–Saturday weekend. UAE: Saturday–Sunday (Friday afternoon off). "By end of week" means different things — always confirm local working days before setting deadlines.'},
+          {t:'Ramadan Changes Everything',d:'Hours shorten, energy shifts, the period is deeply sacred — not a logistical adjustment. High-pressure work during Ramadan is noticed and remembered. Build buffer every year.'},
+          {t:'Relationship First — More Than Anywhere',d:'The first call should be entirely relationship. Second: half relationship. Business gets done in the third. This is the process, not a detour from it.'}],
+   dont:"Never schedule anything for Friday midday — Friday prayers are non-negotiable across the region. Ensure halal food is available at any in-person gathering.",
+   do:"'Ramadan Mubarak' sent proactively — before being told Ramadan has started. 'Eid Mubarak' at the end. These small gestures are remembered for years after the project ends.",
+   bridge:"Strong commonalities: both cultures are relationship-first, hierarchy-respecting, and indirect in disagreement. Middle Eastern hospitality as a foundation for business is deeply shared with Indian culture."},
+
+  {id:'asia',flag:'🌿',name:'Sri Lanka & Nepal',countries:'Sri Lanka, Nepal',
+   norms:[{t:'Distinct Nations — Not "Basically India"',d:'Both countries are culturally adjacent to India but have their own national identities and professional pride. "You\'re basically Indian, right?" — even said warmly — is not received well.'},
+          {t:'Sri Lanka: Patient and Non-Confrontational',d:'Buddhist values of patience and non-confrontation run through professional communication. Silence may not signal agreement — build regular check-ins to confirm things are on track.'},
+          {t:'Nepal: Strong Deference to India',d:'Nepali colleagues may be very deferential to Indian counterparts given regional dynamics. Be explicit: "I genuinely want to know if there\'s a challenge here — please tell me directly."'}],
+   dont:"Don't assume familiarity because cultures feel adjacent. Both nations have professional identities, communication norms, and national pride entirely their own.",
+   do:"Acknowledge each country as its own market with its own context. This signals respect and opens the relationship to genuine collaboration rather than assumption.",
+   bridge:"The adjustment period is shorter here than with Europe or ANZ — shared religious influences, family values, and hierarchy norms create real common ground. But don't skip the cultural work; the nuances matter."}
+];
+
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+let currentTrack = null;
+let currentIdx = 0;
+let score = 0;
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollTop = 0;
+}
+
+/* ═══════════════════════════════════════════
+   TRACK SELECTION
+═══════════════════════════════════════════ */
+function selectTrack(trackId){
+  currentTrack = trackId;
+  currentIdx = 0;
+  score = 0;
+
+  const dot = document.getElementById('tDot');
+  const label = document.getElementById('tLabel');
+  dot.className = 'track-dot ' + (trackId === 'india' ? 't-india' : 't-global');
+  label.textContent = trackId === 'india' ? 'Working with India' : 'Working with Global';
+
+  showScreen('gameScreen');
+  loadScenario(0);
+}
+
+/* ═══════════════════════════════════════════
+   GAME LOGIC
+═══════════════════════════════════════════ */
+function loadScenario(idx){
+  const scenarios = SCENARIOS[currentTrack];
+  const s = scenarios[idx];
+  const total = scenarios.length;
+
+  // Progress bar
+  document.getElementById('progFill').style.width = (idx / total * 100) + '%';
+  document.getElementById('scoreNum').textContent = score;
+
+  // Pips
+  const pipsEl = document.getElementById('pips');
+  pipsEl.innerHTML = '';
+  for(let i = 0; i < total; i++){
+    const p = document.createElement('div');
+    p.className = 'pip' + (i < idx ? ' done' : '') + (i === idx ? ' cur' : '');
+    pipsEl.appendChild(p);
+  }
+
+  // Signal
+  document.getElementById('sigType').textContent = s.sigType;
+  document.getElementById('sigBody').innerHTML = SIGNALS[s.signal];
+
+  // Q Panel
+  const letters = 'ABC';
+  let optsHtml = s.opts.map((o, i) => `
+    <div class="opt" onclick="pickAnswer(${i})" role="button" tabindex="0" onkeydown="if(event.key==='Enter')pickAnswer(${i})">
+      <div class="opt-l">${letters[i]}</div>
+      <span>${o}</span>
+    </div>`).join('');
+
+  document.getElementById('qPanel').innerHTML = `
+    <div class="q-tag">Scenario ${idx + 1} of ${total}</div>
+    <div class="q-title">${s.title}</div>
+    <div class="q-text">${s.q}</div>
+    <div class="options" id="opts">${optsHtml}</div>
+  `;
+
+  // Animate signal card in
+  const card = document.getElementById('signalCard');
+  card.style.opacity = '0';
+  card.style.transform = 'translateY(6px)';
+  requestAnimationFrame(() => {
+    card.style.transition = 'opacity .35s ease, transform .35s ease';
+    card.style.opacity = '1';
+    card.style.transform = 'translateY(0)';
+  });
+}
+
+function pickAnswer(picked){
+  const s = SCENARIOS[currentTrack][currentIdx];
+  const correct = s.correct;
+  const opts = document.querySelectorAll('.opt');
+
+  opts.forEach((o, i) => {
+    o.classList.add('chosen');
+    if(i === correct) o.classList.add('correct');
+    else if(i === picked) o.classList.add('wrong');
+  });
+
+  const isRight = picked === correct;
+  if(isRight){ score++; document.getElementById('scoreNum').textContent = score; confetti(14); }
+
+  const panel = document.getElementById('qPanel');
+
+  // Feedback
+  const fb = document.createElement('div');
+  fb.className = 'q-feedback ' + (isRight ? 'ok' : 'nope');
+  fb.textContent = isRight ? '✓ Correct — well decoded.' : '✗ Not quite — see below.';
+  panel.appendChild(fb);
+
+  // Insight
+  const ins = document.createElement('div');
+  ins.className = 'insight-box';
+  ins.innerHTML = `<div class="insight-lbl">🔑 Cultural Insight</div><div class="insight-txt">${s.insight}</div>`;
+  panel.appendChild(ins);
+
+  // Next button
+  const isLast = currentIdx >= SCENARIOS[currentTrack].length - 1;
+  const btn = document.createElement('button');
+  btn.className = 'btn btn-primary btn-next';
+  btn.style.marginTop = '4px';
+  const nextLabel = isLast ? 'Unlock My Playbook →' : 'Next Signal →';
+  btn.innerHTML = nextLabel + ' <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  btn.onclick = nextScenario;
+  panel.appendChild(btn);
+}
+
+function nextScenario(){
+  currentIdx++;
+  const total = SCENARIOS[currentTrack].length;
+  if(currentIdx >= total){
+    document.getElementById('progFill').style.width = '100%';
+    buildRegionGrid();
+    showScreen('regionScreen');
+    return;
+  }
+  loadScenario(currentIdx);
+  // Scroll game screen to top on mobile
+  document.getElementById('gameScreen').scrollTop = 0;
+}
+
+/* ═══════════════════════════════════════════
+   REGION HUB
+═══════════════════════════════════════════ */
+function buildRegionGrid(){
+  const grid = document.getElementById('regionGrid');
+  grid.innerHTML = '';
+  REGIONS.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'r-card';
+    card.innerHTML = `<div class="r-flag">${r.flag}</div><div class="r-name">${r.name}</div><div class="r-countries">${r.countries}</div><div class="r-arrow">→</div>`;
+    card.onclick = () => openRegion(r.id);
+    grid.appendChild(card);
+  });
+}
+
+function openRegion(id){
+  const r = REGIONS.find(x => x.id === id);
+  if(!r) return;
+
+  const normsHtml = r.norms.map((n, i) => `
+    <div class="rd-norm">
+      <div class="rd-nnum">${i+1}</div>
+      <div><div class="rd-nttl">${n.t}</div><div class="rd-ntxt">${n.d}</div></div>
+    </div>`).join('');
+
+  document.getElementById('rdContent').innerHTML = `
+    <div class="rd-hero">
+      <div class="rd-hflag">${r.flag}</div>
+      <div class="rd-hname">${r.name}</div>
+      <div class="rd-hcountries">${r.countries}</div>
+    </div>
+    <div class="rd-body">
+      <div>
+        <div class="rd-sec-lbl">3 Things That Matter Most</div>
+        ${normsHtml}
+      </div>
+      <div class="rd-dont">
+        <div class="rd-dont-lbl">🚫 Never Do This</div>
+        <div class="rd-dont-txt">${r.dont}</div>
+      </div>
+      <div class="rd-do">
+        <div class="rd-do-lbl">✓ This Builds Real Trust</div>
+        <div class="rd-do-txt">${r.do}</div>
+      </div>
+      <div class="rd-bridge">
+        <div class="rd-bridge-lbl">🌉 Bridge to Indian Culture</div>
+        <div class="rd-bridge-txt">${r.bridge}</div>
+      </div>
+      <button class="rd-close" onclick="closeRegion()">← Back to Regions</button>
+    </div>`;
+
+  const overlay = document.getElementById('rdOverlay');
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRegion(){
+  document.getElementById('rdOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleRdBg(e){
+  if(e.target === document.getElementById('rdOverlay') || e.target.classList.contains('rd-bg')) closeRegion();
+}
+
+/* ═══════════════════════════════════════════
+   COMPLETE
+═══════════════════════════════════════════ */
+const CHIPS = {
+  india:['WhatsApp = Work Channel','Yes ≠ Commitment','Festival Calendar','Warmth = Trust','Flexible Hours Are Normal'],
+  global:['Reliability > Effort','Meeting Summary = The Meeting','Small Talk Is Investment','Direct ≠ Personal','Punctuality = Respect']
+};
+
+function showComplete(){
+  const total = SCENARIOS[currentTrack].length;
+  document.getElementById('compScore').textContent = score + ' / ' + total;
+
+  const isGlobal = currentTrack === 'global';
+  document.getElementById('complH1a').textContent = isGlobal ? 'Global' : 'Signal';
+  document.getElementById('complH1b').textContent = isGlobal ? 'Navigator!' : 'Master!';
+  document.getElementById('complSub').textContent = isGlobal
+    ? 'You\'ve decoded how your work style lands across the world. Carry these insights into every cross-regional interaction — the smallest shifts create the biggest trust.'
+    : 'You\'ve decoded the cultural signals coming from India. Use these insights in every cross-regional interaction — the difference between friction and trust often lives in a single moment.';
+
+  const chipsEl = document.getElementById('chips');
+  chipsEl.innerHTML = '';
+  CHIPS[currentTrack].forEach((c, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'chip';
+    chip.style.animationDelay = (i * 0.1) + 's';
+    chip.textContent = c;
+    chipsEl.appendChild(chip);
+  });
+
+  showScreen('completeScreen');
+  confetti(60);
+}
+
+/* ═══════════════════════════════════════════
+   MODULE COMPLETE
+═══════════════════════════════════════════ */
+function completeModule(){
+  window.parent.postMessage({ type: 'MODULE_COMPLETED', module: 'module7' }, '*');
+  const btn = document.getElementById('doneBtn');
+  btn.innerHTML = '<span>✓ Module Completed!</span>';
+  btn.style.background = 'linear-gradient(135deg,#2a8c6a,#34b87e)';
+  btn.style.pointerEvents = 'none';
+}
+
+/* ═══════════════════════════════════════════
+   CONFETTI
+═══════════════════════════════════════════ */
+function confetti(n){
+  const w = document.createElement('div');
+  w.className = 'cw';
+  document.body.appendChild(w);
+  const cols = ['#006666','#c8902a','#e8b960','#2a8c6a','#fff','#d8d3ca','#002e2e'];
+  for(let i = 0; i < n; i++){
+    const p = document.createElement('div');
+    p.className = 'cp';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.background = cols[Math.floor(Math.random() * cols.length)];
+    p.style.width = (4 + Math.random() * 7) + 'px';
+    p.style.height = (4 + Math.random() * 7) + 'px';
+    p.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+    p.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+    p.style.animationDelay = Math.random() * .6 + 's';
+    w.appendChild(p);
+  }
+  setTimeout(() => w.remove(), 3600);
+}
+</script>
+</body>
+</html>
