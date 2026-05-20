@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- SECURITY FIX 5: CSP — TYPE A (hosts country guide iframes) -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self';
+             script-src 'self' 'unsafe-inline';
+             style-src 'self' 'unsafe-inline';
+             img-src 'self' data:;
+             font-src 'self' data:;
+             frame-src 'self';
+             connect-src 'none';
+             object-src 'none';
+             base-uri 'self';
+             form-action 'self';">
+  <!-- SECURITY FIX 5: Referrer-Policy -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cipla Cultural Toolkit — EMEU Edition</title>
+  <!-- SECURITY FIX 1: Removed Google Fonts CDN links (fonts.googleapis.com / fonts.gstatic.com).
+       Every font request leaks user IP, timestamp, User-Agent to Google.
+       Replaced with system-font fallback stack below.
+       NOTE FOR CIPLA IT TEAM: serve WOFF2 files from internal CDN via relative @font-face
+       src paths for brand-accurate rendering on all devices. -->
+
+  <style>
+    /* Body/UI — wishful 'DM Sans' first, system-ui fallback */
+    body, button, input, select, textarea {
+      font-family: 'DM Sans', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    /* Headings — wishful 'Playfair Display' first, Georgia fallback */
+    h1, h2, h3, h4, .serif, .nav-toolkit, .section-title, .card-country,
+    .hero-headline, .overlay-title, .footer-brand-label {
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+    }
+
+    /* ─── TOKENS ───────────────────────────────────────── */
+    :root {
+      --bg:          #F9F7F2;
+      --bg-card:     #FFFFFF;
+      --bg-nav:      rgba(249,247,242,0.95);
+      --teal:        #2B7B7B;
+      --teal-light:  #EAF4F4;
+      --teal-mid:    #3E9191;
+      --gold:        #B8923A;
+      --gold-light:  #FBF4E6;
+      --ink:         #1C1C1C;
+      --ink-mid:     #4A4A4A;
+      --ink-soft:    #7A7A7A;
+      --border:      #E5E1D8;
+      --shadow-sm:   0 2px 8px rgba(0,0,0,0.06);
+      --shadow-md:   0 8px 32px rgba(0,0,0,0.10);
+      --radius:      14px;
+      --radius-lg:   20px;
+
+      --uk:         #1A2F5E;
+      --spain:      #B34040;
+      --germany:    #4A4A5C;
+      --australia:  #B86A3A;
+      --brazil:     #2B6E4E;
+    }
+
+    /* ─── RESET ────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── NAV ──────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      height: 58px;
+      display: flex; align-items: center;
+      padding: 0 clamp(16px, 4vw, 52px);
+      gap: 16px;
+    }
+    /* UI FIX 6: Back to Hub button */
+    .nav-back {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--teal-light);
+      border: 1px solid rgba(43,123,123,0.2);
+      color: var(--teal);
+      font-size: 0.8rem; font-weight: 600;
+      padding: 7px 14px; border-radius: 30px;
+      text-decoration: none; flex-shrink: 0;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .nav-back:hover { background: rgba(43,123,123,0.14); box-shadow: 0 2px 8px rgba(43,123,123,0.15); }
+    .nav-back svg { width: 14px; height: 14px; }
+    /* UI FIX 1: logo image replacing inline SVG text */
+    .nav-logo {
+      height: 24px; width: auto; display: block; flex-shrink: 0;
+    }
+    .nav-divider {
+      width: 1px; height: 20px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+    .nav-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .nav-spacer { flex: 1; }
+    .nav-toolkit {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+    }
+    .nav-tag {
+      background: var(--teal-light);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 40px;
+      border: 1px solid rgba(43,123,123,0.2);
+    }
+
+    /* ─── HERO ─────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      padding-top: 58px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #F9F7F2 0%, #EFF5F5 45%, #FBF4E6 100%);
+      z-index: 0;
+    }
+    .hero-noise {
+      position: absolute; inset: 0; z-index: 1;
+      opacity: 0.3;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    }
+
+    /* SVG World Map */
+    .hero-map {
+      position: absolute; right: -40px; top: 50%;
+      transform: translateY(-50%);
+      width: 56%; max-width: 720px;
+      z-index: 2;
+      opacity: 0.11;
+      animation: mapDrift 20s ease-in-out infinite;
+    }
+    @keyframes mapDrift {
+      0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+      50%       { transform: translateY(-52%) translateX(-14px) rotate(0.4deg); }
+    }
+
+    .hero-dots {
+      position: absolute; inset: 0; z-index: 2;
+      overflow: hidden; pointer-events: none;
+    }
+    .dot {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--teal);
+      opacity: 0.07;
+      animation: floatDot linear infinite;
+    }
+    @keyframes floatDot {
+      0%   { transform: translateY(0) scale(1); opacity: 0.07; }
+      50%  { opacity: 0.13; }
+      100% { transform: translateY(-80px) scale(0.5); opacity: 0; }
+    }
+
+    .hero-content {
+      position: relative; z-index: 5;
+      padding: clamp(40px, 8vw, 100px) clamp(20px, 5vw, 80px);
+      max-width: 660px;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--gold-light);
+      border: 1px solid rgba(184,146,58,0.3);
+      border-radius: 40px;
+      padding: 6px 16px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s ease forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .hero-headline {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.12;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s ease forwards;
+    }
+    .hero-headline em {
+      font-style: italic;
+      color: var(--teal);
+    }
+    .hero-sub {
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      max-width: 520px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s ease forwards;
+    }
+    .hero-cta-row {
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s ease forwards;
+    }
+    .btn-primary {
+      background: var(--teal);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 14px 28px;
+      border-radius: 40px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(43,123,123,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--teal-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(43,123,123,0.4);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── SECTION ──────────────────────────────────────── */
+    .section {
+      padding: clamp(64px, 10vw, 120px) clamp(20px, 5vw, 80px);
+    }
+    .section-header {
+      max-width: 580px;
+      margin-bottom: 56px;
+    }
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+    .section-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .section-sub {
+      margin-top: 16px;
+      font-size: 1rem;
+      color: var(--ink-mid);
+      line-height: 1.7;
+    }
+
+    /* ─── COUNTRY GRID ─────────────────────────────────── */
+    .country-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 24px;
+    }
+
+    .country-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      display: flex; flex-direction: column;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .country-card.visible {
+      animation: cardReveal 0.6s ease forwards;
+    }
+    @keyframes cardReveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .country-card:hover {
+      transform: translateY(-7px) scale(1.01);
+      box-shadow: var(--shadow-md);
+    }
+    .card-bar { height: 5px; width: 100%; }
+    .card-body {
+      padding: 28px 28px 18px;
+      flex: 1; display: flex; flex-direction: column;
+    }
+    .card-flag-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .card-flag { font-size: 2.8rem; line-height: 1; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08)); }
+    .card-region-badge {
+      font-size: 0.65rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 30px;
+      border: 1px solid currentColor; opacity: 0.75;
+    }
+    .card-country {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--ink); letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .card-teaser {
+      font-size: 0.86rem; line-height: 1.65;
+      color: var(--ink-mid); flex: 1;
+      margin-bottom: 18px;
+    }
+    .card-footer {
+      padding: 16px 28px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      border-top: 1px solid var(--border);
+    }
+    .card-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 600;
+      padding: 10px 18px; border-radius: 30px;
+      border: none; cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      color: #fff; letter-spacing: 0.02em;
+    }
+    .card-btn:hover { opacity: 0.88; transform: scale(1.04); }
+    .card-btn svg { width: 12px; height: 12px; }
+
+    .card-uk    .card-bar, .card-uk    .card-btn { background: var(--uk); }
+    .card-spain .card-bar, .card-spain .card-btn { background: var(--spain); }
+    .card-germany .card-bar, .card-germany .card-btn { background: var(--germany); }
+    .card-australia .card-bar, .card-australia .card-btn { background: var(--australia); }
+    .card-brazil .card-bar, .card-brazil .card-btn { background: var(--brazil); }
+
+    .card-uk    .card-region-badge { color: var(--uk); }
+    .card-spain .card-region-badge { color: var(--spain); }
+    .card-germany .card-region-badge { color: var(--germany); }
+    .card-australia .card-region-badge { color: var(--australia); }
+    .card-brazil .card-region-badge { color: var(--brazil); }
+
+    /* ─── IFRAME OVERLAY — FULL SCREEN (UI FIX 5) ──────── */
+    .overlay-backdrop {
+      position: fixed; inset: 0;
+      background: rgba(28,28,28,0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+      z-index: 9998;
+    }
+    .overlay-backdrop.open { opacity: 1; pointer-events: all; }
+
+    /* Changed from right-side panel to full-screen modal */
+    .overlay-panel {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--bg);
+      display: flex; flex-direction: column;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(18px);
+      pointer-events: none;
+      transition: opacity 0.38s ease, transform 0.38s cubic-bezier(0.22,1,0.36,1);
+    }
+    .overlay-panel.open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .overlay-topbar {
+      height: 52px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 24px; gap: 16px; flex-shrink: 0;
+    }
+    .overlay-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: none; border: none;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--teal); cursor: pointer;
+      padding: 8px 14px; border-radius: 30px;
+      transition: background 0.2s;
+    }
+    .overlay-back:hover { background: var(--teal-light); }
+    .overlay-back svg { width: 16px; height: 16px; }
+    .overlay-title {
+      font-size: 1rem; font-weight: 600; color: var(--ink-mid);
+    }
+    .overlay-title span { color: var(--teal); }
+    .overlay-spacer { flex: 1; }
+    .overlay-hint { font-size: 0.72rem; color: var(--ink-soft); letter-spacing: 0.04em; }
+
+    /* SECURITY FIX 11: sandbox attribute added in HTML below */
+    #toolkit-frame { flex: 1; border: none; width: 100%; background: var(--bg); }
+
+    /* ─── SCROLL REVEAL ─────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-toolkit, .nav-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ───────────────────────────────────────────── -->
+<nav>
+  <!-- UI FIX 1: Real logo image replacing inline SVG text -->
+  <img src="../onboarding/Cipla_logo_svg.png" alt="Cipla" class="nav-logo"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+  <span style="display:none;font-weight:900;font-size:1.2rem;letter-spacing:-1px;color:#1E2E8F">Cipla</span>
+  <div class="nav-divider"></div>
+  <span class="nav-label">EMEU · Relocation Guide</span>
+  <div class="nav-spacer"></div>
+  <!-- UI FIX 6: Back button on right side, left of Cultural Toolkit -->
+  <a class="nav-back" href="../index.html">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    EMEU Hub
+  </a>
+  <span class="nav-toolkit">Cultural Toolkit</span>
+  <span class="nav-tag">EMEU Edition</span>
+</nav>
+
+
+<!-- ─── HERO ──────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-dots" id="heroDots"></div>
+
+  <!-- SVG World Map Background -->
+  <svg class="hero-map" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g fill="none" stroke="var(--teal)" stroke-width="1.2" opacity="0.7">
+      <line x1="0" y1="125" x2="1000" y2="125" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <line x1="0" y1="250" x2="1000" y2="250" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <line x1="0" y1="375" x2="1000" y2="375" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <line x1="250" y1="0" x2="250" y2="500" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <line x1="500" y1="0" x2="500" y2="500" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <line x1="750" y1="0" x2="750" y2="500" stroke-dasharray="4,8" stroke-width="0.6" opacity="0.35"/>
+      <path d="M430,60 L450,55 L470,60 L480,75 L475,90 L460,105 L450,110 L440,105 L435,95 L425,85 Z" stroke-width="1.5"/>
+      <path d="M415,70 L420,65 L425,68 L420,80 L415,80 Z" stroke-width="1.5"/>
+      <path d="M420,95 L440,90 L450,95 L445,110 L425,110 Z" stroke-width="1.2"/>
+      <path d="M450,70 L465,68 L470,80 L458,88 L445,82 Z" stroke-width="1.2"/>
+      <path d="M440,120 L470,115 L490,130 L495,160 L490,200 L475,220 L455,225 L440,215 L430,190 L425,155 L432,130 Z" stroke-width="1.4"/>
+      <path d="M220,80 L235,75 L245,85 L250,105 L245,115 L232,118 L220,110 Z" stroke-width="1.4"/>
+      <path d="M225,125 L240,120 L248,135 L255,165 L250,200 L240,220 L228,230 L218,220 L210,195 L215,160 L218,135 Z" stroke-width="1.4"/>
+      <path d="M240,155 L258,150 L268,162 L265,188 L252,200 L238,198 L228,182 L230,162 Z" stroke="var(--brazil)" stroke-width="2"/>
+      <path d="M550,55 L620,50 L680,60 L700,80 L690,100 L670,110 L640,115 L610,110 L580,100 L560,85 L545,70 Z" stroke-width="1.4"/>
+      <path d="M680,220 L720,215 L745,225 L750,250 L740,270 L715,280 L690,275 L672,260 L670,240 Z" stroke="var(--australia)" stroke-width="2"/>
+      <circle cx="418" cy="73" r="4.5" fill="var(--uk)" stroke="none" opacity="0.9"/>
+      <circle cx="436" cy="100" r="4.5" fill="var(--spain)" stroke="none" opacity="0.9"/>
+      <circle cx="458" cy="78" r="4.5" fill="var(--germany)" stroke="none" opacity="0.9"/>
+      <circle cx="710" cy="250" r="4.5" fill="var(--australia)" stroke="none" opacity="0.9"/>
+      <circle cx="248" cy="172" r="4.5" fill="var(--brazil)" stroke="none" opacity="0.9"/>
+      <line x1="418" y1="73" x2="500" y2="250" stroke-dasharray="3,6" stroke-width="0.8" opacity="0.22"/>
+      <line x1="436" y1="100" x2="500" y2="250" stroke-dasharray="3,6" stroke-width="0.8" opacity="0.22"/>
+      <line x1="458" y1="78" x2="500" y2="250" stroke-dasharray="3,6" stroke-width="0.8" opacity="0.22"/>
+      <line x1="710" y1="250" x2="500" y2="250" stroke-dasharray="3,6" stroke-width="0.8" opacity="0.22"/>
+      <line x1="248" y1="172" x2="500" y2="250" stroke-dasharray="3,6" stroke-width="0.8" opacity="0.22"/>
+      <circle cx="500" cy="250" r="6" fill="var(--gold)" opacity="0.65"/>
+      <circle cx="500" cy="250" r="14" fill="none" stroke="var(--gold)" stroke-width="1.2" opacity="0.25"/>
+      <circle cx="500" cy="250" r="24" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.12"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Cipla EMEU · Relocation &amp; Assignment Guide</div>
+    <h1 class="hero-headline">
+      Arrive ready.<br><em>Settle in faster.</em>
+    </h1>
+    <p class="hero-sub">
+      A practical, culturally intelligent guide for Cipla colleagues relocating or working on short-term assignments across EMEU markets. From housing norms to workplace culture — everything you need before Day One on the ground.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#toolkits" class="btn-primary">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16"><circle cx="8" cy="8" r="7" stroke="white" stroke-width="1.5"/><path d="M6 8l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Choose Your Destination
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- UI FIX 2: Removed "EVERY COUNTRY TOOLKIT COVERS" modules-strip section entirely -->
+
+<!-- ─── TOOLKITS SECTION ──────────────────────────────── -->
+<section class="section" id="toolkits">
+  <div class="section-header reveal">
+    <p class="section-eyebrow">Destination Toolkits</p>
+    <h2 class="section-title">Pick your destination.<br><em>Know it before you go.</em></h2>
+    <p class="section-sub">Each guide is written for Cipla colleagues — not tourists. Practical, honest, and grounded in how things actually work on the ground.</p>
+  </div>
+
+  <div class="country-grid">
+
+    <!-- UK -->
+    <div class="country-card card-uk" onclick="openToolkit('uk.html', '🇬🇧 United Kingdom')">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-flag-row">
+          <span class="card-flag">🇬🇧</span>
+          <span class="card-region-badge">Europe</span>
+        </div>
+        <h3 class="card-country">United Kingdom</h3>
+        <p class="card-teaser">Queue etiquette, understatement and the art of the pub round</p>
+      </div>
+      <div class="card-footer">
+        <button class="card-btn">
+          Open Guide
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Spain -->
+    <div class="country-card card-spain" onclick="openToolkit('spain.html', '🇪🇸 Spain')">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-flag-row">
+          <span class="card-flag">🇪🇸</span>
+          <span class="card-region-badge">Europe</span>
+        </div>
+        <h3 class="card-country">Spain</h3>
+        <p class="card-teaser">Relationship-first culture, late lunches and the power of siesta logic</p>
+      </div>
+      <div class="card-footer">
+        <button class="card-btn">
+          Open Guide
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Germany -->
+    <div class="country-card card-germany" onclick="openToolkit('germany.html', '🇩🇪 Germany')">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-flag-row">
+          <span class="card-flag">🇩🇪</span>
+          <span class="card-region-badge">Europe</span>
+        </div>
+        <h3 class="card-country">Germany</h3>
+        <p class="card-teaser">Precision, punctuality and the unwritten rules of directness</p>
+      </div>
+      <div class="card-footer">
+        <button class="card-btn">
+          Open Guide
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Australia — UI FIX 3: Rewritten to positive tone -->
+    <div class="country-card card-australia" onclick="openToolkit('australia.html', '🇦🇺 Australia')">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-flag-row">
+          <span class="card-flag">🇦🇺</span>
+          <span class="card-region-badge">Asia-Pacific</span>
+        </div>
+        <h3 class="card-country">Australia</h3>
+        <p class="card-teaser">Open workplaces, sun-drenched cities and a culture built on mateship and straight talk</p>
+      </div>
+      <div class="card-footer">
+        <button class="card-btn">
+          Open Guide
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Brazil -->
+    <div class="country-card card-brazil" onclick="openToolkit('brazil.html', '🇧🇷 Brazil')">
+      <div class="card-bar"></div>
+      <div class="card-body">
+        <div class="card-flag-row">
+          <span class="card-flag">🇧🇷</span>
+          <span class="card-region-badge">Latin America</span>
+        </div>
+        <h3 class="card-country">Brazil</h3>
+        <p class="card-teaser">Warmth, flexibility, jeitinho — and why relationships come before contracts</p>
+      </div>
+      <div class="card-footer">
+        <button class="card-btn">
+          Open Guide
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /country-grid -->
+</section>
+
+<!-- UI FIX 4: Removed dark footer section entirely -->
+
+
+<!-- ─── IFRAME OVERLAY ─────────────────────────────────
+     UI FIX 5: Full-screen (was right-side panel).
+     SECURITY FIX 11: sandbox attribute added to iframe. -->
+<div class="overlay-backdrop" id="overlayBackdrop" onclick="closeToolkit()"></div>
+<div class="overlay-panel" id="overlayPanel">
+  <div class="overlay-topbar">
+    <button class="overlay-back" onclick="closeToolkit()">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back to Hub
+    </button>
+    <div class="overlay-title" id="overlayTitle">Loading…</div>
+    <div class="overlay-spacer"></div>
+    <span class="overlay-hint">Cipla Cultural Toolkit</span>
+  </div>
+  <!-- sandbox explanation:
+       allow-scripts    : country guide pages require JavaScript
+       allow-same-origin: pages need localStorage access and postMessage back to parent
+       allow-forms      : guides may contain form elements
+       NOT granted: allow-popups, allow-top-navigation, allow-pointer-lock
+       UPDATE THIS ATTRIBUTE WHEN HOSTING DOMAIN CHANGES — re-test all iframes
+       after migration to Cipla internal infrastructure. -->
+  <iframe id="toolkit-frame" src="about:blank" title="Country Cultural Toolkit"
+    sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+</div>
+
+
+<!-- ─── SCRIPTS ──────────────────────────────────────── -->
+<script>
+  /* Floating dots — controlled template, XSS-safe */
+  (function () {
+    const c = document.getElementById('heroDots');
+    for (let i = 0; i < 16; i++) {
+      const d = document.createElement('div');
+      d.className = 'dot';
+      const s = Math.random() * 10 + 4;
+      /* controlled template — XSS-safe */
+      d.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*100+10}%;animation-duration:${Math.random()*8+6}s;animation-delay:${Math.random()*5}s;`;
+      c.appendChild(d);
+    }
+  })();
+
+  /* Scroll reveal */
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+  /* Card stagger */
+  const co = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const cards = e.target.querySelectorAll('.country-card');
+        cards.forEach((c, i) => { c.style.animationDelay = `${i*0.1}s`; c.classList.add('visible'); });
+        co.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  const grid = document.querySelector('.country-grid');
+  if (grid) co.observe(grid);
+
+  /* Overlay — full screen */
+  const backdrop = document.getElementById('overlayBackdrop');
+  const panel    = document.getElementById('overlayPanel');
+  const frame    = document.getElementById('toolkit-frame');
+  const titleEl  = document.getElementById('overlayTitle');
+
+  function openToolkit(src, label) {
+    frame.src = src;
+    /* controlled template — label comes only from hardcoded onclick strings, XSS-safe */
+    titleEl.innerHTML = label.replace(/^(\S+\s)/, '<span>$1</span>');
+    backdrop.classList.add('open');
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeToolkit() {
+    backdrop.classList.remove('open');
+    panel.classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => { frame.src = 'about:blank'; }, 400);
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeToolkit(); });
+
+  /* CTA scroll */
+  document.querySelector('.btn-primary')?.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('toolkits')?.scrollIntoView({ behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
