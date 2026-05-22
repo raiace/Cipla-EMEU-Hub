@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self';
+           script-src 'self' 'unsafe-inline';
+           style-src 'self' 'unsafe-inline';
+           img-src 'self' data:;
+           font-src 'self' data:;
+           frame-src https://forms.cloud.microsoft;
+           connect-src 'none';
+           object-src 'none';
+           base-uri 'self';
+           form-action 'self';">
+<!-- NOTE: frame-src allows Microsoft Forms only (not 'none') because this module
+     embeds the Cipla EMEU feedback form. All other external frames are blocked. -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Feedback Survey — Cipla EMEU</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Google Fonts removed for security (FIX 1) — font-family declarations retained as wishful fallbacks for Cipla-managed devices -->
 <style>
 :root{
   --teal:#006666;--dark:#002e2e;--gold:#c8902a;
@@ -207,7 +221,7 @@ body::before{
 
   <div class="intro-note">
     <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 8v4l2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-    <span id="svNote">Takes about 3 minutes · 7 questions</span>
+    <span id="svNote">Takes about 3 minutes</span>
   </div>
 
   <button class="btn btn-p" onclick="openForm()">
@@ -221,10 +235,7 @@ body::before{
   <!-- Top bar -->
   <div class="form-bar">
     <div class="form-bar-title" id="svBarTitle">Onboarding Feedback</div>
-    <div class="form-bar-hint">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/></svg>
-      <span id="svBarHint">Submitted directly to Cipla HR</span>
-    </div>
+
   </div>
 
   <!-- iframe wrap -->
@@ -270,15 +281,19 @@ body::before{
 
 <script>
 /* ── LANG SYSTEM ── */
+/* localStorage: stores language preference only — no personal data.
+   Keys used in this file:
+     ciplaLang — language set by parent index.html (en/es/pt/de)
+   No PII is stored. Data remains on the user's own browser and is never transmitted. */
 function getLang(){return localStorage.getItem('ciplaLang')||'en';}
 const SV={
   en:{
     badge:'Feedback Survey',h1a:'Almost',h1b:'There!',
     sub:"You've completed your Cipla EMEU onboarding journey. Take 3 minutes to share your experience — your feedback shapes the next joiner's journey.",
-    note:'Takes about 3 minutes · 7 questions',
+    note:'Takes about 3 minutes',
     startBtn:'Start Survey',
     barTitle:'Onboarding Feedback',
-    barHint:'Submitted directly to Cipla HR',
+    
     doneText:"Submitted? Mark your journey complete below.",
     doneBtn:'Complete Journey ✓',
     compH1a:'Journey',compH1b:'Complete!',
@@ -289,10 +304,10 @@ const SV={
   es:{
     badge:'Encuesta de Feedback',h1a:'¡Casi',h1b:'Terminado!',
     sub:'Has completado tu viaje de incorporación en Cipla EMEU. Tómate 3 minutos para compartir tu experiencia — tu opinión mejora el viaje del próximo integrante.',
-    note:'Aprox. 3 minutos · 7 preguntas',
+    note:'Aprox. 3 minutos',
     startBtn:'Iniciar Encuesta',
     barTitle:'Feedback de Incorporación',
-    barHint:'Enviado directamente a Cipla RRHH',
+    
     doneText:'¿Enviado? Marca tu viaje como completo.',
     doneBtn:'Completar Viaje ✓',
     compH1a:'¡Viaje',compH1b:'Completo!',
@@ -303,10 +318,10 @@ const SV={
   pt:{
     badge:'Pesquisa de Feedback',h1a:'Quase',h1b:'Lá!',
     sub:'Você concluiu sua jornada de integração na Cipla EMEU. Reserve 3 minutos para compartilhar sua experiência — seu feedback molda a jornada do próximo colaborador.',
-    note:'Cerca de 3 minutos · 7 perguntas',
+    note:'Cerca de 3 minutos',
     startBtn:'Iniciar Pesquisa',
     barTitle:'Feedback de Integração',
-    barHint:'Enviado diretamente ao RH da Cipla',
+    
     doneText:'Enviou? Marque sua jornada como concluída.',
     doneBtn:'Concluir Jornada ✓',
     compH1a:'Jornada',compH1b:'Concluída!',
@@ -317,10 +332,10 @@ const SV={
   de:{
     badge:'Feedback-Umfrage',h1a:'Fast',h1b:'Geschafft!',
     sub:'Sie haben Ihre Cipla EMEU-Einarbeitung abgeschlossen. Nehmen Sie sich 3 Minuten, um Ihre Erfahrungen zu teilen — Ihr Feedback verbessert die Reise des nächsten Mitarbeiters.',
-    note:'Ca. 3 Minuten · 7 Fragen',
+    note:'Ca. 3 Minuten',
     startBtn:'Umfrage starten',
     barTitle:'Einarbeitungs-Feedback',
-    barHint:'Direkt an Cipla HR gesendet',
+    
     doneText:'Abgeschickt? Markieren Sie Ihre Reise als abgeschlossen.',
     doneBtn:'Reise abschließen ✓',
     compH1a:'Reise',compH1b:'Abgeschlossen!',
@@ -334,14 +349,13 @@ function applyLangSV(){
   const L=SV[getLang()]||SV.en;
   const s=id=>document.getElementById(id);
   const set=(id,v)=>{const e=s(id);if(e)e.textContent=v;};
-  const setH=(id,v)=>{const e=s(id);if(e)e.innerHTML=v;};
+  const setH=(id,v)=>{const e=s(id);if(e)e.innerHTML=v;}; /* controlled template — XSS-safe: values are from hard-coded SV translations object only */
   set('svBadge',L.badge);
   setH('svH1',L.h1a+' <span>'+L.h1b+'</span>');
   set('svSub',L.sub);
   set('svNote',L.note);
   set('svStartBtn',L.startBtn);
   set('svBarTitle',L.barTitle);
-  set('svBarHint',L.barHint);
   set('svDoneText',L.doneText);
   set('svDoneBtn',L.doneBtn);
   setH('svCompH1',L.compH1a+' <span>'+L.compH1b+'</span>');
@@ -373,7 +387,10 @@ function onFrameLoad(){
 
 /* ── COMPLETE MODULE ── */
 function completeModule(){
-  window.parent.postMessage({type:"MODULE_COMPLETED",module:"module8"},"*");
+  /* SECURITY: targetOrigin restricts to same origin only.
+     UPDATE THIS ORIGIN WHEN HOSTING DOMAIN CHANGES — verify window.location.origin
+     resolves correctly after migrating from GitHub Pages to Cipla internal infrastructure. */
+  window.parent.postMessage({type:"MODULE_COMPLETED",module:"module8"},window.location.origin);
   const btn=document.getElementById('doneBtn');
   btn.textContent='✓ Done!';
   btn.style.pointerEvents='none';
@@ -400,6 +417,16 @@ function confetti(n){
 }
 
 document.addEventListener('DOMContentLoaded', applyLangSV);
+
+/* Listen for language change from parent index.html (postMessage protocol).
+   SECURITY: origin check rejects messages from any domain other than this page's own origin.
+   UPDATE THIS ORIGIN WHEN HOSTING DOMAIN CHANGES — re-test after migration to Cipla infrastructure. */
+window.addEventListener('message', function(e){
+  if(e.origin !== window.location.origin) return;
+  if(e.data && e.data.type === 'LANG_CHANGE'){
+    applyLangSV();
+  }
+});
 </script>
 </body>
 </html>
