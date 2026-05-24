@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- SECURITY: Content Security Policy — no external resources permitted.
+     'unsafe-inline' required for single-file inline CSS/JS architecture.
+     NOTE FOR CIPLA IT TEAM: Replace 'unsafe-inline' with nonces on migration. -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; frame-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cipla | Brazil Cultural Readiness Guide</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+/* ── BRAZILIAN PALETTE — samba gold, atlantic blue, carnival terracotta ── */
+:root{
+  --azul:    #1A5FA8;   /* Atlantic blue — primary */
+  --azul-d:  #0D2B5E;   /* Deep Atlantic — dark bands */
+  --azul-m:  #1E6EC0;   /* Mid Atlantic blue */
+  --azul-l:  #D4E7FA;
+  --azul-p:  #EBF3FD;
+  --ouro:    #E8960C;   /* Samba gold */
+  --ouro-l:  #FFF8DE;
+  --ouro-d:  #B06C00;
+  
+  
+  
+  
+  --terra:   #BE4A2F;   /* Warm Brazilian terracotta */
+  --terra-l: #FAE5DF;
+  --red:     #C62828;
+  --red-l:   #FFEBEE;
+  --cream:   #FFFDF7;
+  --cream-d: #EDF3FC;   /* Blue-tinted cream */
+  --ink:     #0D1E36;   /* Deep blue-ink */
+  --muted:   #3A4E68;   /* Blue-grey muted */
+  --border:  #B8CFEE;   /* Blue border */
+  --white:   #FFFFFF;
+  --green:   #2E7D32;
+  --green-l: #E8F5E9;
+  --serif: Georgia,'Times New Roman',serif;
+  --sans:  system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:  'Courier New',Courier,monospace;
+}
+
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+
+/* ── NAV ── */
+#topnav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(7,22,52,.97);backdrop-filter:blur(12px);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:2px solid rgba(232,150,12,.35)}
+.nav-brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--ouro);text-transform:uppercase;flex-shrink:0}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:11px;color:rgba(255,255,255,.5);text-decoration:none;padding:5px 10px;border-radius:20px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(232,150,12,.3)}
+.btn-back-hub{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:5px 13px;border-radius:20px;cursor:pointer;transition:all .2s;text-decoration:none;margin-right:8px;white-space:nowrap}
+.btn-back-hub:hover{background:rgba(232,150,12,.3);color:#fff}
+.btn-back-hub svg{width:12px;height:12px}
+#progress-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--ouro);width:0;transition:width .1s}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:transparent}
+.hamburger span{width:22px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:52px;left:0;right:0;z-index:199;background:rgba(6,18,46,.98);backdrop-filter:blur(12px);padding:16px 20px;flex-direction:column;gap:4px;border-bottom:1px solid rgba(232,150,12,.2)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:13px;color:rgba(255,255,255,.65);text-decoration:none;padding:10px 14px;border-radius:8px;transition:all .2s}
+.mobile-menu a:hover{color:#fff;background:rgba(232,150,12,.25)}
+
+/* ── MASCOT ── */
+.mascot-wrap{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;align-items:flex-end;gap:10px}
+.mascot-bubble{background:#fff;border-radius:14px 14px 4px 14px;border:2px solid var(--ouro);padding:12px 16px;max-width:240px;font-size:.78rem;line-height:1.5;color:var(--ink);box-shadow:0 4px 20px rgba(0,0,0,.15);opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease;pointer-events:none}
+.mascot-bubble.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.mascot-bubble strong{color:var(--azul)}
+.mascot-figure{font-size:2.8rem;line-height:1;cursor:pointer;animation:mascotBob 2s ease-in-out infinite;user-select:none;transition:transform .2s}
+.mascot-figure:hover{transform:scale(1.1)}
+@keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.tip-badge{position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:var(--ouro);border-radius:50%;border:2px solid #fff;animation:ping 1.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.6}}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 64px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#1A5FA8 0%,#0D2B5E 52%,#060F28 100%)}
+#hero::before{content:'';position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(232,150,12,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(232,150,12,.05) 1px,transparent 1px);background-size:52px 52px}
+.carnival-diamonds{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.diamond{position:absolute;width:8px;height:8px;transform:rotate(45deg);animation:diamondFloat linear infinite}
+@keyframes diamondFloat{0%{transform:rotate(45deg) translateY(0);opacity:0}10%{opacity:1}90%{opacity:.5}100%{transform:rotate(45deg) translateY(-120vh);opacity:0}}
+.hero-inner{position:relative;z-index:1;max-width:740px}
+.hero-flag{font-size:72px;display:block;margin-bottom:20px;animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 16px rgba(0,0,0,.4))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:10px}
+.hero-h1 em{color:var(--ouro);font-style:italic}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.65);max-width:540px;margin:0 auto 12px;line-height:1.75}
+.hero-tag{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--ouro);opacity:.8;margin-bottom:38px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--ouro);color:#fff;font-weight:700;font-size:.95rem;padding:14px 32px;border-radius:40px;text-decoration:none;transition:all .2s;box-shadow:0 4px 20px rgba(232,150,12,.45)}
+.hero-cta:hover{background:var(--ouro-d);transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.25);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:6px;animation:pulse 2s ease-in-out infinite}
+.scroll-hint::after{content:'';width:1px;height:24px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent)}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ── SECTIONS ── */
+.section{padding:88px 28px}
+.section-inner{max-width:880px;margin:0 auto}
+.dark-band{background:var(--azul-d)}
+.mid-band{background:#0E3570}
+.azul-band{background:#071834}
+
+/* ── TYPE ── */
+.sec-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ouro);margin-bottom:14px}
+.sec-tag::before{content:'';width:24px;height:1px;background:var(--ouro)}
+.sh{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:14px}
+.sh em{color:var(--ouro-d);font-style:italic}
+.sh-w{color:#fff}.sh-w em{color:var(--ouro)}
+.lead{font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:640px}
+.lead-w{color:rgba(255,255,255,.7)}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.stat-card{background:rgba(255,255,255,.07);border:1px solid rgba(232,150,12,.25);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(20px)}
+.stat-card.reveal.vis{opacity:1;transform:none}
+.stat-card:hover{background:rgba(232,150,12,.12);border-color:var(--ouro);transform:translateY(-3px)}
+.stat-num{font-family:var(--serif);font-size:2.1rem;font-weight:700;color:var(--ouro);display:block;margin-bottom:5px}
+.stat-label{font-size:.8rem;color:rgba(255,255,255,.62);letter-spacing:.04em}
+.stat-detail{font-size:.74rem;color:rgba(255,255,255,.42);margin-top:8px;line-height:1.4;display:none}
+.stat-card.open .stat-detail{display:block}
+.stat-hint{font-size:11px;color:rgba(255,255,255,.28);text-align:center;margin-bottom:20px;font-style:italic}
+
+/* ── KEY FACTS TABLE ── */
+.kf-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;margin-top:20px}
+.kf-table th{background:rgba(232,150,12,.14);color:var(--ouro);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.kf-table td{padding:11px 14px;font-size:.85rem;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+.kf-table td:first-child{font-weight:600;color:rgba(255,255,255,.92);width:34%}
+.kf-table tr:last-child td{border:none}
+.kf-table tr:hover td{background:rgba(255,255,255,.04)}
+
+/* ── SEASON CARDS ── */
+.season-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:24px}
+.season-card{border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);border-top:3px solid var(--ouro)}
+.season-icon{font-size:1.9rem;display:block;margin-bottom:8px}
+.season-name{font-weight:700;font-size:.83rem;color:var(--ouro);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.season-temp{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:7px}
+.season-detail{font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.5}
+
+/* ── TRANSPORT TABLE ── */
+.tbl{width:100%;border-collapse:collapse;margin-bottom:20px;border-radius:8px;overflow:hidden}
+.tbl thead th{background:var(--azul-d);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.tbl td{padding:12px 14px;font-size:.85rem;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--ink);background:#fff}
+.tbl tr:nth-child(even) td{background:var(--azul-p);color:var(--ink)}
+.tbl tr:hover td{background:var(--azul-l);color:var(--ink)}
+.tr-rec{display:inline-block;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.04em}
+.rec-best{background:var(--ouro-l);color:var(--ouro-d);border:1px solid rgba(232,150,12,.3)}
+.rec-yes{background:var(--green-l);color:var(--green);border:1px solid #A5D6A7}
+.rec-ok{background:var(--azul-l);color:var(--azul);border:1px solid #BAD4F0}
+.rec-warn{background:var(--terra-l);color:var(--terra);border:1px solid rgba(190,74,47,.3)}
+.rec-no{background:var(--red-l);color:var(--red);border:1px solid #FFCDD2}
+
+/* ── COST TABLE ── */
+.ctbl{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden;margin-bottom:20px}
+.ctbl thead th{background:var(--azul-d);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.ctbl td{padding:12px 14px;font-size:.85rem;color:var(--ink);background:#fff;border-bottom:1px solid var(--border);vertical-align:top}
+.ctbl td:first-child{font-weight:600}
+.ctbl td:nth-child(2){font-weight:700;color:var(--azul)}
+.ctbl tr:nth-child(even) td{background:var(--azul-p);color:var(--ink)}
+.ctbl tr:hover td{background:var(--azul-l);color:var(--ink)}
+.ctbl tr.total-row td{background:var(--azul-l);font-weight:700;color:var(--azul-d)}
+.ctbl tfoot td{background:var(--azul-d);color:var(--ouro);font-weight:700}
+
+/* ── DINING TABLE ── */
+.din-table{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden}
+.din-table th{background:rgba(13,29,10,.9);color:var(--ouro);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.din-table td{padding:12px 14px;font-size:.85rem;color:var(--ink);background:rgba(255,255,255,.92);border-bottom:1px solid rgba(0,0,0,.07);vertical-align:top}
+.din-table td:first-child{font-weight:600;color:var(--azul-d)}
+.din-table tr:nth-child(even) td{background:rgba(255,255,255,.76)}
+.din-table tr:hover td{background:var(--ouro-l)}
+.din-table tr:last-child td{border:none}
+
+/* ── PHRASE TABLE (dark azul section) ── */
+.phrase-table{width:100%;border-collapse:collapse;border-radius:8px;overflow:hidden}
+.phrase-table th{background:rgba(13,47,90,.9);color:rgba(255,255,255,.85);font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.phrase-table td{padding:11px 14px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.phrase-table td:first-child{color:rgba(255,255,255,.72)}
+.phrase-table td:last-child{font-weight:700;color:#9DC8F5;font-family:var(--serif);font-style:italic;font-size:.93rem}
+.phrase-table tr:hover td{background:rgba(255,255,255,.04)}
+.phrase-table tr:last-child td{border:none}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+.ic{background:#fff;border-radius:10px;padding:22px;box-shadow:0 2px 10px rgba(0,0,0,.06);border:1px solid var(--border);border-top:3px solid var(--ouro)}
+.ic h4{font-size:.87rem;font-weight:700;color:var(--azul-m);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.ic ul{list-style:none;padding:0}
+.ic ul li{font-size:.85rem;color:var(--muted);padding:4px 0;border-bottom:1px solid #E8F5E9;line-height:1.55}
+.ic ul li:last-child{border:none}
+.ic ul li::before{content:'→ ';color:var(--ouro-d);font-weight:700}
+.ic p{font-size:.85rem;color:var(--muted);line-height:1.65}
+.ic-dark{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-top:3px solid var(--ouro)}
+.ic-dark h4{color:var(--ouro)}
+.ic-dark ul li{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.07)}
+.ic-dark ul li::before{color:var(--ouro)}
+.ic-dark p{color:rgba(255,255,255,.75)}
+.ic-azul{background:rgba(26,95,168,.14);border:1px solid rgba(26,95,168,.3);border-top:3px solid var(--azul-m)}
+.ic-azul h4{color:#8DC4F5}
+.ic-azul ul li{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.07)}
+.ic-azul ul li::before{color:#8DC4F5}
+
+/* ── CULTURE CARDS ── */
+.cult-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:28px}
+.cult-card{background:#fff;border-radius:12px;padding:26px;border-top:4px solid var(--ouro);border:1px solid var(--border);border-top:4px solid var(--ouro);box-shadow:0 2px 12px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s}
+.cult-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.cult-card .cn{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ouro-d);margin-bottom:7px}
+.cult-card h3{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.cult-card p{font-size:.84rem;color:var(--muted);line-height:1.65}
+
+/* ── FLIP CARDS ── */
+.flip-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:22px}
+.fc{height:160px;perspective:1000px;cursor:pointer}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:10px}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;border-radius:10px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.fc-f{background:var(--azul-l);border:2px solid var(--border)}
+.fc-b{background:var(--azul-d);border:2px solid var(--ouro);transform:rotateY(180deg)}
+.fc-f .fi{font-size:2rem;margin-bottom:10px}
+.fc-f p{font-size:.82rem;color:var(--ink);font-weight:500;line-height:1.4}
+.fc-b p{font-size:.82rem;color:rgba(255,255,255,.9);line-height:1.5}
+
+/* ── QUOTES ── */
+.a-quote{display:flex;gap:14px;align-items:flex-start;background:var(--azul-l);border-left:4px solid var(--azul);border-radius:0 10px 10px 0;padding:18px 22px;margin-top:28px}
+.a-quote-av{font-size:1.8rem;flex-shrink:0}
+.a-quote-text{font-size:.88rem;color:var(--muted);line-height:1.65;font-style:italic}
+.a-quote-dark{background:rgba(255,255,255,.06);border-left-color:var(--ouro)}
+.a-quote-dark .a-quote-text{color:rgba(255,255,255,.72)}
+.qblock{border-left:4px solid var(--ouro);padding:20px 26px;background:linear-gradient(to right,var(--ouro-l),transparent);border-radius:0 8px 8px 0;margin:24px 0}
+.qblock p{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);line-height:1.75}
+
+/* ── TIP BOX ── */
+.tip-box{background:var(--ouro-l);border:1px solid rgba(232,150,12,.3);border-left:4px solid var(--ouro);border-radius:0 8px 8px 0;padding:14px 18px;margin:18px 0;font-size:.85rem;color:var(--ink);line-height:1.65}
+.tip-box strong{color:var(--ouro-d)}
+.tip-box-dark{background:rgba(232,150,12,.09);color:rgba(255,255,255,.82)}
+.tip-box-dark strong{color:var(--ouro)}
+.tip-box-terra{background:var(--terra-l);border-left-color:var(--terra);color:var(--ink)}
+.tip-box-terra strong{color:var(--terra)}
+
+/* ── TIP LIST ── */
+.tip-list{background:rgba(26,95,168,.06);border-radius:8px;padding:18px 22px;margin-bottom:20px}
+.tip-list h4{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--ouro);text-transform:uppercase;margin-bottom:11px}
+.tip-item{display:flex;gap:10px;font-size:13px;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--border);line-height:1.5}
+.tip-item:last-child{border-bottom:none}
+.tip-item::before{content:'→';color:var(--ouro);flex-shrink:0;font-weight:700}
+
+/* ── HOUSING TABS ── */
+.tab-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tab-btn{padding:9px 22px;border-radius:30px;border:2px solid var(--border);background:transparent;font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--azul-d);border-color:var(--azul-d);color:var(--ouro)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── EMERGENCY ── */
+.em-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.em-card{border-radius:10px;padding:22px;text-align:center}
+.em-num{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin-bottom:4px}
+.em-lbl{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.em-sub{font-size:.74rem;opacity:.65}
+.safety-list{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.safety-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.1);border-radius:8px;padding:13px 18px;border-left:3px solid var(--ouro)}
+.safety-item .si-icon{font-size:1.1rem;flex-shrink:0}
+.safety-item p{font-size:.84rem;color:rgba(255,255,255,.88);line-height:1.5}
+
+/* ── SCENARIO CAROUSEL ── */
+.sc-progress{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:18px}
+.sc-dot{width:8px;height:8px;border-radius:50%;background:var(--azul-l);transition:all .3s;cursor:pointer}
+.sc-dot.active{background:var(--azul-m);width:24px;border-radius:4px}
+.sc-card{background:#fff;border-radius:10px;overflow:hidden;display:none;animation:fadeInCard .35s ease;border:1px solid var(--border);border-top:3px solid var(--ouro)}
+.sc-card.active{display:block}
+@keyframes fadeInCard{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sc-hd{background:var(--azul-d);padding:14px 20px;display:flex;align-items:center;gap:13px}
+.sc-num{width:34px;height:34px;background:var(--ouro);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff;flex-shrink:0}
+.sc-hd h3{color:#fff;font-size:.95rem;font-weight:600}
+.sc-body{padding:22px}
+.sc-sit{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:16px;background:var(--azul-p);padding:13px 16px;border-radius:6px;border-left:3px solid var(--ouro)}
+.sc-sit em{font-style:italic;color:var(--azul-d)}
+.opt{width:100%;text-align:left;padding:11px 14px;background:var(--cream-d);border:1px solid var(--border);border-radius:6px;margin-bottom:8px;cursor:pointer;font-size:.84rem;color:var(--ink);font-family:var(--sans);transition:all .2s;display:flex;gap:10px;align-items:center}
+.opt:hover{background:var(--azul-l);border-color:var(--azul-m)}
+.opt.ok{background:var(--green-l);border-color:var(--green);color:var(--green);font-weight:600}
+.opt.no{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.opt-l{width:24px;height:24px;border-radius:50%;background:var(--azul-d);color:var(--ouro);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0}
+.sc-rev{background:var(--green-l);border:1px solid var(--green);border-radius:7px;padding:13px 16px;display:none;animation:slideDown .3s ease;margin-top:4px}
+.sc-rev.show{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.sc-rev strong{font-size:.75rem;color:var(--green);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
+.sc-rev p{font-size:.83rem;color:var(--ink);line-height:1.7}
+.sc-nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 22px 18px}
+.sc-nav button{background:var(--azul);color:#fff;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-size:.83rem;font-weight:600;font-family:var(--sans);transition:all .2s;display:flex;align-items:center;gap:5px}
+.sc-nav button:hover{background:var(--ouro);color:var(--ink)}
+.sc-nav button:disabled{background:rgba(13,43,94,.2);cursor:default;color:rgba(0,0,0,.3)}
+.sc-counter{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+
+/* ── DOS & DON'TS ── */
+.dd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.dd-col{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.dd-hd{padding:14px 18px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.do-hd{background:var(--azul);color:#fff}
+.dn-hd{background:var(--terra);color:#fff}
+.dd-item{padding:11px 18px;font-size:.84rem;line-height:1.55;border-bottom:1px solid rgba(0,0,0,.05);display:flex;gap:8px;align-items:flex-start}
+.do-item{background:#fff;color:var(--ink)}
+.do-item::before{content:'✓';color:var(--azul-m);font-weight:700;flex-shrink:0}
+.dn-item{background:var(--terra-l);color:var(--ink)}
+.dn-item::before{content:'✗';color:var(--terra);font-weight:700;flex-shrink:0}
+.dd-item:last-child{border:none}
+
+/* ── GOLD BOX ── */
+.gold-box{display:flex;gap:16px;align-items:center;background:var(--azul-d);border-radius:10px;padding:24px 28px;margin-bottom:20px}
+.gold-box-icon{font-size:2.2rem;flex-shrink:0}
+.gold-box p{color:rgba(255,255,255,.88);font-size:.9rem;line-height:1.75}
+.gold-box strong{color:var(--ouro)}
+
+/* ── CLOSING ── */
+#closing{background:radial-gradient(ellipse at 50% 35%,#1A5FA8 0%,#0D2B5E 55%,#060F28 100%);padding:90px 28px;text-align:center;position:relative;overflow:hidden}
+#closing::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(232,150,12,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,150,12,.04) 1px,transparent 1px);background-size:52px 52px}
+.close-inner{position:relative;z-index:1;max-width:680px;margin:0 auto}
+.big-q{font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.6;margin-bottom:16px;font-style:italic}
+.big-q strong{color:var(--ouro)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+.reveal.vis{opacity:1;transform:none}
+
+
+/* ═══════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE FIX — all country toolkit files
+   ══════════════════════════════════════════════════════ */
+@media(max-width:640px){
+  /* Section padding */
+  .section{padding:56px 16px!important}
+  .hero-h1{font-size:clamp(1.9rem,8vw,2.5rem)!important}
+
+  /* Nav */
+  .nav-links{display:none!important}
+  .hamburger{display:flex!important}
+
+  /* Grids — stack everything */
+  .two-col,.dd-wrap,.cult-grid,.culture-grid{grid-template-columns:1fr!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .season-grid{grid-template-columns:1fr 1fr!important}
+  .flip-row{grid-template-columns:1fr 1fr!important}
+  .transit-grid{grid-template-columns:1fr 1fr!important}
+  .recycle-grid{grid-template-columns:1fr 1fr!important}
+  .wildlife-grid{grid-template-columns:1fr 1fr!important}
+  .coffee-grid{grid-template-columns:1fr 1fr!important}
+  .gold-box{flex-direction:column!important;text-align:center!important}
+  .mascot-wrap{bottom:14px!important;right:10px!important}
+
+  /* ALL TABLES — drastically reduce for narrow screens */
+  table{width:100%!important;font-size:11px!important}
+  thead th{padding:7px 7px!important;font-size:9px!important;
+    letter-spacing:.02em!important;line-height:1.3!important}
+  tbody td,tfoot td{padding:7px 7px!important;font-size:11px!important;line-height:1.4!important}
+
+  /* Table badge labels */
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:9px!important;padding:2px 5px!important;
+    display:inline-block!important;margin-top:2px!important}
+
+  /* Scenario carousel */
+  .sc-nav{padding:0 10px 12px!important}
+  .sc-nav button{padding:8px 12px!important;font-size:.74rem!important}
+  .sc-counter{font-size:.72rem!important}
+  .sc-body{padding:16px!important}
+  .sc-hd{padding:11px 14px!important}
+
+  /* Cards internal */
+  .ic{padding:16px!important}
+  .ic ul li,.ic p{font-size:.8rem!important}
+  .cult-card{padding:18px!important}
+  .season-card{padding:14px!important}
+
+  /* Key facts table first col narrower */
+  .kf-table td:first-child{width:38%!important}
+
+  /* Tab buttons */
+  .tab-row{gap:6px!important;flex-wrap:wrap!important}
+  .tab-btn{padding:7px 13px!important;font-size:.78rem!important}
+
+  /* Tip list fix for mobile */
+  .tip-item{font-size:.8rem!important}
+
+  /* DD items */
+  .dd-item{font-size:.8rem!important;padding:9px 12px!important}
+  .dd-hd{padding:11px 14px!important;font-size:.72rem!important}
+
+  /* Emergency cards */
+  .em-num{font-size:1.8rem!important}
+  .em-lbl{font-size:.78rem!important}
+  .em-sub{font-size:.68rem!important}
+
+  /* Safety items */
+  .safety-item p{font-size:.78rem!important}
+  .safety-item{padding:10px 14px!important}
+
+  /* Phrase/decoder table special */
+  .phrase-table td:last-child,.slang-table td:first-child{font-size:12px!important}
+}
+
+@media(max-width:420px){
+  .section{padding:48px 13px!important}
+  table{font-size:10px!important}
+  thead th{font-size:8px!important;padding:6px 5px!important}
+  tbody td,tfoot td{font-size:10px!important;padding:6px 5px!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .dd-wrap{grid-template-columns:1fr!important}
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:8px!important;padding:1px 4px!important}
+  .season-card{padding:11px!important}
+  .sc-nav button{padding:6px 10px!important;font-size:.7rem!important}
+}
+
+</style>
+</head>
+<body>
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-brand">Cipla · Brazil Guide</div>
+  <div class="nav-links">
+    <a class="btn-back-hub" onclick="if(window.parent&&window.parent.closeToolkit){window.parent.closeToolkit();}else{window.history.back();}" href="#">
+      <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Hub
+    </a>
+    <a href="#snapshot">Snapshot</a>
+    <a href="#daily">Daily Life</a>
+    <a href="#dining">Dining</a>
+    <a href="#housing">Housing</a>
+    <a href="#transport">Transport</a>
+    <a href="#cost">Cost</a>
+    <a href="#emergency">Emergency</a>
+    <a href="#customs">Customs</a>
+    <a href="#work">Work</a>
+    <a href="#rules">Rules</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  <div id="progress-bar"></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#snapshot" onclick="closeMobile()">🌍 Snapshot</a>
+  <a href="#daily" onclick="closeMobile()">🏡 Daily Life</a>
+  <a href="#dining" onclick="closeMobile()">🍽️ Dining</a>
+  <a href="#housing" onclick="closeMobile()">🏠 Housing</a>
+  <a href="#transport" onclick="closeMobile()">🚗 Transport</a>
+  <a href="#cost" onclick="closeMobile()">💰 Cost</a>
+  <a href="#emergency" onclick="closeMobile()">🆘 Emergency</a>
+  <a href="#customs" onclick="closeMobile()">🤝 Customs</a>
+  <a href="#work" onclick="closeMobile()">💼 Work</a>
+  <a href="#rules" onclick="closeMobile()">📋 Rules</a>
+</div>
+
+<!-- MASCOT -->
+<div class="mascot-wrap">
+  <div class="mascot-bubble" id="mascotBubble"><strong>🎭 Tip:</strong> <span id="mascotText">Click me for tips as you explore each section!</span></div>
+  <div style="position:relative;">
+    <div class="mascot-figure" id="mascotFigure" title="Click for a tip">🎭</div>
+    <div class="tip-badge" id="tipBadge"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="carnival-diamonds" id="carnivalDiamonds"></div>
+  <div class="hero-inner">
+    <span class="hero-flag">🇧🇷</span>
+    <h1 class="hero-h1">Welcome to <em>Brasil</em></h1>
+    <p class="hero-sub">A Cultural Readiness Guide for Cipla Professionals</p>
+    <p class="hero-tag">"Everything you wish someone had told you before landing in São Paulo."</p>
+    <a href="#snapshot" class="hero-cta">Start the Guide</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ══ 01 SNAPSHOT ══ -->
+<section class="section dark-band" id="snapshot">
+  <div class="section-inner">
+    <div class="sec-tag">Section 01 · Country Snapshot</div>
+    <h2 class="sh sh-w">Brazil at a <em>Glance</em></h2>
+    <p class="lead lead-w">The numbers, facts, and basics you should know before your flight boards.</p>
+    <p class="stat-hint">👆 Click each card for more context</p>
+    <div class="stats-grid">
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')"><span class="stat-num">213M</span><div class="stat-label">Population</div><div class="stat-detail">5th largest country in the world. São Paulo state: 46M. São Paulo city: 12M. Capital: Brasília (3.1M).</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.1s"><span class="stat-num">R$ BRL</span><div class="stat-label">Currency</div><div class="stat-detail">1 BRL ≈ ₹15 — check current rate before travelling. Rates fluctuate. PIX instant transfers are used for everything.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.2s"><span class="stat-num">BRT−8.5</span><div class="stat-label">Time Zone</div><div class="stat-detail">São Paulo: UTC−3 (BRT). IST is 8.5 hours ahead of São Paulo. Morning India calls (9am IST) = 11:30pm previous day SP time — plan accordingly.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.3s"><span class="stat-num">Português</span><div class="stat-label">Language</div><div class="stat-detail">Brazilian Portuguese — distinct from European Portuguese. English not widely spoken outside office environments. Basic Portuguese phrases earn immediate warmth.</div></div>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="kf-table reveal">
+      <thead><tr><th>Fact</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Capital</td><td>Brasília — government seat. São Paulo is the financial and pharma business hub.</td></tr>
+        <tr><td>Cipla base city</td><td>São Paulo — Brazil's business centre and most international city.</td></tr>
+        <tr><td>Emergency numbers</td><td>190 — Military Police. 192 — SAMU Ambulance. 193 — Bombeiros (Fire).</td></tr>
+        <tr><td>Driving side</td><td>Right — same as most of the world</td></tr>
+        <tr><td>Time from India</td><td>IST is 8.5 hours ahead of São Paulo (UTC−3). Use a world clock — India calls must be planned in the morning IST.</td></tr>
+        <tr><td>Exchange rate</td><td>1 BRL ≈ ₹15 <em style="font-size:11px;color:rgba(255,255,255,.42)">(check current rate before travelling — rates fluctuate significantly)</em></td></tr>
+        <tr><td>Cash vs digital</td><td>PIX (free instant transfer) is used everywhere. Cards widely accepted. Carry R$100 cash for markets and small shops.</td></tr>
+        <tr><td>WhatsApp</td><td>ESSENTIAL — used for work, delivery, banking, and everything. Set up before you land.</td></tr>
+        <tr><td>CPF Number</td><td>Brazilian tax ID — required for banking, rentals, SIM cards. HR assists with registration.</td></tr>
+        <tr><td>Voltage</td><td>127V or 220V — varies by building. Ask before plugging in. Bring a multi-voltage adapter.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- WEATHER IN SNAPSHOT -->
+    <h3 style="color:var(--ouro);font-family:var(--serif);font-size:1.15rem;margin:32px 0 14px">Climate &amp; Seasons — São Paulo</h3>
+    <div class="season-grid reveal">
+      <div class="season-card"><span class="season-icon">☀️</span><div class="season-name">Summer · Nov–Mar</div><div class="season-temp">25°C – 33°C</div><div class="season-detail">Hot, humid, and rainy — afternoon thunderstorms arrive in 20 minutes. Always carry a compact umbrella. High humidity.</div></div>
+      <div class="season-card"><span class="season-icon">🌤️</span><div class="season-name">Autumn · Apr–May</div><div class="season-temp">18°C – 26°C</div><div class="season-detail">Transition — still warm but drying out by May. Comfortable layering weather. Best time to explore the city.</div></div>
+      <div class="season-card"><span class="season-icon">🧥</span><div class="season-name">Winter · Jun–Aug</div><div class="season-temp">12°C – 20°C</div><div class="season-detail">Mild and dry. Evenings dip to 10°C. Bring a light jacket — offices are heavily air-conditioned year-round.</div></div>
+      <div class="season-card"><span class="season-icon">🌸</span><div class="season-name">Spring · Sep–Oct</div><div class="season-temp">18°C – 28°C</div><div class="season-detail">Pleasant — flowers bloom across São Paulo. Some afternoon showers return. Great for outdoor lunches.</div></div>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>São Paulo weather rule:</strong> 'In São Paulo, you experience all four seasons in one day.' Check AccuWeather every morning. Summer storms can arrive in 20 minutes with no warning.</div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"213 million people. I was surprised how many of them are immediately warm towards Indians. Your background is met with genuine curiosity."</div></div>
+  </div>
+</section>
+<!-- ══ 02 DAILY LIFE ══ -->
+<section class="section" id="daily" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 02 · Daily Life</div>
+    <h2 class="sh">Daily <em>Life</em> in São Paulo</h2>
+    <p class="lead">The small things nobody briefed you on — until now. Voltage, WhatsApp, Sunday streets, and why Brazilians greet strangers in lifts.</p>
+    <div class="two-col reveal">
+      <div class="ic">
+        <h4>🛒 Groceries</h4>
+        <ul>
+          <li>Main chains: Carrefour, Extra, Pão de Açúcar (premium)</li>
+          <li>Budget: Atacadão — excellent for bulk shopping</li>
+          <li>Fresh produce: Feira livre (street markets) — cheaper and fresher</li>
+          <li>Indian groceries: Liberdade neighbourhood and Pinheiros</li>
+          <li>Online: iFood, Rappi, supermarket apps — set up in Week 1</li>
+          <li>Hours: 8am–10pm most days; some Carrefour stores 24 hours</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>📱 SIM &amp; Banking</h4>
+        <ul>
+          <li>SIM: Buy Day 1 at Claro, Vivo, or Tim — bring passport</li>
+          <li>Best for short stays: Claro or Vivo — R$50–150/month unlimited</li>
+          <li>Banking: Nubank or Inter — open in minutes with passport + CPF</li>
+          <li>PIX: Instant free transfers — Brazil's version of UPI. Set up in Week 1.</li>
+          <li>Broadband: Usually included in serviced apartments</li>
+          <li>Electricity: 127V or 220V depending on building — ask before plugging in</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🏥 Healthcare Basics</h4>
+        <ul>
+          <li>Cipla provides convênio médico — confirm scope with HR before travel</li>
+          <li>Always carry your convênio card — without it you pay upfront</li>
+          <li>Pharmacy: Drogasil and Droga Raia everywhere, open late</li>
+          <li>Indian medicines: Bring 3-month supply — Brazilian brand names differ</li>
+          <li>Full healthcare detail → see Housing section</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🏠 Domestic Life</h4>
+        <ul>
+          <li>Faxineira (cleaner): 2× per week standard — more accessible than in the UK</li>
+          <li>Dry cleaning: Dryclean USA and local chains at shopping centres</li>
+          <li>Neighbourhoods: Itaim Bibi (business), Pinheiros (international), Jardins (upscale)</li>
+          <li>Safety: Stay in expat-friendly areas — Itaim Bibi, Moema, Jardins, Pinheiros</li>
+          <li>Sundays: Streets quieter, many shops open. Feiras and parks busy.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;font-style:italic">👆 Click each card to reveal the correct behaviour</p>
+    <div class="flip-row reveal">
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🏪</div><p>You enter a shop, lift, or office building in Brazil</p></div><div class="fc-b"><p>✅ Say 'oi' or 'bom dia/boa tarde'. Greetings are always expected — silence when entering is considered rude.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">📱</div><p>A colleague shares their WhatsApp number at the end of a meeting</p></div><div class="fc-b"><p>✅ Add them and use it. WhatsApp is Brazil's primary work communication channel — treat it like email during working hours.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🔌</div><p>You arrive at your apartment and want to charge your laptop</p></div><div class="fc-b"><p>⚠️ Check the voltage first. Brazil uses 127V or 220V depending on the building. Ask before plugging in — damage is expensive.</p></div></div></div>
+    </div>
+    <div class="a-quote reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"I didn't know Brazilian plugs were different. Some buildings use 127V and some use 220V. Ask before you plug in."</div></div>
+  </div>
+</section>
+
+<!-- ══ 03 DINING ══ -->
+<section class="section mid-band" id="dining">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--ouro)">Section 03 · Dining &amp; Food Culture</div>
+    <h2 class="sh sh-w">Food, <em>Churrasco</em> &amp; the Social Table</h2>
+    <p class="lead lead-w">Brazilians live at the table. Join them there — it is where real relationships are built and trust is established.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px">
+      <table class="din-table">
+        <thead><tr><th>Type</th><th>Cost per person</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Por kilo (pay-by-weight buffet)</td><td>R$40–70</td><td>Hot buffet weighed at counter — excellent quality, very Brazilian. Highly recommended for weekday lunches.</td></tr>
+          <tr><td>Prato executivo (set lunch)</td><td>R$25–45</td><td>Main + rice/beans + salad + drink. Standard weekday deal at most restaurants.</td></tr>
+          <tr><td>Padaria / Lanchonete</td><td>R$8–20</td><td>Brazilian café/bakery. Pão de queijo (cheese bread) + coffee. Perfect for breakfast.</td></tr>
+          <tr><td>Mid-range restaurant</td><td>R$60–120</td><td>Italian, Japanese, contemporary Brazilian — strong variety in São Paulo.</td></tr>
+          <tr><td>Churrascaria (rodízio)</td><td>R$80–150</td><td>All-you-can-eat BBQ. Waiters bring meat on skewers. Red disc = stop, green disc = keep going.</td></tr>
+          <tr><td>Delivery (iFood/Rappi)</td><td>R$20–60/order</td><td>Fast, reliable, everything available. Set up on Day 1. Also delivers groceries.</td></tr>
+          <tr><td>Fine dining</td><td>R$150–300+</td><td>São Paulo has world-class restaurants. D.O.M., Mocotó, Maní are legendary globally.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two-col reveal" style="margin-top:22px">
+      <div class="ic ic-dark">
+        <h4>🍖 Churrasco Culture</h4>
+        <ul>
+          <li>National social institution — far more than a BBQ. This is where trust is built.</li>
+          <li>Red/green disc at table: green = keep the meat coming, red = stop. Always learn this before you go.</li>
+          <li>Accepting a churrasco invitation builds professional relationships faster than any meeting</li>
+          <li>Botecos (street bars): the after-work social hub. Going matters more than what you drink.</li>
+          <li>Caipirinha: national cocktail. Non-alcoholic options always available — just ask.</li>
+        </ul>
+      </div>
+      <div class="ic ic-dark">
+        <h4>🥗 Vegetarian &amp; Indian Options</h4>
+        <ul>
+          <li>Vegetarian growing fast in São Paulo — look for 'sem carne' or 'vegetariano' on menus</li>
+          <li>Vegan options strong in Pinheiros, Vila Madalena, Itaim Bibi</li>
+          <li>Indian restaurants: Bollywood Kitchen and Veg India in Pinheiros</li>
+          <li>Indian groceries: Liberdade neighbourhood (São Paulo's Asian district) and Pinheiros</li>
+          <li>Brazilian staples to enjoy: açaí bowls, pão de queijo, arroz e feijão (rice and beans)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>Tipping:</strong> 10% service charge is often added automatically — check the bill before adding extra. PIX is widely accepted even at street food stalls. Carry R$50–100 cash for feiras and small shops.</div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"I went to a churrascaria without knowing the red/green disc rule. I said yes to every meat for 45 minutes straight. Turn it to red when you need a break — trust me."</div></div>
+  </div>
+</section>
+
+<!-- ══ 04 HOUSING ══ -->
+<section class="section" id="housing" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 04 · Housing</div>
+    <h2 class="sh">Where to <em>Live</em></h2>
+    <p class="lead">São Paulo's expat areas are safe, well-connected, and close to business centres. Start with HR support — private rentals require CPF and local documentation.</p>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('short','housing')">Short Stay &lt;4 weeks</button>
+      <button class="tab-btn" onclick="switchTab('long','housing')">Long Stay 4 weeks–6 months</button>
+    </div>
+    <div id="tab-short-housing" class="tab-panel active">
+      <div class="two-col reveal">
+        <div class="ic"><h4>🏨 Serviced Apartment (recommended)</h4><ul>
+          <li>Fully furnished, bills included, flexible term</li>
+          <li>Cost: R$6,000–12,000/month (1BR)</li>
+          <li>Best areas: Itaim Bibi, Jardins, Moema, Pinheiros — safe and expat-friendly</li>
+          <li>Arranged through Cipla HR for short assignments</li>
+        </ul></div>
+        <div class="ic"><h4>🏩 Hotels (&lt;2 weeks)</h4><ul>
+          <li>Marriott, Hilton, and local boutique hotels in Itaim Bibi</li>
+          <li>Reliable, centrally located, business district</li>
+          <li>Airbnb available — stick to Itaim Bibi, Jardins, or Pinheiros</li>
+          <li>Check host ratings carefully and verify reviews before booking</li>
+        </ul></div>
+      </div>
+    </div>
+    <div id="tab-long-housing" class="tab-panel">
+      <div style="background:rgba(232,150,12,.1);border-left:4px solid var(--ouro);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:18px;font-size:13px;color:var(--ink);line-height:1.7">
+        <strong style="color:var(--ouro-d)">⚠️ São Paulo rentals require CPF, proof of income, references, and a guarantor (fiador).</strong> Start the CPF process with HR before you arrive — it takes time. The rental market is competitive; begin search 4–6 weeks early with HR's vetted contacts.
+      </div>
+      <div class="two-col reveal">
+        <div class="ic"><h4>🏠 Private Rental</h4><ul>
+          <li>Requires CPF, proof of income, references, and 3-month deposit</li>
+          <li>Guarantor (fiador) typically required — HR can assist</li>
+          <li>Monthly rent 2BR: R$4,000–7,000 + utilities R$400–700</li>
+          <li>Best areas: Jardins, Itaim Bibi, Moema, Brooklin — all expat-friendly</li>
+        </ul></div>
+        <div class="ic"><h4>💼 HR Global Mobility</h4><ul>
+          <li>Essential for São Paulo housing — use HR's vetted contacts only</li>
+          <li>CPF registration and bank setup assistance</li>
+          <li>Visa and tax equalization support</li>
+          <li>Contact 4–6 weeks before arrival — never leave housing to the last week</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <h3 style="font-family:var(--serif);font-size:1.15rem;color:var(--azul);margin:28px 0 14px">Healthcare in Brazil</h3>
+    <div class="two-col reveal">
+      <div class="ic"><h4>🏥 Private — Convênio Médico (use this)</h4><ul>
+        <li>Cipla provides convênio médico — confirm scope with HR before travel</li>
+        <li>Hospital Albert Einstein (Morumbi) — world-class, English-speaking, most recommended for expats</li>
+        <li>Hospital Sírio-Libanês — top private, multi-lingual staff, excellent emergency care</li>
+        <li>GP: 'clínica médica' within your network — appointments in 1–2 days</li>
+        <li>Always carry your insurance card — without it you pay upfront</li>
+      </ul></div>
+      <div class="ic"><h4>🏛️ Public — SUS (free but limited)</h4><ul>
+        <li>Free for all residents including visa holders</li>
+        <li>Long queues — not practical for short-term expats</li>
+        <li>UPA (Urgent Care): Free, 24 hours — good for non-critical issues</li>
+        <li>SAMU: Call 192 for ambulance — free emergency service</li>
+        <li>Dengue: Real risk in summer. Know symptoms: fever, joint pain, rash. Seek care promptly.</li>
+      </ul></div>
+    </div>
+    <div class="a-quote reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"I got dengue fever in Week 3. Hospital Albert Einstein sorted everything in 4 hours. Private insurance made the difference — confirm your convênio before you land."</div></div>
+  </div>
+</section>
+<!-- ══ 05 TRANSPORT ══ -->
+<section class="section dark-band" id="transport">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--ouro)">Section 05 · Transport</div>
+    <h2 class="sh sh-w">Getting <em>Around São Paulo</em></h2>
+    <p class="lead lead-w">Always use Uber or 99. Always verify the driver's plate and face photo before getting in. Pre-book your airport transfer before you land.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px">
+      <table class="tbl">
+        <thead><tr><th>Mode</th><th>Avg Cost</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          <tr><td>🚗 Uber</td><td>R$20–50 (city)</td><td><span class="tr-rec rec-best">⭐ Recommended — verify plate before entering</span></td></tr>
+          <tr><td>🚗 99 (local app)</td><td>R$18–45 (city)</td><td><span class="tr-rec rec-best">⭐ Recommended — popular with locals</span></td></tr>
+          <tr><td>🚇 São Paulo Metro</td><td>R$5/trip</td><td><span class="tr-rec rec-yes">✅ Safe and reliable in daytime</span></td></tr>
+          <tr><td>🚌 Bus</td><td>R$5 flat fare</td><td><span class="tr-rec rec-warn">⚠️ Daytime only — not for newcomers at night</span></td></tr>
+          <tr><td>🚕 Street taxi (yellow)</td><td>R$20–60 meter</td><td><span class="tr-rec rec-warn">⚠️ Use app-based options at night instead</span></td></tr>
+          <tr><td>✈️ Airport transfer (pre-booked)</td><td>R$80–200 fixed</td><td><span class="tr-rec rec-best">⭐ Always pre-book — never take unmarked taxis</span></td></tr>
+          <tr><td>🚗 Driving yourself</td><td>Variable + parking</td><td><span class="tr-rec rec-no">❌ São Paulo traffic is extreme — avoid in the city</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AIRPORT RULE — prominently placed -->
+    <div style="background:rgba(190,74,47,.12);border-left:4px solid var(--terra);border-radius:0 8px 8px 0;padding:16px 20px;margin:18px 0;font-size:.88rem;color:rgba(255,255,255,.88);line-height:1.7">
+      <strong style="color:#F5A080;font-size:.84rem;text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px">⚠️ Guarulhos Airport — Essential Rule</strong>
+      Always wait for your pre-booked transfer at Guarulhos International Airport — do not take any taxi offered by someone approaching you in the arrivals hall. Pre-book a fixed-rate car service through your hotel or HR, or use Uber/99 set up on your phone before you land. Verify the driver's plate number and face photo in the app before getting in. This rule applies at all times, not just late at night.
+    </div>
+
+    <div class="two-col reveal" style="margin-top:16px">
+      <div class="ic ic-dark">
+        <h4>🚇 São Paulo Metro Tips</h4>
+        <ul>
+          <li>Bilhete Único card: R$5 per trip. Buy at any station.</li>
+          <li>Lines 1–5 cover central São Paulo well — clean and reliable</li>
+          <li>Peak: 7–9am and 5–8pm — very crowded. Priority carriages for women.</li>
+          <li>Safe in daytime — at night, prefer Uber/99</li>
+          <li>Metro + Uber combination: practical and safe daily strategy</li>
+        </ul>
+      </div>
+      <div class="ic ic-dark">
+        <h4>✈️ Essential Apps for Transport</h4>
+        <ul>
+          <li>Uber and 99 — set up before you land. Both essential.</li>
+          <li>SPTrans (São Paulo bus app) — for daytime bus routes</li>
+          <li>Waze — Brazilians prefer this for real-time traffic alerts</li>
+          <li>Google Maps — accurate for metro, walking, and driving</li>
+          <li>AccuWeather — check before outdoor commutes (summer storms)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"I took a street taxi from Guarulhos on arrival. It cost twice as much and felt unsafe. Pre-book the transfer — it takes five minutes and removes all risk."</div></div>
+  </div>
+</section>
+
+<!-- ══ 06 COST ══ -->
+<section class="section" id="cost" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 06 · Cost of Living</div>
+    <h2 class="sh">Your São Paulo <em>Budget Guide</em></h2>
+    <p class="lead">Brazil is 50–80% more expensive than India overall. São Paulo is Brazil's most expensive city. <strong>Always check the current BRL/INR exchange rate before travelling — rates fluctuate significantly.</strong></p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px">
+      <table class="ctbl">
+        <thead><tr><th>Expense</th><th>Monthly Cost (R$)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>🏠 Serviced apartment (1BR)</td><td>R$6,000–12,000</td><td>Itaim Bibi, Pinheiros, Jardins — fully furnished, bills usually included</td></tr>
+          <tr><td>🏠 Private rental (2BR)</td><td>R$4,000–7,000</td><td>Requires CPF, guarantor, and deposit. Best areas: Jardins, Moema.</td></tr>
+          <tr><td>⚡ Utilities</td><td>R$400–700</td><td>Summer AC usage increases costs significantly</td></tr>
+          <tr><td>🛒 Groceries</td><td>R$1,200–1,800</td><td>80–120% higher than India — buy local, avoid imported goods</td></tr>
+          <tr><td>🍽️ Dining out</td><td>R$60–120/meal</td><td>Per person — mid-range São Paulo. Por kilo lunch much cheaper.</td></tr>
+          <tr><td>🚗 Transport (Uber + metro)</td><td>R$400–800</td><td>Depends on commute — metro is cheap, Uber adds up quickly</td></tr>
+          <tr><td>🏠 Domestic help (faxineira)</td><td>R$1,500–2,500</td><td>2× per week — more accessible here than in UK or Australia</td></tr>
+          <tr><td>📱 Mobile SIM</td><td>R$50–150</td><td>Claro, Vivo, Tim — unlimited data plans from Day 1</td></tr>
+          <tr><td>🏥 Health insurance</td><td>Covered by Cipla</td><td>Confirm convênio scope, insurer, and card with HR before departure</td></tr>
+        </tbody>
+        <tfoot><tr><td>💰 Total — single, comfortable</td><td>R$8,000–14,000/month</td><td>São Paulo estimate. Lifestyle dependent. Verify BRL rate before travel.</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="two-col reveal">
+      <div class="ic"><h4>💡 Money-Saving Tips</h4><ul>
+        <li>Use PIX for all payments — instant, free, universal in Brazil</li>
+        <li>Eat por kilo at lunch — best value and very Brazilian</li>
+        <li>Shop at Carrefour, Extra, or local feiras (street markets)</li>
+        <li>Avoid imported goods — electronics and wine are heavily taxed</li>
+        <li>Nubank or Inter — zero-fee digital banking, open in minutes</li>
+        <li>Book São Paulo–Rio flights 2+ weeks ahead — cheap if booked early</li>
+      </ul></div>
+      <div class="ic"><h4>🇮🇳 vs 🇧🇷 Key Differences</h4><ul>
+        <li>Housing: 2–3× more expensive than Indian metros</li>
+        <li>Domestic help: More accessible than in the UK or Australia</li>
+        <li>Electronics and cars: Much more expensive — heavy import taxes</li>
+        <li>Fresh fruit and local food: Very affordable — açaí is excellent and cheap</li>
+        <li>Imported brands: Significantly costlier — always shop local</li>
+        <li><em style="font-size:11px">All BRL comparisons: verify exchange rate before travel</em></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 EMERGENCY ══ -->
+<section class="section mid-band" id="emergency">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--ouro)">Section 07 · Emergency</div>
+    <h2 class="sh sh-w">Emergency <em>Contacts</em></h2>
+    <p class="lead lead-w">Save these before you do anything else on Day 1. Seriously — do it now, before you read further.</p>
+    <div class="em-grid reveal">
+      <div class="em-card" style="background:var(--red-l);border:2px solid var(--red)"><div class="em-num" style="color:var(--red)">190</div><div class="em-lbl" style="color:var(--red)">Military Police</div><div class="em-sub">Crime, theft, incidents</div></div>
+      <div class="em-card" style="background:var(--azul-l);border:2px solid var(--azul-m)"><div class="em-num" style="color:var(--azul-d)">192</div><div class="em-lbl" style="color:var(--azul-d)">SAMU Ambulance</div><div class="em-sub">Free — like 108 in India</div></div>
+      <div class="em-card" style="background:var(--ouro-l);border:2px solid var(--ouro)"><div class="em-num" style="color:var(--ouro-d)">193</div><div class="em-lbl" style="color:var(--ouro-d)">Bombeiros</div><div class="em-sub">Fire Department</div></div>
+      <div class="em-card" style="background:var(--azul-l);border:2px solid var(--azul-m)"><div class="em-num" style="color:var(--azul);font-size:1.8rem">180</div><div class="em-lbl" style="color:var(--azul)">Women's Helpline</div><div class="em-sub">Free, 24 hours</div></div>
+    </div>
+    <div class="safety-list reveal">
+      <div class="safety-item"><div class="si-icon">📞</div><p><strong style="color:var(--ouro)">Cipla HR Business Partner</strong> — first call for any work issue or emergency abroad. Save before you leave India.</p></div>
+      <div class="safety-item"><div class="si-icon">🌍</div><p><strong style="color:var(--ouro)">Cipla Global Mobility Team</strong> — visa, housing, CPF, and tax support for Brazil.</p></div>
+      <div class="safety-item"><div class="si-icon">🏛️</div><p><strong style="color:var(--ouro)">Embassy of India, Brasília</strong> — +55 61 3248-1000 · SHIS QI 08, Conj. 08, Casa 01, Lago Sul, Brasília</p></div>
+    </div>
+    <h3 style="color:var(--ouro);font-family:var(--serif);font-size:1.1rem;margin:26px 0 12px">Safety in São Paulo</h3>
+    <div class="two-col reveal">
+      <div class="ic ic-dark"><h4>✅ Safe areas in São Paulo</h4><ul>
+        <li>Jardins, Itaim Bibi, Moema — safe, expat-friendly, well-patrolled</li>
+        <li>Vila Olímpia, Pinheiros, Brooklin — safe, lively, international</li>
+        <li>These areas are where most Cipla-level expats live and work</li>
+        <li>Ask HR for current safety guidance on arrival — it changes</li>
+      </ul></div>
+      <div class="ic ic-dark"><h4>⚠️ Street Safety Rules</h4><ul>
+        <li>Keep your phone out of sight in unfamiliar areas</li>
+        <li>Use Uber/99 exclusively after dark — never hail street taxis</li>
+        <li>Keep car windows up in slow traffic — phone/jewellery snatching at lights is real</li>
+        <li>Avoid Centro, Cracolândia (near Luz station) after dark</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 CUSTOMS ══ -->
+<section class="section azul-band" id="customs">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--ouro)">Section 08 · Customs &amp; Language</div>
+    <h2 class="sh sh-w">Social Customs &amp; <em>Portuguese Essentials</em></h2>
+    <p class="lead lead-w">You don't need to be fluent. You need to be warm, open, and willing to try. That's it.</p>
+
+    <div class="cult-grid reveal">
+      <div class="cult-card" style="border-top-color:var(--azul-m)"><div class="cn" style="color:var(--azul-m)">01 · Norm</div><h3>Physical warmth — cultural, not personal</h3><p>Brazilians are famously warm and tactile. Abraços (hugs) and beijo (a brief cheek kiss as greeting) among friends and colleagues are common as trust builds. These are <strong>cultural greetings</strong> — expressions of trust and inclusion. They carry no romantic or sexual meaning. Handshakes are standard on first business meetings; warmer greetings follow naturally. Accept graciously — refusing can be misread as cold or rejecting.</p></div>
+      <div class="cult-card" style="border-top-color:var(--ouro)"><div class="cn" style="color:var(--ouro-d)">02 · Norm</div><h3>Jeitinho Brasileiro — finding a way</h3><p>Brazil's cultural tendency to find creative solutions around obstacles — a workaround, a favour, a flexible interpretation. This is not corruption; it is adaptability and resourcefulness. If something seems impossible, ask a Brazilian colleague — they may find a way you hadn't considered. Reward this flexibility with appreciation, not frustration.</p></div>
+      <div class="cult-card" style="border-top-color:var(--azul-m)"><div class="cn" style="color:var(--azul-m)">03 · Norm</div><h3>Time flexibility — and what it means</h3><p>Social events start 15–30 minutes later than stated. Business meetings may also run late. Being on time to a social event in Brazil means you'll be the first person there. For formal work meetings: still aim to be on time — punctuality for professional meetings is respected, even if not always matched.</p></div>
+    </div>
+
+    <h3 style="color:var(--ouro);font-family:var(--serif);font-size:1.1rem;margin:28px 0 8px">Portuguese Phrases — These Go Further Than You Think</h3>
+    <p style="color:rgba(255,255,255,.45);font-size:.84rem;margin-bottom:14px">Brazilians visibly warm up when you try — even one phrase earns goodwill.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px">
+      <table class="phrase-table">
+        <thead><tr><th>English</th><th>Portuguese</th></tr></thead>
+        <tbody>
+          <tr><td>Hello / Hi</td><td>Oi / Olá</td></tr>
+          <tr><td>Good morning</td><td>Bom dia</td></tr>
+          <tr><td>Good afternoon</td><td>Boa tarde</td></tr>
+          <tr><td>How are you?</td><td>Tudo bem?</td></tr>
+          <tr><td>Thank you (men say)</td><td>Obrigado</td></tr>
+          <tr><td>Thank you (women say)</td><td>Obrigada</td></tr>
+          <tr><td>Please</td><td>Por favor</td></tr>
+          <tr><td>Sorry / Excuse me</td><td>Desculpe</td></tr>
+          <tr><td>Where is...?</td><td>Onde fica...?</td></tr>
+          <tr><td>How much?</td><td>Quanto custa?</td></tr>
+          <tr><td>The bill please</td><td>A conta, por favor</td></tr>
+          <tr><td>I don't understand</td><td>Não entendo</td></tr>
+          <tr><td>Do you speak English?</td><td>Você fala inglês?</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>⚠️ Gender matters in Portuguese!</strong> Men say <em>Obrigado</em>, women say <em>Obrigada</em>. Using the wrong one won't offend — but using the right one shows real effort and gets a warm reaction every time.</div>
+
+    <div class="two-col reveal" style="margin-top:22px">
+      <div class="ic ic-azul"><h4>🎉 Key Festivals</h4><ul>
+        <li>Carnival (Feb/Mar): Many offices close during Carnival week — plan work around it</li>
+        <li>Festa Junina (June): Country-style festivals, forró music, regional food</li>
+        <li>New Year's Eve (Dec 31): Major events in both Rio and São Paulo</li>
+        <li>Christmas (Dec 25): Family celebration — offices quiet the two weeks around it</li>
+        <li>Birthdays at work: Cake, singing, and warm wishes are always expected</li>
+      </ul></div>
+      <div class="ic ic-azul"><h4>🇮🇳 Indian Community in São Paulo</h4><ul>
+        <li>Active and well-connected — Diwali, Holi, Independence Day events organised</li>
+        <li>Embassy of India, Brasília: +55 61 3248-1000</li>
+        <li>Hindu temples: Templo Hindu and ISKCON in São Paulo</li>
+        <li>Indian restaurants and groceries: Pinheiros and Liberdade neighbourhoods</li>
+        <li>LinkedIn: Indian Professionals in Brazil — active network worth joining</li>
+      </ul></div>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🎭</div><div class="a-quote-text">"I said 'obrigado' instead of 'obrigada' for the first week. My colleague gently corrected me. Gender agreement matters in Portuguese — but the effort always earns a smile."</div></div>
+  </div>
+</section>
+<!-- ══ 09 WORK CULTURE ══ -->
+<section class="section" id="work" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 09 · Work Culture</div>
+    <h2 class="sh">The Brazilian <em>Workplace</em></h2>
+    <p class="lead">Warm, relationship-first, hierarchical with humour, and powered by WhatsApp. If this surprises you, read on.</p>
+    <div class="cult-grid reveal">
+      <div class="cult-card"><div class="cn">01 · Core Principle</div><h3>Relationships before business</h3><p>Business in Brazil is built on personal trust (confiança). Brazilians invest time in knowing you before discussing work. Small talk, personal questions, and social events are not optional — they are how credibility is built. Jumping straight to business is seen as cold and transactional.</p></div>
+      <div class="cult-card"><div class="cn">02 · Core Principle</div><h3>Hierarchy with warmth</h3><p>Brazilian organisations are hierarchical, but leaders are warm and approachable. Respect titles and seniority — address senior people formally until they invite informality. Emotional intelligence and social connection are valued at all levels, alongside professional competence.</p></div>
+      <div class="cult-card"><div class="cn">03 · Communication</div><h3>Expressive and direct communication</h3><p>Brazilians communicate with energy — gestures, expressions, tone. Interrupting can signal enthusiasm, not disrespect. Feedback can be more direct than you expect from Indian corporate culture. If someone disagrees, they tend to say so — read tone, not just words.</p></div>
+      <div class="cult-card"><div class="cn">04 · Social Norm</div><h3>Lunch and after-work are work</h3><p>Lunch is a social occasion — eating at your desk alone in Week 1 is read as standoffish, not productive. After-work churrascos, botecos, and events are where relationships and trust are built. These are not optional extras — they are professional activities in Brazilian workplace culture.</p></div>
+    </div>
+    <div class="tip-list reveal">
+      <h4>For Indian Professionals — Read This Carefully</h4>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Less formal than Indian corporates — first names are used after introductions at most levels</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Much more social — team lunches, churrascos, and after-work are part of the job</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Meetings may start 10–15 mins late — this is normal for internal meetings; formal client meetings expect punctuality</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Personal questions are normal — family, origins, impressions of Brazil are common warm-up conversation</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">WhatsApp is used for work — respond during working hours as you would for email</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Physical warmth as greetings (abraço, beijo) is cultural — it signals trust and inclusion, not romantic intent</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Jeitinho brasileiro — when something seems impossible, ask a Brazilian colleague. Creative solutions exist.</div>
+    </div>
+    <div class="qblock reveal">
+      <p>"My first week I skipped the team lunch to work at my desk. My manager came to check on me — not because I was busy, but because he thought something was wrong."</p>
+    </div>
+
+    <!-- 5 SCENARIO CAROUSEL -->
+    <div class="sec-tag" style="margin-top:40px">Test Yourself</div>
+    <h3 style="font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;margin-bottom:8px;color:var(--ink)">Five Scenarios — <em style="color:var(--azul)">What Would You Do?</em></h3>
+    <p style="font-size:.87rem;color:var(--muted);margin-bottom:18px">Brazil rewards warmth, flexibility, and social instinct. Click your answer, then move to the next scenario.</p>
+    <div class="sc-progress">
+      <div class="sc-dot active" onclick="goToScenario(0)"></div>
+      <div class="sc-dot" onclick="goToScenario(1)"></div>
+      <div class="sc-dot" onclick="goToScenario(2)"></div>
+      <div class="sc-dot" onclick="goToScenario(3)"></div>
+      <div class="sc-dot" onclick="goToScenario(4)"></div>
+    </div>
+    <div class="reveal">
+      <!-- SCENARIO 1 -->
+      <div class="sc-card active" id="sc0">
+        <div class="sc-hd"><div class="sc-num">1</div><h3>The Team Lunch</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">It's your first week in São Paulo. The team invites you to a por kilo lunch at 12:30. You have a deadline this afternoon and think it would be more efficient to eat at your desk and keep working.</div>
+          <div id="sc0-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc0-rev')"><span class="opt-l">A</span>Politely decline — explain your deadline is important and you need to focus</button>
+            <button class="opt" onclick="ans(this,'B','B','sc0-rev')"><span class="opt-l">B</span>Go — the deadline can flex by 45 minutes and this lunch is the real work</button>
+            <button class="opt" onclick="ans(this,'C','B','sc0-rev')"><span class="opt-l">C</span>Say you'll join next time — once is fine to skip in Week 1</button>
+          </div>
+          <div class="sc-rev" id="sc0-rev"><strong>✅ Answer: B is correct</strong><p>Declining a first-week team lunch is a significant relationship misstep in Brazil. The lunch is not an interruption — it IS the work. Confiança is built at the table, not at your desk. A 45-minute flex on a deadline is always worth it in Week 1.</p></div>
+        </div>
+        <div class="sc-nav"><button disabled>← Previous</button><span class="sc-counter">1 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+      <!-- SCENARIO 2 -->
+      <div class="sc-card" id="sc1">
+        <div class="sc-hd"><div class="sc-num">2</div><h3>The Late Meeting</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">Your 10:00am meeting is scheduled with three Brazilian colleagues. It's 10:12am and only one person is on the call. What do you do?</div>
+          <div id="sc1-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc1-rev')"><span class="opt-l">A</span>Send urgent messages asking where everyone is — time matters</button>
+            <button class="opt" onclick="ans(this,'B','B','sc1-rev')"><span class="opt-l">B</span>Start light conversation with whoever is there and wait until 10:15</button>
+            <button class="opt" onclick="ans(this,'C','B','sc1-rev')"><span class="opt-l">C</span>Start presenting without them and send notes afterwards</button>
+          </div>
+          <div class="sc-rev" id="sc1-rev"><strong>✅ Answer: B is correct</strong><p>A 10–15 minute start window is culturally normal in Brazil for internal meetings. Sending urgent messages signals anxiety and creates unnecessary tension. Use the time for small talk — it is never wasted. Option C is too passive-aggressive for a relationship-first culture.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">2 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+      <!-- SCENARIO 3 -->
+      <div class="sc-card" id="sc2">
+        <div class="sc-hd"><div class="sc-num">3</div><h3>The Churrasco Invitation</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">A senior Brazilian colleague invites you to a Saturday churrasco at their home. You don't drink alcohol and you're vegetarian. Do you go?</div>
+          <div id="sc2-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc2-rev')"><span class="opt-l">A</span>Decline politely — there won't be food for you and you don't drink</button>
+            <button class="opt" onclick="ans(this,'B','B','sc2-rev')"><span class="opt-l">B</span>Accept enthusiastically — mention your dietary preferences and go</button>
+            <button class="opt" onclick="ans(this,'C','B','sc2-rev')"><span class="opt-l">C</span>Accept but leave early to avoid social pressure around food and drinks</button>
+          </div>
+          <div class="sc-rev" id="sc2-rev"><strong>✅ Answer: B is correct</strong><p>A personal invitation from a senior colleague is a significant trust signal. Declining without a serious reason is read as rejection. Brazilians will always accommodate dietary preferences — they will genuinely find options. Mention your preferences warmly and they will make it work. Go, stay the full event, and let the relationship build.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">3 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+      <!-- SCENARIO 4 -->
+      <div class="sc-card" id="sc3">
+        <div class="sc-hd"><div class="sc-num">4</div><h3>The Greeting Kiss</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">At a business event, a female Brazilian colleague you've worked with for two weeks greets you with a brief cheek kiss (beijo). You are from a culture where this is not a standard greeting. How do you respond?</div>
+          <div id="sc3-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc3-rev')"><span class="opt-l">A</span>Step back and extend a handshake instead — physical contact is not appropriate in professional settings</button>
+            <button class="opt" onclick="ans(this,'B','B','sc3-rev')"><span class="opt-l">B</span>Accept it graciously as the cultural greeting it is — it signals trust and inclusion</button>
+            <button class="opt" onclick="ans(this,'C','B','sc3-rev')"><span class="opt-l">C</span>Apologise and explain that you prefer not to be touched</button>
+          </div>
+          <div class="sc-rev" id="sc3-rev"><strong>✅ Answer: B is correct</strong><p>The beijo (cheek kiss as greeting) is a cultural norm in Brazil that carries no romantic or sexual meaning whatsoever. It is a genuine sign of trust and social inclusion — equivalent to a warm handshake elsewhere. Receiving it graciously is the socially fluent response. Refusing or stepping back signals discomfort that will be remembered. Options A and C are unnecessary and create awkwardness.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">4 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+      <!-- SCENARIO 5 -->
+      <div class="sc-card" id="sc4">
+        <div class="sc-hd"><div class="sc-num">5</div><h3>The WhatsApp Message</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">Your manager sends you a WhatsApp message about a project at 7:30pm on a Thursday. How do you handle it?</div>
+          <div id="sc4-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc4-rev')"><span class="opt-l">A</span>Reply immediately with a full response — WhatsApp is real-time and must be answered now</button>
+            <button class="opt" onclick="ans(this,'B','B','sc4-rev')"><span class="opt-l">B</span>Read it, assess urgency: respond immediately if it's genuinely urgent; otherwise acknowledge and handle in the morning</button>
+            <button class="opt" onclick="ans(this,'C','B','sc4-rev')"><span class="opt-l">C</span>Ignore it until morning — Brazil now has right-to-disconnect laws</button>
+          </div>
+          <div class="sc-rev" id="sc4-rev"><strong>✅ Answer: B is correct</strong><p>WhatsApp is Brazil's work communication channel and after-hours messages do happen. The right approach is to assess urgency: genuinely urgent items warrant a prompt response; non-urgent ones deserve a brief acknowledgement ('got this, will follow up in the morning'). Ignoring entirely can damage the relationship. Clarify your manager's communication style in Week 1 — norms vary by role and team.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">5 of 5</span><button disabled>Finished ✓</button></div>
+      </div>
+    </div><!-- end reveal -->
+  </div>
+</section>
+
+<!-- ══ 10 RULES ══ -->
+<section class="section" id="rules" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 10 · Golden Rules</div>
+    <h2 class="sh">Brazil's <em>Golden Rules</em></h2>
+    <p class="lead">The most important things to remember. The relationship is always the priority.</p>
+    <div class="dd-wrap reveal">
+      <div class="dd-col">
+        <div class="dd-hd do-hd">✅ DO — Always</div>
+        <div class="dd-item do-item">Use Uber or 99 for all transport — always verify plate and driver photo</div>
+        <div class="dd-item do-item">Pre-book your Guarulhos airport transfer before you land</div>
+        <div class="dd-item do-item">Say 'oi' or 'bom dia' when entering any shop, lift, or office</div>
+        <div class="dd-item do-item">Invest in small talk and personal connection before any business</div>
+        <div class="dd-item do-item">Attend team lunches, churrascos, and social events</div>
+        <div class="dd-item do-item">Say 'obrigado' (M) or 'obrigada' (F) — gender matters in Portuguese</div>
+        <div class="dd-item do-item">Carry your convênio médico card at all times</div>
+        <div class="dd-item do-item">Set up PIX in your bank app in Week 1</div>
+        <div class="dd-item do-item">Get your CPF number sorted with HR before or on arrival</div>
+        <div class="dd-item do-item">Check the BRL exchange rate before you travel</div>
+      </div>
+      <div class="dd-col">
+        <div class="dd-hd dn-hd">❌ DON'T — Avoid</div>
+        <div class="dd-item dn-item">Never take unmarked taxis — at any time of day or night</div>
+        <div class="dd-item dn-item">Never jump straight to business without personal conversation first</div>
+        <div class="dd-item dn-item">Never discuss Brazilian politics unless colleagues raise it first</div>
+        <div class="dd-item dn-item">Never display phones or jewellery openly in unfamiliar areas</div>
+        <div class="dd-item dn-item">Never assume English will be available outside the office</div>
+        <div class="dd-item dn-item">Never turn down a churrasco invitation without a genuine reason</div>
+        <div class="dd-item dn-item">Never be surprised when meetings start 10–15 minutes late</div>
+        <div class="dd-item dn-item">Never ignore WhatsApp from colleagues during working hours</div>
+        <div class="dd-item dn-item">Never drink unfiltered tap water — use bottled or filtered</div>
+        <div class="dd-item dn-item">Never skip team lunches in Week 1 — it signals social disengagement</div>
+      </div>
+    </div>
+    <div class="gold-box reveal">
+      <div class="gold-box-icon">🎭</div>
+      <p><strong>Before you do anything else on Day 1:</strong> Save 190, 192, and your HR contact. Set up PIX. Download Uber and iFood. Say 'bom dia' to your neighbour. Pre-book your airport transfer before you land.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="carnival-diamonds" id="closingDiamonds"></div>
+  <div class="close-inner">
+    <div class="hero-flag" style="font-size:52px;margin-bottom:20px">🇧🇷</div>
+    <p class="big-q">"Nobody expects you to be Brazilian. They just want you to be <strong>warm, curious, and genuinely interested</strong> in the people around you."</p>
+  </div>
+</section>
+
+<script>
+/* Progress bar */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('progress-bar').style.width=p+'%';
+  updateActiveNav();
+});
+
+/* Active nav */
+function updateActiveNav(){
+  const ids=['snapshot','daily','dining','housing','transport','cost','emergency','customs','work','rules'];
+  let cur='';
+  ids.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-80)cur=id;});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+}
+
+/* Scroll reveal */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('.stat-card').forEach((c,i)=>{c.style.transitionDelay=(i*.1)+'s'});
+
+/* Carnival floating diamonds */
+function spawnDiamonds(id){
+  const c=document.getElementById(id);if(!c)return;
+  const cols=['#E8960C','#1A5FA8','#BE4A2F','#F5C842','rgba(255,255,255,.28)'];
+  for(let i=0;i<24;i++){
+    const d=document.createElement('div');d.className='diamond';
+    const s=Math.random()*10+4;
+    d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${100+Math.random()*30}%;background:${cols[Math.floor(Math.random()*cols.length)]};opacity:${Math.random()*.4+.08};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*6}s;`;
+    c.appendChild(d);
+  }
+}
+spawnDiamonds('carnivalDiamonds');
+spawnDiamonds('closingDiamonds');
+
+/* Housing tabs */
+function switchTab(tabId,group){
+  document.querySelectorAll(`[id^="tab-"][id$="-${group}"]`).forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${tabId}-${group}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* Scenario carousel */
+let currentScenario=0;
+const totalScenarios=5;
+function goToScenario(idx){
+  document.getElementById('sc'+currentScenario).classList.remove('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.remove('active');
+  currentScenario=idx;
+  document.getElementById('sc'+currentScenario).classList.add('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.add('active');
+}
+function nextScenario(){if(currentScenario<totalScenarios-1)goToScenario(currentScenario+1);}
+function prevScenario(){if(currentScenario>0)goToScenario(currentScenario-1);}
+
+/* Answer checker */
+function ans(btn,chosen,correct,revId){
+  const wrap=btn.closest('[id$="-opts"]')||btn.parentElement;
+  if(wrap.dataset.done)return;
+  wrap.dataset.done='1';
+  wrap.querySelectorAll('.opt').forEach(b=>{
+    const l=b.querySelector('.opt-l').textContent;
+    if(l===correct)b.classList.add('ok');
+    else if(l===chosen&&chosen!==correct)b.classList.add('no');
+    b.style.cursor='default';
+  });
+  document.getElementById(revId).classList.add('show');
+}
+
+/* Mascot — click-triggered */
+const tipsBySection={
+  snapshot:"213 million people. I was surprised how many are immediately warm towards Indians. Your background is met with genuine curiosity.",
+  daily:"I didn't know about the voltage difference. Some buildings use 127V and some use 220V. Ask before you plug anything in.",
+  dining:"I went to a churrascaria without knowing the red/green disc rule. I said yes to every meat for 45 minutes. Turn it to red when you need a break.",
+  housing:"I got dengue in Week 3. Hospital Albert Einstein sorted everything in 4 hours. Private insurance made the difference — confirm your convênio before you land.",
+  transport:"I took a street taxi from Guarulhos on arrival. It cost twice as much and felt unsafe. Pre-book the transfer — it removes all risk.",
+  cost:"I spent R$300 at a supermarket in Week 1 on imported products. Shop local — Brazilian alternatives are better and far cheaper.",
+  emergency:"Save 190, 192, and your HR contact before you land. Not because something will go wrong — because you'll sleep better.",
+  customs:"I said 'obrigado' instead of 'obrigada' for a full week. My colleague gently corrected me. Gender agreement in Portuguese gets a warm reaction when you get it right.",
+  work:"My first week I skipped the team lunch to work at my desk. My manager came to check on me — not because I was busy, but because he thought something was wrong.",
+  rules:"Nobody expects you to be Brazilian. They just want you to be warm, curious, and genuinely interested in the people around you."
+};
+let currentTip=tipsBySection.snapshot;
+const bubble=document.getElementById('mascotBubble');
+const mascotText=document.getElementById('mascotText');
+const mascotFig=document.getElementById('mascotFigure');
+const tipBadge=document.getElementById('tipBadge');
+let bubbleOpen=false;
+
+const secObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&tipsBySection[e.target.id]){
+      currentTip=tipsBySection[e.target.id];
+      tipBadge.style.display='block';
+      if(bubbleOpen){mascotText.textContent=currentTip;}
+    }
+  });
+},{threshold:0.3});
+Object.keys(tipsBySection).forEach(id=>{const el=document.getElementById(id);if(el)secObs.observe(el);});
+
+mascotFig.addEventListener('click',()=>{
+  bubbleOpen=!bubbleOpen;
+  mascotText.textContent=currentTip;
+  bubble.classList.toggle('show',bubbleOpen);
+  tipBadge.style.display=bubbleOpen?'none':'block';
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.mascot-wrap')){bubbleOpen=false;bubble.classList.remove('show');}
+});
+
+/* Mobile hamburger */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',e=>{
+  e.stopPropagation();
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#topnav')&&!e.target.closest('#mobileMenu')){
+    hamburger.classList.remove('open');mobileMenu.classList.remove('open');
+  }
+});
+function closeMobile(){hamburger.classList.remove('open');mobileMenu.classList.remove('open');}
+</script>
+</body>
+</html>

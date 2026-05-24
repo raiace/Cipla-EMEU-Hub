@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- SECURITY: Content Security Policy — no external resources permitted.
+     'unsafe-inline' required for single-file inline CSS/JS architecture.
+     NOTE FOR CIPLA IT TEAM: Replace 'unsafe-inline' with nonces on migration. -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; frame-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<!-- SECURITY: Prevents internal URL leakage in Referer headers. -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cipla | Germany Cultural Readiness Guide</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+/* ── DEEP STEEL PALETTE — Bauhaus precision, not harsh black ── */
+:root{
+  --steel:   #1B2B3A;   /* Deep steel — dark bands (was pure black) */
+  --steel-m: #243344;   /* Medium steel — mid bands */
+  --steel-s: #141E2C;   /* Darkest steel — customs section */
+  --red:     #C42828;   /* German flag red — accent only */
+  --red-l:   #FFEBEE;
+  --red-p:   #FFF5F5;
+  --gold:    #F9A825;   /* German flag gold */
+  --gold-l:  #FFFDE7;
+  --gold-d:  #F57F17;
+  --gold-dk: #D4630A;
+  --ink:     #1C2530;   /* Warm dark ink */
+  --muted:   #4A5568;
+  --cream:   #F7F8F6;
+  --border:  #D4DCE6;
+  --white:   #FFFFFF;
+  --green:   #1B5E20;
+  --green-l: #E8F5E9;
+  --serif: Georgia,'Times New Roman',serif;
+  --sans:  system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:  'Courier New',Courier,monospace;
+}
+
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+
+/* ── NAV ── */
+#topnav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(15,22,32,0.97);backdrop-filter:blur(12px);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:3px solid rgba(249,168,37,.45)}
+.nav-brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;flex-shrink:0}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:11px;color:rgba(255,255,255,.5);text-decoration:none;padding:5px 10px;border-radius:3px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(249,168,37,.28)}
+.btn-back-hub{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:5px 13px;border-radius:3px;cursor:pointer;transition:all .2s;text-decoration:none;margin-right:8px;white-space:nowrap}
+.btn-back-hub:hover{background:rgba(249,168,37,.3);color:#fff;border-color:var(--gold)}
+.btn-back-hub svg{width:12px;height:12px}
+#progress-bar{position:absolute;bottom:-3px;left:0;height:3px;background:var(--gold);width:0;transition:width .1s}
+
+/* ── HAMBURGER ── */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:transparent}
+.hamburger span{width:22px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:52px;left:0;right:0;z-index:199;background:rgba(12,18,28,0.98);backdrop-filter:blur(12px);padding:16px 20px;flex-direction:column;gap:4px;border-bottom:1px solid rgba(249,168,37,.2)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:13px;color:rgba(255,255,255,.65);text-decoration:none;padding:10px 14px;border-radius:4px;transition:all .2s}
+.mobile-menu a:hover{color:#fff;background:rgba(249,168,37,.2)}
+
+/* ── MASCOT ── */
+.mascot-wrap{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;align-items:flex-end;gap:10px}
+.mascot-bubble{background:var(--white);border-radius:3px;border-left:3px solid var(--gold);border:1px solid var(--border);border-left:3px solid var(--gold);padding:12px 16px;max-width:240px;font-size:.78rem;line-height:1.5;color:var(--ink);box-shadow:0 4px 20px rgba(0,0,0,.12);opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease;pointer-events:none}
+.mascot-bubble.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.mascot-bubble strong{color:var(--red)}
+.mascot-figure{font-size:2.8rem;line-height:1;cursor:pointer;animation:mascotBob 2.5s ease-in-out infinite;user-select:none;transition:transform .2s}
+.mascot-figure:hover{transform:scale(1.1)}
+@keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.tip-badge{position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:var(--gold);border-radius:50%;border:2px solid #fff;animation:ping 1.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.6}}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 64px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 55% 38%, #2B3E52 0%, #1B2B3A 55%, #0F1820 100%)}
+#hero::before{content:'';position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(249,168,37,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,168,37,.04) 1px,transparent 1px);background-size:48px 48px}
+.bauhaus-grid{position:absolute;top:0;right:0;width:300px;height:100%;opacity:.05;z-index:0;pointer-events:none;overflow:hidden}
+.flag-bar{position:absolute;top:0;left:0;right:0;height:5px;z-index:3;display:flex}
+.flag-bar-b{flex:1;background:#1A2B3A}
+.flag-bar-r{flex:1;background:#C42828}
+.flag-bar-g{flex:1;background:#F9A825}
+.dot-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.gd{position:absolute;border-radius:50%;animation:floatDot linear infinite}
+@keyframes floatDot{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(-100vh);opacity:0}}
+.hero-inner{position:relative;z-index:1;max-width:720px}
+.hero-flag{font-size:72px;display:block;margin-bottom:20px;animation:float 4s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:10px}
+.hero-h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.65);max-width:540px;margin:0 auto 14px;line-height:1.75}
+.hero-tag{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--gold);opacity:.8;margin-bottom:40px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--ink);font-weight:700;font-size:.95rem;padding:14px 32px;border-radius:3px;text-decoration:none;transition:all .2s;box-shadow:0 4px 20px rgba(249,168,37,.4)}
+.hero-cta:hover{background:#FFD54F;transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.25);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:6px;animation:pulse 2s ease-in-out infinite}
+.scroll-hint::after{content:'';width:1px;height:28px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent)}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ── SECTIONS ── */
+.section{padding:88px 28px}
+.section-inner{max-width:880px;margin:0 auto}
+.dark-band{background:var(--steel)}
+.mid-band{background:var(--steel-m)}
+
+/* ── TYPE ── */
+.sec-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.sec-tag::before{content:'';width:24px;height:1px;background:var(--gold)}
+.sh{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:14px}
+.sh em{color:var(--red);font-style:italic}
+.sh-w{color:#fff}.sh-w em{color:var(--gold)}
+.lead{font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:640px}
+.lead-w{color:rgba(255,255,255,.68)}
+
+/* ── STAT CARDS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:40px}
+.stat-card{background:rgba(255,255,255,.06);border:1px solid rgba(249,168,37,.22);border-top:3px solid var(--gold);border-radius:3px;padding:22px;text-align:center;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(20px)}
+.stat-card.reveal.vis{opacity:1;transform:none}
+.stat-card:hover{background:rgba(249,168,37,.1);border-color:var(--gold);transform:translateY(-3px)}
+.stat-num{font-family:var(--serif);font-size:2.1rem;font-weight:700;color:var(--gold);display:block;margin-bottom:5px}
+.stat-label{font-size:.8rem;color:rgba(255,255,255,.62);letter-spacing:.04em}
+.stat-detail{font-size:.74rem;color:rgba(255,255,255,.42);margin-top:8px;line-height:1.4;display:none}
+.stat-card.open .stat-detail{display:block}
+.stat-hint{font-size:11px;color:rgba(255,255,255,.28);text-align:center;margin-bottom:20px;font-style:italic}
+
+/* ── TABLES: key facts & route ── */
+.kf-table,.route-table{width:100%;border-collapse:collapse;border-radius:3px;overflow:hidden;margin-top:20px}
+.kf-table th,.route-table th{background:rgba(249,168,37,.12);color:var(--gold);font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.kf-table td{padding:11px 14px;font-size:.85rem;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+.kf-table td:first-child{font-weight:600;color:rgba(255,255,255,.92);width:34%}
+.kf-table tr:last-child td,.route-table tr:last-child td{border:none}
+.kf-table tr:hover td,.route-table tr:hover td{background:rgba(255,255,255,.04)}
+.route-table td{padding:12px 14px;font-size:.84rem;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+.route-table td:first-child{font-weight:600;color:var(--gold)}
+
+/* ── SEASON CARDS ── */
+.season-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:24px}
+.season-card{border-radius:6px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);border-top:3px solid var(--gold)}
+.season-icon{font-size:1.9rem;display:block;margin-bottom:8px}
+.season-name{font-weight:700;font-size:.83rem;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.season-temp{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:7px}
+.season-detail{font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.5}
+
+/* ── TRANSPORT TABLE ── */
+.tbl{width:100%;border-collapse:collapse;margin-bottom:20px;border-radius:6px;overflow:hidden}
+.tbl thead th{background:var(--steel-s);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--ink);background:#fff}
+.tbl tr:nth-child(even) td{background:#F0F4F8;color:var(--ink)}
+.tbl tr:hover td{background:#E4EDF5;color:var(--ink)}
+.tr-rec{display:inline-block;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:3px;letter-spacing:.04em}
+.rec-best{background:var(--gold-l);color:#4A3000;border:1px solid rgba(249,168,37,.4)}
+.rec-yes{background:var(--green-l);color:var(--green);border:1px solid rgba(27,94,32,.3)}
+.rec-ok{background:#F0F4F8;color:var(--muted);border:1px solid var(--border)}
+.rec-warn{background:var(--red-l);color:var(--red);border:1px solid rgba(196,40,40,.3)}
+
+/* ── TWO-COL CARDS ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+.ic{background:#fff;border-radius:6px;padding:22px;box-shadow:0 1px 8px rgba(0,0,0,.06);border:1px solid var(--border);border-top:3px solid var(--gold)}
+.ic h4{font-size:.87rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.ic ul{list-style:none;padding:0}
+.ic ul li{font-size:.85rem;color:var(--muted);padding:4px 0;border-bottom:1px solid #EEF1F5;line-height:1.55}
+.ic ul li:last-child{border:none}
+.ic ul li::before{content:'→ ';color:var(--gold-d);font-weight:700}
+.ic p{font-size:.85rem;color:var(--muted);line-height:1.65}
+.ic-dark{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-top:3px solid var(--gold)}
+.ic-dark h4{color:var(--gold)}
+.ic-dark ul li{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.07)}
+.ic-dark ul li::before{color:var(--gold)}
+.ic-dark p{color:rgba(255,255,255,.75)}
+
+/* ── RECYCLING BINS ── */
+.recycle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin:20px 0}
+.bin-card{border-radius:6px;padding:16px;text-align:center;border:2px solid}
+.bin-icon{font-size:1.8rem;display:block;margin-bottom:7px}
+.bin-name{font-size:.84rem;font-weight:700;margin-bottom:5px}
+.bin-detail{font-size:.73rem;line-height:1.4}
+.bin-yellow{background:#FFFDE7;border-color:#F9A825;color:#4A3000}.bin-yellow .bin-name{color:#4A3000}
+.bin-blue{background:#E3EFF9;border-color:#2563EB;color:#1E3A8A}.bin-blue .bin-name{color:#1E3A8A}
+.bin-brown{background:#F5EDE9;border-color:#7C5344;color:#4E342E}.bin-brown .bin-name{color:#4E342E}
+.bin-grey{background:#ECEFF1;border-color:#607D8B;color:#37474F}.bin-grey .bin-name{color:#37474F}
+.bin-green{background:#E8F5E9;border-color:#388E3C;color:#1B5E20}.bin-green .bin-name{color:#1B5E20}
+.bin-pfand{background:#FFF3E0;border-color:#EF6C00;color:#BF360C}.bin-pfand .bin-name{color:#BF360C}
+
+/* ── CULTURAL CARDS (light section) ── */
+.cult-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin-bottom:28px}
+.cult-card{background:#fff;border-radius:6px;padding:26px;border-top:4px solid var(--red);border:1px solid var(--border);border-top:4px solid var(--red);box-shadow:0 2px 12px rgba(0,0,0,.05);transition:transform .25s,box-shadow .25s}
+.cult-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1)}
+.cult-card .cn{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-d);margin-bottom:7px}
+.cult-card h3{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.cult-card p{font-size:.84rem;color:var(--muted);line-height:1.65}
+
+/* ── DINING TABLE ── */
+.din-table{width:100%;border-collapse:collapse;border-radius:6px;overflow:hidden}
+.din-table th{background:rgba(20,30,44,.9);color:var(--gold);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.din-table td{padding:12px 14px;font-size:.85rem;color:rgba(255,255,255,.82);border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+.din-table td:first-child{font-weight:600;color:var(--gold)}
+.din-table tr:hover td{background:rgba(255,255,255,.04)}
+.din-table tr:last-child td{border:none}
+
+/* ── COST TABLE ── */
+.ctbl{width:100%;border-collapse:collapse;border-radius:6px;overflow:hidden;margin-bottom:20px}
+.ctbl thead th{background:var(--steel);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.ctbl td{padding:12px 14px;font-size:.85rem;color:var(--ink);background:#fff;border-bottom:1px solid var(--border);vertical-align:top}
+.ctbl td:first-child{font-weight:600}
+.ctbl td:nth-child(2){font-weight:700;color:var(--red)}
+.ctbl tr:nth-child(even) td{background:#F0F4F8;color:var(--ink)}
+.ctbl tr:hover td{background:#E4EDF5;color:var(--ink)}
+.ctbl tr.total-row td{background:var(--gold-l);font-weight:700;color:#4A3000}
+.ctbl tfoot td{background:var(--steel);color:var(--gold);font-weight:700}
+
+/* ── PHRASE TABLE (customs dark section) ── */
+.phrase-table{width:100%;border-collapse:collapse;border-radius:6px;overflow:hidden}
+.phrase-table th{background:rgba(20,30,44,.85);color:var(--gold);font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 14px;text-align:left}
+.phrase-table td{padding:10px 14px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.phrase-table td:first-child{color:rgba(255,255,255,.72)}
+.phrase-table td:nth-child(2){font-weight:700;color:#FDBA74;font-family:var(--serif);font-style:italic;font-size:.93rem}
+.phrase-table td:nth-child(3){color:rgba(255,255,255,.45);font-size:.76rem}
+.phrase-table tr:hover td{background:rgba(255,255,255,.04)}
+.phrase-table tr:last-child td{border:none}
+
+/* ── DECODER (customs signals table) ── */
+.decoder-wrap{border-radius:6px;overflow:hidden;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:20px}
+.decoder-wrap table{width:100%;border-collapse:collapse}
+.decoder-wrap thead th{background:rgba(20,30,44,.9);color:rgba(255,255,255,.75);font-family:var(--mono);font-size:10px;letter-spacing:2px;padding:12px 14px;text-align:left}
+.decoder-wrap tbody tr{border-bottom:1px solid rgba(255,255,255,.06);transition:background .2s}
+.decoder-wrap tbody tr:hover{background:rgba(249,168,37,.08)}
+.decoder-wrap td{padding:13px 14px;background:rgba(26,43,60,.5);vertical-align:middle}
+.say{font-family:var(--serif);font-style:italic;color:rgba(255,255,255,.8);font-size:13.5px}
+.mean{font-weight:600;font-size:13.5px;color:#fff}
+.risk{display:inline-block;padding:3px 11px;border-radius:3px;font-size:11px;font-weight:600;white-space:nowrap}
+.r-h{background:#ffebee;color:var(--red)}.r-m{background:#fff8e1;color:#b45309}.r-l{background:#e8f5e9;color:var(--green)}
+
+/* ── FLIP CARDS ── */
+.flip-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:24px}
+.fc{height:160px;perspective:1000px;cursor:pointer}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:6px}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;border-radius:6px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.fc-f{background:var(--cream);border:2px solid var(--border)}
+.fc-b{background:var(--steel);border:2px solid var(--gold);transform:rotateY(180deg)}
+.fc-f .fi{font-size:2rem;margin-bottom:10px}
+.fc-f p{font-size:.82rem;color:var(--ink);font-weight:500;line-height:1.4}
+.fc-b p{font-size:.82rem;color:rgba(255,255,255,.9);line-height:1.5}
+
+/* ── TIP BOX ── */
+.tip-box{background:var(--gold-l);border:1px solid rgba(249,168,37,.35);border-left:4px solid var(--gold);border-radius:0 6px 6px 0;padding:14px 18px;margin:18px 0;font-size:.85rem;color:var(--ink);line-height:1.65}
+.tip-box strong{color:var(--gold-dk)}
+.tip-box-dark{background:rgba(249,168,37,.09);color:rgba(255,255,255,.82)}
+.tip-box-dark strong{color:var(--gold)}
+
+/* ── TIP LIST ── */
+.tip-list{background:rgba(255,255,255,.05);border-radius:6px;padding:18px 22px;margin-bottom:20px}
+.tip-list h4{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:11px}
+.tip-item{display:flex;gap:10px;font-size:13px;color:rgba(255,255,255,.72);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.07);line-height:1.5}
+.tip-item:last-child{border:none}
+.tip-item::before{content:'→';color:var(--gold);flex-shrink:0;font-weight:700}
+
+/* ── QUOTE ── */
+.a-quote{display:flex;gap:14px;align-items:flex-start;background:var(--red-l);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:18px 22px;margin-top:28px}
+.a-quote-av{font-size:1.8rem;flex-shrink:0}
+.a-quote-text{font-size:.88rem;color:var(--muted);line-height:1.65;font-style:italic}
+.a-quote-dark{background:rgba(255,255,255,.05);border-left-color:var(--gold)}
+.a-quote-dark .a-quote-text{color:rgba(255,255,255,.72)}
+.qblock{border-left:4px solid var(--gold);padding:20px 26px;background:linear-gradient(to right,var(--gold-l),transparent);border-radius:0 8px 8px 0;margin:24px 0}
+.qblock p{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);line-height:1.75}
+
+/* ── HOUSING TABS ── */
+.tab-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tab-btn{padding:9px 22px;border-radius:4px;border:2px solid var(--border);background:transparent;font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--steel);border-color:var(--steel);color:var(--gold)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── EMERGENCY ── */
+.em-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.em-card{border-radius:8px;padding:22px;text-align:center}
+.em-num{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin-bottom:4px}
+.em-lbl{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.em-sub{font-size:.74rem;opacity:.65}
+.safety-list{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.safety-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.05);border-radius:6px;padding:14px 18px;border-left:3px solid var(--gold)}
+.safety-item .si-icon{font-size:1.1rem;flex-shrink:0}
+.safety-item p{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.5}
+
+/* ── GDPR / DATA PRIVACY BOX ── */
+.privacy-box{background:#EBF3FA;border:1px solid #B4CCDE;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:20px 24px;margin:24px 0}
+.privacy-box h4{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel);font-weight:700;margin-bottom:10px}
+.privacy-box p{font-size:.85rem;color:var(--muted);line-height:1.65;margin-bottom:8px}
+.privacy-box ul{list-style:none;padding:0}
+.privacy-box ul li{font-size:.84rem;color:var(--muted);padding:4px 0;border-bottom:1px solid #D0DDE8;line-height:1.55}
+.privacy-box ul li:last-child{border:none}
+.privacy-box ul li::before{content:'→ ';color:var(--gold-d);font-weight:700}
+
+/* ── SCENARIO CAROUSEL ── */
+.sc-progress{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:18px}
+.sc-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s;cursor:pointer}
+.sc-dot.active{background:var(--red);width:24px;border-radius:4px}
+.sc-card{background:#fff;border-radius:8px;overflow:hidden;display:none;animation:fadeInCard .35s ease;border:1px solid var(--border);border-top:3px solid var(--red)}
+.sc-card.active{display:block}
+@keyframes fadeInCard{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sc-hd{background:var(--steel);padding:14px 20px;display:flex;align-items:center;gap:13px}
+.sc-num{width:34px;height:34px;background:var(--gold);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--ink);flex-shrink:0}
+.sc-hd h3{color:#fff;font-size:.95rem;font-weight:600}
+.sc-body{padding:22px}
+.sc-sit{font-size:.88rem;color:var(--muted);line-height:1.7;margin-bottom:18px;background:#F7F8F6;padding:13px 16px;border-radius:4px;border-left:3px solid var(--gold)}
+.sc-sit em{font-style:italic;color:var(--steel)}
+.opt{width:100%;text-align:left;padding:11px 14px;background:var(--cream);border:1px solid var(--border);border-radius:4px;margin-bottom:8px;cursor:pointer;font-size:.84rem;color:var(--ink);font-family:var(--sans);transition:all .2s;display:flex;gap:10px;align-items:center}
+.opt:hover{background:#E4EDF5;border-color:#8AAECC}
+.opt.ok{background:var(--green-l);border-color:var(--green);color:var(--green);font-weight:600}
+.opt.no{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.opt-l{width:24px;height:24px;border-radius:3px;background:var(--steel);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0}
+.sc-rev{background:var(--green-l);border:1px solid var(--green);border-radius:6px;padding:13px 16px;display:none;animation:slideDown .3s ease;margin-top:4px}
+.sc-rev.show{display:block}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.sc-rev strong{font-size:.75rem;color:var(--green);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
+.sc-rev p{font-size:.83rem;color:var(--ink);line-height:1.7}
+.sc-nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 22px 18px}
+.sc-nav button{background:var(--steel);color:#fff;border:none;padding:9px 22px;border-radius:4px;cursor:pointer;font-size:.83rem;font-weight:600;font-family:var(--sans);transition:all .2s;display:flex;align-items:center;gap:5px}
+.sc-nav button:hover{background:var(--gold);color:var(--ink)}
+.sc-nav button:disabled{background:rgba(27,43,58,.2);cursor:default;color:rgba(0,0,0,.3)}
+.sc-counter{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+
+/* ── DOS & DON'TS ── */
+.dd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.dd-col{border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+.dd-hd{padding:14px 18px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.do-hd{background:var(--green);color:#fff}
+.dn-hd{background:var(--red);color:#fff}
+.dd-item{padding:11px 18px;font-size:.84rem;line-height:1.55;border-bottom:1px solid rgba(0,0,0,.05);display:flex;gap:8px;align-items:flex-start}
+.do-item{background:#fff;color:var(--ink)}
+.do-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.dn-item{background:var(--red-p);color:var(--ink)}
+.dn-item::before{content:'✗';color:var(--red);font-weight:700;flex-shrink:0}
+.dd-item:last-child{border:none}
+
+/* ── GOLD BOX ── */
+.gold-box{display:flex;gap:16px;align-items:center;background:var(--steel);border-radius:8px;padding:24px 28px;margin-bottom:20px}
+.gold-box-icon{font-size:2.2rem;flex-shrink:0}
+.gold-box p{color:rgba(255,255,255,.88);font-size:.9rem;line-height:1.75}
+.gold-box strong{color:var(--gold)}
+
+/* ── CLOSING ── */
+#closing{background:radial-gradient(ellipse at 50% 30%, #2B3E52 0%, #1B2B3A 60%, #0F1820 100%);padding:90px 28px;text-align:center;position:relative;overflow:hidden}
+#closing::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(249,168,37,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(249,168,37,.04) 1px,transparent 1px);background-size:48px 48px}
+.close-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.big-q{font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.6;margin-bottom:16px;font-style:italic}
+.big-q strong{color:var(--gold)}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+.reveal.vis{opacity:1;transform:none}
+
+
+/* ═══════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE FIX — all country toolkit files
+   ══════════════════════════════════════════════════════ */
+@media(max-width:640px){
+  /* Section padding */
+  .section{padding:56px 16px!important}
+  .hero-h1{font-size:clamp(1.9rem,8vw,2.5rem)!important}
+
+  /* Nav */
+  .nav-links{display:none!important}
+  .hamburger{display:flex!important}
+
+  /* Grids — stack everything */
+  .two-col,.dd-wrap,.cult-grid,.culture-grid{grid-template-columns:1fr!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .season-grid{grid-template-columns:1fr 1fr!important}
+  .flip-row{grid-template-columns:1fr 1fr!important}
+  .transit-grid{grid-template-columns:1fr 1fr!important}
+  .recycle-grid{grid-template-columns:1fr 1fr!important}
+  .wildlife-grid{grid-template-columns:1fr 1fr!important}
+  .coffee-grid{grid-template-columns:1fr 1fr!important}
+  .gold-box{flex-direction:column!important;text-align:center!important}
+  .mascot-wrap{bottom:14px!important;right:10px!important}
+
+  /* ALL TABLES — drastically reduce for narrow screens */
+  table{width:100%!important;font-size:11px!important}
+  thead th{padding:7px 7px!important;font-size:9px!important;
+    letter-spacing:.02em!important;line-height:1.3!important}
+  tbody td,tfoot td{padding:7px 7px!important;font-size:11px!important;line-height:1.4!important}
+
+  /* Table badge labels */
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:9px!important;padding:2px 5px!important;
+    display:inline-block!important;margin-top:2px!important}
+
+  /* Scenario carousel */
+  .sc-nav{padding:0 10px 12px!important}
+  .sc-nav button{padding:8px 12px!important;font-size:.74rem!important}
+  .sc-counter{font-size:.72rem!important}
+  .sc-body{padding:16px!important}
+  .sc-hd{padding:11px 14px!important}
+
+  /* Cards internal */
+  .ic{padding:16px!important}
+  .ic ul li,.ic p{font-size:.8rem!important}
+  .cult-card{padding:18px!important}
+  .season-card{padding:14px!important}
+
+  /* Key facts table first col narrower */
+  .kf-table td:first-child{width:38%!important}
+
+  /* Tab buttons */
+  .tab-row{gap:6px!important;flex-wrap:wrap!important}
+  .tab-btn{padding:7px 13px!important;font-size:.78rem!important}
+
+  /* Tip list fix for mobile */
+  .tip-item{font-size:.8rem!important}
+
+  /* DD items */
+  .dd-item{font-size:.8rem!important;padding:9px 12px!important}
+  .dd-hd{padding:11px 14px!important;font-size:.72rem!important}
+
+  /* Emergency cards */
+  .em-num{font-size:1.8rem!important}
+  .em-lbl{font-size:.78rem!important}
+  .em-sub{font-size:.68rem!important}
+
+  /* Safety items */
+  .safety-item p{font-size:.78rem!important}
+  .safety-item{padding:10px 14px!important}
+
+  /* Phrase/decoder table special */
+  .phrase-table td:last-child,.slang-table td:first-child{font-size:12px!important}
+}
+
+@media(max-width:420px){
+  .section{padding:48px 13px!important}
+  table{font-size:10px!important}
+  thead th{font-size:8px!important;padding:6px 5px!important}
+  tbody td,tfoot td{font-size:10px!important;padding:6px 5px!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .dd-wrap{grid-template-columns:1fr!important}
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:8px!important;padding:1px 4px!important}
+  .season-card{padding:11px!important}
+  .sc-nav button{padding:6px 10px!important;font-size:.7rem!important}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-brand">Cipla · Germany Guide</div>
+  <div class="nav-links">
+    <a class="btn-back-hub" onclick="if(window.parent&&window.parent.closeToolkit){window.parent.closeToolkit();}else{window.history.back();}" href="#">
+      <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Hub
+    </a>
+    <a href="#snapshot">Snapshot</a>
+    <a href="#daily">Daily Life</a>
+    <a href="#dining">Dining</a>
+    <a href="#housing">Housing</a>
+    <a href="#transport">Transport</a>
+    <a href="#cost">Cost</a>
+    <a href="#emergency">Emergency</a>
+    <a href="#customs">Customs</a>
+    <a href="#work">Work</a>
+    <a href="#rules">Rules</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="progress-bar"></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#snapshot" onclick="closeMobile()">🌍 Snapshot</a>
+  <a href="#daily" onclick="closeMobile()">🏡 Daily Life</a>
+  <a href="#dining" onclick="closeMobile()">🍽️ Dining</a>
+  <a href="#housing" onclick="closeMobile()">🏠 Housing</a>
+  <a href="#transport" onclick="closeMobile()">🚆 Transport</a>
+  <a href="#cost" onclick="closeMobile()">💶 Cost</a>
+  <a href="#emergency" onclick="closeMobile()">🆘 Emergency</a>
+  <a href="#customs" onclick="closeMobile()">🤝 Customs</a>
+  <a href="#work" onclick="closeMobile()">💼 Work</a>
+  <a href="#rules" onclick="closeMobile()">📋 Rules</a>
+</div>
+
+<!-- MASCOT -->
+<div class="mascot-wrap">
+  <div class="mascot-bubble" id="mascotBubble"><strong>⚙️ Tip:</strong> <span id="mascotText">Click me for tips as you explore each section.</span></div>
+  <div style="position:relative;">
+    <div class="mascot-figure" id="mascotFigure" title="Click for a tip">🔧</div>
+    <div class="tip-badge" id="tipBadge"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="flag-bar"><div class="flag-bar-b"></div><div class="flag-bar-r"></div><div class="flag-bar-g"></div></div>
+  <svg class="bauhaus-grid" viewBox="0 0 300 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+    <rect x="20" y="40" width="110" height="110" fill="none" stroke="#F9A825" stroke-width="1.5"/>
+    <rect x="50" y="70" width="50" height="50" fill="rgba(249,168,37,0.15)"/>
+    <line x1="20" y1="40" x2="130" y2="150" stroke="#C42828" stroke-width="1"/>
+    <circle cx="190" cy="100" r="55" fill="none" stroke="#F9A825" stroke-width="1.2"/>
+    <circle cx="190" cy="100" r="28" fill="rgba(196,40,40,0.18)"/>
+    <rect x="20" y="220" width="70" height="70" fill="none" stroke="#F9A825" stroke-width="1" transform="rotate(45 55 255)"/>
+    <rect x="155" y="220" width="120" height="7" fill="rgba(249,168,37,0.28)"/>
+    <rect x="155" y="240" width="70" height="7" fill="rgba(196,40,40,0.28)"/>
+    <circle cx="70" cy="400" r="70" fill="none" stroke="#C42828" stroke-width="1"/>
+    <circle cx="70" cy="400" r="35" fill="none" stroke="#F9A825" stroke-width="0.8"/>
+    <rect x="165" y="350" width="90" height="90" fill="none" stroke="#F9A825" stroke-width="1.2"/>
+    <line x1="165" y1="350" x2="255" y2="440" stroke="rgba(249,168,37,0.4)" stroke-width="0.8"/>
+    <line x1="255" y1="350" x2="165" y2="440" stroke="rgba(249,168,37,0.4)" stroke-width="0.8"/>
+  </svg>
+  <div class="dot-field" id="dotField"></div>
+  <div class="hero-inner">
+    <span class="hero-flag">🇩🇪</span>
+    <h1 class="hero-h1">Welcome to <em>Deutschland</em></h1>
+    <p class="hero-sub">A Cultural Readiness Guide for Cipla Professionals</p>
+    <p class="hero-tag">"Everything you wish someone had told you before landing in Frankfurt."</p>
+    <a href="#snapshot" class="hero-cta">Start the Guide</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+  <div class="flag-bar" style="position:absolute;bottom:0;left:0;right:0"><div class="flag-bar-b"></div><div class="flag-bar-r"></div><div class="flag-bar-g"></div></div>
+</section>
+
+<!-- ══ 01 SNAPSHOT ══ -->
+<section class="section dark-band" id="snapshot">
+  <div class="section-inner">
+    <div class="sec-tag">Section 01 · Country Snapshot</div>
+    <h2 class="sh sh-w">Germany at a <em>Glance</em></h2>
+    <p class="lead lead-w">Europe's largest economy. 84 million people. 16 federal states. And strict rules about which bin to use for which rubbish. Let's begin.</p>
+    <p class="stat-hint">👆 Click each card for more context</p>
+    <div class="stats-grid">
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')"><span class="stat-num">84.4M</span><div class="stat-label">Population</div><div class="stat-detail">Largest economy in Europe. 16 federal states (Bundesländer) — each with its own culture, dialect, and some different public holidays.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.1s"><span class="stat-num">€ EUR</span><div class="stat-label">Currency</div><div class="stat-detail">1 EUR ≈ ₹93 — check current rate before travelling. Germany is cash-heavy — carry €30–50 at all times. Many restaurants and shops are cash only.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.2s"><span class="stat-num">CET/CEST</span><div class="stat-label">Time Zone</div><div class="stat-detail">UTC+1 winter (CET), UTC+2 summer (CEST). IST is 4.5 hrs ahead in winter, 3.5 hrs in summer. Plan India calls in the morning.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.3s"><span class="stat-num">DE</span><div class="stat-label">Language</div><div class="stat-detail">German. English spoken widely in business. Outside offices, German is essential. Any effort earns significant goodwill.</div></div>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="kf-table reveal">
+      <thead><tr><th>Fact</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Cipla base city</td><td>Munich (München) — Cipla's Germany office. BMW, Siemens, major pharma. Orderly, expensive, excellent quality of life.</td></tr>
+        <tr><td>Key business cities</td><td>Frankfurt — ECB, Deutsche Bank, pharma hub. Berlin — creative, government seat. Hamburg — trade and media.</td></tr>
+        <tr><td>Emergency numbers</td><td>110 — Police. 112 — Ambulance &amp; Fire. Both EU-wide, no SIM required.</td></tr>
+        <tr><td>Driving side</td><td>Right — same as most of Europe</td></tr>
+        <tr><td>Time from India</td><td>IST 4.5 hrs ahead in winter (CET) · 3.5 hrs ahead in summer (CEST)</td></tr>
+        <tr><td>Exchange rate</td><td>1 EUR ≈ ₹93 <em style="font-size:11px;color:rgba(255,255,255,.45)">(check current rate before travelling — rates fluctuate)</em></td></tr>
+        <tr><td>Visa for Indians</td><td>Schengen Business Visa. Apply 4–6 weeks ahead. HR must provide invitation letter.</td></tr>
+        <tr><td>Anmeldung</td><td>Mandatory address registration at Bürgeramt within 2 weeks of arrival for stays over 3 months. HR assists.</td></tr>
+        <tr><td>Cash culture</td><td>Germany is one of Europe's most cash-reliant countries. Always carry €30–50. Many places are cash only.</td></tr>
+        <tr><td>Pfand system</td><td>Bottle deposit (€0.08–0.25). Return plastic/glass bottles to any supermarket Pfandautomat to reclaim deposit.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- WEATHER — in Snapshot, not Transport -->
+    <h3 style="color:var(--gold);font-family:var(--serif);font-size:1.15rem;margin:34px 0 14px">Climate &amp; Seasons</h3>
+    <div class="season-grid reveal">
+      <div class="season-card"><span class="season-icon">☀️</span><div class="season-name">Summer · Jun–Aug</div><div class="season-temp">18°C – 30°C</div><div class="season-detail">Germany's best season. Long evenings, beer gardens. Berlin can hit 35°C+ during heatwaves. Many offices lack AC — this surprises most visitors.</div></div>
+      <div class="season-card"><span class="season-icon">🍂</span><div class="season-name">Autumn · Sep–Nov</div><div class="season-temp">8°C – 18°C</div><div class="season-detail">Beautiful — Oktoberfest in Munich (late Sep). Increasingly wet and grey by November. Layers essential.</div></div>
+      <div class="season-card"><span class="season-icon">❄️</span><div class="season-name">Winter · Dec–Feb</div><div class="season-temp">−5°C to 5°C</div><div class="season-detail">Cold, overcast. Snow common in Munich/Bavaria. Christmas markets (Weihnachtsmarkt) are spectacular — attend at least one.</div></div>
+      <div class="season-card"><span class="season-icon">🌸</span><div class="season-name">Spring · Mar–May</div><div class="season-temp">6°C – 18°C</div><div class="season-detail">Cold early, warming from April. Unpredictable rain. Germans embrace any outdoor moment as soon as the sun appears.</div></div>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>Pack layers for every season.</strong> German buildings are very well-heated in winter — you will be warm indoors but need a proper coat outside. In summer, offices often lack AC. Carry an umbrella year-round.</div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🔧</div><div class="a-quote-text">"84 million people, 16 states, and strict rules about which bin to use for which rubbish. We will get to that — I promise."</div></div>
+  </div>
+</section>
+
+<!-- ══ 02 DAILY LIFE ══ -->
+<section class="section" id="daily" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 02 · Daily Life</div>
+    <h2 class="sh">Daily <em>Life</em> in Germany</h2>
+    <p class="lead">The Sunday law, the recycling system, and the pedestrian light rules catch almost every first-time visitor. Here's what to expect.</p>
+    <div class="two-col reveal">
+      <div class="ic">
+        <h4>🛒 Groceries</h4>
+        <ul>
+          <li>Rewe (everyday premium), Edeka (quality-focused), Kaufland (large format)</li>
+          <li>Aldi &amp; Lidl (both German) — outstanding budget value</li>
+          <li>Alnatura / Basic — organic chains, popular in Munich</li>
+          <li>Indian groceries → Frankfurt near Hauptbahnhof; Munich Schwabing/Neuperlach; Berlin Neukölln</li>
+          <li>Online: Rewe Lieferservice, Picnic — set up Week 1 as Sunday backup</li>
+          <li>Hours: Mon–Sat 7am–10pm. <strong>Closed Sunday by law — no exceptions.</strong></li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>📅 Sonntagsruhe — The Sunday Rule</h4>
+        <ul>
+          <li>Almost ALL shops closed by law on Sunday — strictly observed throughout Germany</li>
+          <li>Open Sundays: Petrol stations (limited groceries), bakeries (until noon), restaurants</li>
+          <li>Closed Sundays: All supermarkets, pharmacies (except Notapotheke), most services</li>
+          <li>Plan your weekly groceries on Saturday — no exceptions, no workarounds</li>
+          <li>Ruhezeit: No drilling, loud music, or appliances after 10pm or before 7am — any day</li>
+          <li>Your neighbours take Ruhezeit seriously. Act accordingly from Day 1.</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>📱 SIM &amp; Banking</h4>
+        <ul>
+          <li>SIM: Buy Day 1 at Telekom, Vodafone, or O2 — bring passport. Telekom has best rural coverage.</li>
+          <li>eSIM: Available from Telekom and Congstar — set up before arrival if phone supports it</li>
+          <li>Banking: Open N26 online before travel — works immediately. Revolut also works.</li>
+          <li>Longer stays: Deutsche Bank or Commerzbank require a local address — takes 2–4 weeks</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🏥 Healthcare Basics</h4>
+        <ul>
+          <li>Germany has mandatory health insurance — you are always covered by law</li>
+          <li>Register with a Hausarzt (GP) in Week 1 — not when you are ill</li>
+          <li>Apotheke (red A cross): Pharmacists advise and dispense — more knowledgeable than UK chemists</li>
+          <li>Indian medicines: Bring 3-month supply — German formulations and brand names differ</li>
+          <li>Full healthcare detail → see Housing section</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- RECYCLING -->
+    <h3 style="font-family:var(--serif);font-size:1.15rem;color:var(--red);margin:30px 0 10px">🗑️ Germany's Recycling System — Taken Seriously</h3>
+    <p style="font-size:.87rem;color:var(--muted);margin-bottom:18px">Getting this wrong can result in a complaint from neighbours or building management. Every household has separate bins — this is not optional.</p>
+    <div class="recycle-grid reveal">
+      <div class="bin-card bin-yellow"><span class="bin-icon">🟡</span><div class="bin-name">Gelbe Tonne</div><div class="bin-detail">Packaging only — plastic, metal cans, composite (Tetrapack)</div></div>
+      <div class="bin-card bin-blue"><span class="bin-icon">🔵</span><div class="bin-name">Blaue Tonne</div><div class="bin-detail">Paper &amp; cardboard only — must be flattened</div></div>
+      <div class="bin-card bin-brown"><span class="bin-icon">🟤</span><div class="bin-name">Biotonne</div><div class="bin-detail">Organic food waste — fruit peels, coffee grounds, vegetable scraps</div></div>
+      <div class="bin-card bin-grey"><span class="bin-icon">⬛</span><div class="bin-name">Restmüll</div><div class="bin-detail">General waste — everything that doesn't fit the other categories</div></div>
+      <div class="bin-card bin-green"><span class="bin-icon">🟢</span><div class="bin-name">Altglas</div><div class="bin-detail">Glass — separate street containers (brown, green, white glass)</div></div>
+      <div class="bin-card bin-pfand"><span class="bin-icon">🔄</span><div class="bin-name">Pfand</div><div class="bin-detail">Plastic &amp; glass drink bottles — return to supermarket Pfandautomat for deposit back</div></div>
+    </div>
+    <div class="tip-box reveal">Ask your building manager which bins are available and their collection days. Your neighbours <em>will</em> notice — and <em>will</em> say something — if you use the wrong bin.</div>
+
+    <!-- ANMELDUNG -->
+    <div class="two-col reveal" style="margin-top:24px">
+      <div class="ic">
+        <h4>📋 Anmeldung — Mandatory Registration</h4>
+        <ul>
+          <li>Legally required for stays over 3 months — register at local Bürgeramt within 2 weeks of arrival</li>
+          <li>You receive a Meldebescheinigung (registration cert) — needed for bank accounts and some rentals</li>
+          <li>Book Bürgeramt appointment online in advance — they fill up weeks ahead in Munich and Frankfurt</li>
+          <li>HR Global Mobility team will assist — do not attempt this alone initially</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🚦 Unwritten Rules — Read This</h4>
+        <ul>
+          <li>Never cross a red pedestrian light — even on an empty road. Germans will say something.</li>
+          <li>Greet bakery/pharmacy staff with 'Guten Morgen' — entering silently is considered rude</li>
+          <li>At supermarket checkout: pack bags fast and have payment ready — checkout speed is expected</li>
+          <li>Formal letters in German → translate immediately via Google Translate. Never ignore them.</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;font-style:italic">👆 Click each card to reveal the correct behaviour</p>
+    <div class="flip-row reveal">
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🚶</div><p>You're at a red pedestrian light. The road is completely empty.</p></div><div class="fc-b"><p>⚠️ Wait for green. Crossing on red (Rotgehen) is culturally disapproved and technically illegal. A German will notice and may say something.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🛒</div><p>You're at the supermarket checkout with a long queue behind you</p></div><div class="fc-b"><p>✅ Pack quickly and have payment ready before the total appears. German checkout speed is legendary — and expected.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">📬</div><p>You receive a formal letter in German from your building</p></div><div class="fc-b"><p>⚠️ Do NOT ignore it. Translate immediately with Google Translate and inform HR if it concerns your lease or address.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 DINING ══ -->
+<section class="section mid-band" id="dining">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--gold)">Section 03 · Dining &amp; Food Culture</div>
+    <h2 class="sh sh-w">Currywurst, <em>Biergarten</em> &amp; Abendbrot</h2>
+    <p class="lead lead-w">German food culture is more functional than social — meals are efficient, generous, and the biggest surprise is that dinner is often cold bread.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px">
+      <table class="din-table">
+        <thead><tr><th>Type</th><th>Cost per person</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Kantine (workplace canteen)</td><td>€4–9</td><td>Most common German office lunch. Hot daily specials. If your office has one — use it. This is where colleagues socialise at lunch.</td></tr>
+          <tr><td>Bäckerei (bakery)</td><td>€2–6</td><td>Outstanding — fresh bread, pretzels, sandwiches, soups. Opens 6–7am. Affordable and very German.</td></tr>
+          <tr><td>Imbiss / Schnellimbiss</td><td>€3–8</td><td>Currywurst, Döner, Bratwurst. Döner is Germany's most popular fast food — originated in Berlin's Turkish community.</td></tr>
+          <tr><td>Gasthaus / Wirtshaus</td><td>€12–25</td><td>Traditional German — Schnitzel, Sauerbraten, dumplings. Good value, informal.</td></tr>
+          <tr><td>Biergarten (beer garden)</td><td>€8–18 food+drinks</td><td>Uniquely Bavarian. Outdoor, communal tables, very relaxed. Traditional ones allow you to bring your own food.</td></tr>
+          <tr><td>Mid-range restaurant</td><td>€20–40</td><td>International cuisine very common in Frankfurt, Munich, and Berlin.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>🍞 Abendbrot:</strong> Many Germans eat a cold evening meal — bread, cold cuts, cheese, pickles — rather than a hot dinner. Lunch is the main hot meal. If invited to a German colleague's home for Abendbrot, appreciate it — it is a genuine cultural invitation.</div>
+    <div class="two-col reveal" style="margin-top:20px">
+      <div class="ic ic-dark"><h4>🍺 Beer culture</h4><ul><li>Pils, Weißbier/Weizen (very Bavarian), Helles (Bavarian pale), Dunkel (dark lager)</li><li>Prost! with eye contact — both eyes — looking away while clinking is bad luck</li><li>Non-drinkers: Spezi, Apfelschorle, or alkoholfreies Bier — all normal and respected</li><li>Tip by rounding up when handing cash — say the total you want to pay, not the tip amount</li></ul></div>
+      <div class="ic ic-dark"><h4>🥗 Vegetarian &amp; dietary</h4><ul><li>Vegetarian: Germany is good — Berlin especially has outstanding vegan culture</li><li>Indian food: Frankfurt (Sachsenhausen), Munich (Schwabing), Berlin (Prenzlauer Berg)</li><li>Halal: Widely available — especially near Turkish communities. Döner shops are almost universally halal.</li><li>Pork: Central to traditional German cuisine — confirm in traditional restaurants</li></ul></div>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🔧</div><div class="a-quote-text">"I ordered a Weizen at a Biergarten in Munich and a colleague explained the correct way to pour it for 10 minutes. I have not forgotten a word of it."</div></div>
+  </div>
+</section>
+
+<!-- ══ 04 HOUSING ══ -->
+<section class="section" id="housing" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 04 · Housing</div>
+    <h2 class="sh">Where to <em>Live</em> &amp; the Red Cross Pharmacy</h2>
+    <p class="lead">The Apotheke (red A) solves most non-emergency health issues. Germany's healthcare is mandatory and employer-provided. Know both before you land.</p>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('short','housing')">Short Stay &lt;4 weeks</button>
+      <button class="tab-btn" onclick="switchTab('long','housing')">Long Stay 4 weeks–6 months</button>
+    </div>
+    <div id="tab-short-housing" class="tab-panel active">
+      <div class="two-col reveal">
+        <div class="ic"><h4>🏨 Serviced apartment (recommended)</h4><ul><li>Fully furnished, utilities included. Limehome, Staycity, and Adagio are reliable chains.</li><li>Munich: Schwabing, Maxvorstadt, Bogenhausen — safe, metro access</li><li>Frankfurt: Westend, Nordend, Sachsenhausen — safe, close to business</li><li>Cipla HR typically arranges short-stay accommodation</li></ul></div>
+        <div class="ic"><h4>🏩 Hotels</h4><ul><li>Marriott, Hilton, Steigenberger, and Dorint (German premium chains) — all reliable and well-located</li><li>Download DB Navigator and Google Maps before arrival</li><li>Carry €50 in cash from Day 1 — many local shops are cash only</li></ul></div>
+      </div>
+    </div>
+    <div id="tab-long-housing" class="tab-panel">
+      <!-- Oktoberfest / summer demand warning -->
+      <div style="background:rgba(200,144,42,.1);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:18px;font-size:13px;color:var(--ink);line-height:1.7">
+        <strong style="color:var(--gold-dk)">⚠️ Munich Sep–Oct (Oktoberfest): Prices 3–5× normal. Near-zero availability.</strong> If your assignment falls in or near Oktoberfest (mid-September to first Sunday of October), contact Cipla HR at least 10–12 weeks before arrival. Hotels and serviced apartments are fully booked and prices are extreme. July–August also sees high demand due to summer student intake across all major German cities.
+      </div>
+      <div class="two-col reveal">
+        <div class="ic"><h4>🏠 Private Rental</h4><ul><li>Munich has one of the most competitive rental markets in Europe — start 4–6 weeks early with HR</li><li>Never transfer money without physically viewing — Munich scam listings exist</li><li>Kaution (deposit): Typically 2–3 months rent, held in a separate account</li><li>Always confirm Warmmiete (total incl. utilities) vs Kaltmiete (rent only)</li><li>WG (Wohngemeinschaft): Shared flat — common, affordable, good for meeting locals</li></ul></div>
+        <div class="ic"><h4>💼 HR Global Mobility</h4><ul><li>Essential for Munich — use vetted HR contacts only</li><li>Anmeldung support (mandatory address registration for 3+ month stays)</li><li>Visa, tax equalization, and lease support</li><li>Contact 4–6 weeks before arrival — never leave housing to the last minute</li></ul></div>
+      </div>
+    </div>
+
+    <!-- HEALTHCARE — always visible -->
+    <h3 style="font-family:var(--serif);font-size:1.15rem;color:var(--red);margin:30px 0 14px">Healthcare in Germany</h3>
+    <div class="two-col reveal">
+      <div class="ic"><h4>🏥 GKV — Statutory Health Insurance</h4><ul><li>Health insurance is mandatory by law — you are always covered. Employer pays ~50% of premium.</li><li>Providers: TK (Techniker Krankenkasse), AOK, Barmer — all comprehensive</li><li>Register with a Hausarzt (GP) in Week 1 — they are your gateway to specialist care</li><li>Without a GP referral, many specialists will not see you</li><li>Always carry your Krankenversicherungskarte (health card)</li><li>Confirm GKV or PKV scope with HR before travel</li></ul></div>
+      <div class="ic"><h4>💊 Apotheke — the Red A Pharmacy</h4><ul><li>Qualified pharmacists advise and dispense — significantly more capable than a UK chemist</li><li>Many OTC medications from India require a Rezept (prescription) in Germany — bring your supply</li><li>Notapotheke: 24-hour — closed Apotheken list the nearest open one on their door</li><li>Indian medicines: Bring 3-month supply — German brand names and formulations differ</li></ul></div>
+    </div>
+    <div class="a-quote reveal"><div class="a-quote-av">🔧</div><div class="a-quote-text">"Getting a GP appointment in Munich took me two weeks. Register with a Hausarzt in Week 1, not when you actually need one."</div></div>
+  </div>
+</section>
+
+<!-- ══ 05 TRANSPORT ══ -->
+<section class="section dark-band" id="transport">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--gold)">Section 05 · Transport</div>
+    <h2 class="sh sh-w">Germany's <em>World-Class Transport</em></h2>
+    <p class="lead lead-w">The Deutschlandticket (€29/month) is unlimited transport across the entire country. Buy it on Day 1. Nothing in transport matters more than this.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px">
+      <table class="tbl">
+        <thead><tr><th>Mode</th><th>Cost</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          <tr><td>🚇 U-Bahn / S-Bahn</td><td>€3–4/trip · €29/month</td><td><span class="tr-rec rec-best">⭐ Buy Deutschlandticket immediately</span></td></tr>
+          <tr><td>🚆 ICE / IC (intercity)</td><td>€25–150 — book ahead</td><td><span class="tr-rec rec-best">⭐ Best city-to-city option</span></td></tr>
+          <tr><td>🚕 Licensed taxi (cream/beige)</td><td>€3.90 base + €2/km</td><td><span class="tr-rec rec-yes">✅ Safe and reliable</span></td></tr>
+          <tr><td>📱 FreeNow / Uber</td><td>Similar to taxi</td><td><span class="tr-rec rec-yes">✅ FreeNow preferred in Germany</span></td></tr>
+          <tr><td>🚴 Cycling (Nextbike / TIER)</td><td>€15–25/month</td><td><span class="tr-rec rec-ok">Good — excellent cycling infrastructure</span></td></tr>
+          <tr><td>🚌 FlixBus (long-distance)</td><td>€5–25</td><td><span class="tr-rec rec-ok">Budget — slower than ICE</span></td></tr>
+          <tr><td>🚗 Driving</td><td>Variable</td><td><span class="tr-rec rec-warn">⚠️ Rural areas only — avoid city centres</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Zone / network explainer -->
+    <div class="tip-list reveal">
+      <h4>🗺️ Germany Transport Zones — Key Facts</h4>
+      <div style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:14px">The Deutschlandticket covers <strong style="color:#fff">all regional/city transport</strong> (U-Bahn, S-Bahn, trams, buses). ICE and IC trains are <strong style="color:#fff">separate</strong> — book via DB Navigator. Note: Deutschlandticket is NOT valid on Munich Airport S-Bahn.</div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="tbl" style="margin-bottom:0;font-size:12px">
+        <thead><tr><th>Route</th><th>Mode</th><th>Time</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Frankfurt → Munich</td><td>ICE train</td><td>3h 15min</td><td>Beats flying door-to-door</td></tr>
+          <tr><td>Frankfurt → Berlin</td><td>ICE train</td><td>4h</td><td>Book 2–4 weeks ahead</td></tr>
+          <tr><td>Frankfurt → Cologne</td><td>ICE train</td><td>1h–1h 20min</td><td>Excellent frequency</td></tr>
+          <tr><td>Munich Airport → City</td><td>S-Bahn</td><td>40 min</td><td>Buy separate ticket — DT not valid here</td></tr>
+          <tr><td>Frankfurt Airport → City</td><td>S-Bahn</td><td>15 min</td><td>Deutschlandticket IS valid</td></tr>
+        </tbody>
+      </table></div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:10px;font-style:italic">💡 Book ICE Sparpreis fares on DB Navigator 2–4 weeks ahead — saves up to 60%. Avoid ICE at peak Fridays without advance booking.</div>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🔧</div><div class="a-quote-text">"The Deutschlandticket is €29 per month for unlimited public transport across the entire country. Buy it on your first day. It is the best €29 you will ever spend."</div></div>
+  </div>
+</section>
+
+<!-- ══ 06 COST ══ -->
+<section class="section" id="cost" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 06 · Cost of Living</div>
+    <h2 class="sh">Your Germany <em>Budget Guide</em></h2>
+    <p class="lead">Germany is 60–80% more expensive than India. Munich is broadly comparable to London. <strong>Always check the current EUR/INR exchange rate before travelling — rates fluctuate.</strong></p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px">
+      <table class="ctbl">
+        <thead><tr><th>Expense</th><th>Monthly Cost (€)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>🏠 Serviced apartment (1BR)</td><td>€1,800–3,500</td><td>Munich: Schwabing, Maxvorstadt. Frankfurt: Sachsenhausen, Westend. Bills usually included.</td></tr>
+          <tr><td>🏠 Private rental (1BR)</td><td>€1,200–2,800</td><td>Munich most expensive (€1,800–2,800). Very competitive market — start early.</td></tr>
+          <tr><td>⚡ Utilities (heat, elec, water)</td><td>€150–250</td><td>Heating significant in winter — always check Warmmiete (total incl. utilities).</td></tr>
+          <tr><td>🛒 Groceries</td><td>€250–400</td><td>Aldi and Lidl offer excellent quality at low cost. Cheaper than the UK.</td></tr>
+          <tr><td>🍽️ Dining (mid-range)</td><td>€20–40 per meal</td><td>Per person. Kantine lunch: €4–9. Evening meals costlier.</td></tr>
+          <tr><td>🚆 Transport</td><td>€29/month</td><td>Deutschlandticket — unlimited nationwide public transport. Buy immediately.</td></tr>
+          <tr><td>📱 Mobile SIM</td><td>€15–35</td><td>Telekom (best coverage), Vodafone, O2. Unlimited data from €25/month.</td></tr>
+          <tr><td>🏥 Health insurance</td><td>Employer-provided</td><td>Mandatory by law — Cipla provides. Confirm GKV/PKV with HR before travel.</td></tr>
+        </tbody>
+        <tfoot><tr><td>💶 Total — single, comfortable</td><td>€2,200–3,800/month</td><td>Munich or Frankfurt estimate. Berlin slightly lower.</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="two-col reveal">
+      <div class="ic"><h4>💡 Money-Saving Tips</h4><ul><li>Always carry cash — €30–50 minimum. Many places are cash only.</li><li>Deutschlandticket (€29/month) — buy on Day 1, unlimited transport</li><li>Eat in the office Kantine for lunch — €4–9 for a hot meal</li><li>Aldi / Lidl for groceries — both German brands, outstanding value</li><li>Book ICE trains 2–4 weeks ahead — Sparpreis saves up to 60%</li><li>Return Pfand bottles — €0.08–0.25 each at any supermarket machine</li></ul></div>
+      <div class="ic"><h4>🇮🇳 vs 🇩🇪 Key Differences</h4><ul><li>Rent: 4–6× more than Indian metros — serviced apartments most practical</li><li>Groceries: 50–70% more than India but cheaper than UK</li><li>Transport: Deutschlandticket makes Germany one of Europe's most affordable for domestic travel</li><li>Domestic help: Not standard — Germans typically manage their own homes</li><li>Cash: Unlike India (UPI-first), Germany is heavily cash-reliant — always carry euros</li><li><em style="font-size:11px">All EUR/INR comparisons: verify exchange rate before travel</em></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 EMERGENCY ══ -->
+<section class="section mid-band" id="emergency">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--gold)">Section 07 · Emergency</div>
+    <h2 class="sh sh-w">Emergency <em>Contacts</em></h2>
+    <p class="lead lead-w">Save these before you do anything else on Day 1. 112 works EU-wide even without a SIM card.</p>
+    <div class="em-grid reveal">
+      <div class="em-card" style="background:var(--red-l);border:2px solid var(--red)"><div class="em-num" style="color:var(--red)">110</div><div class="em-lbl" style="color:var(--red)">Police — Polizei</div><div class="em-sub">Crime, theft, incidents</div></div>
+      <div class="em-card" style="background:var(--gold-l);border:2px solid var(--gold-d)"><div class="em-num" style="color:var(--gold-dk)">112</div><div class="em-lbl" style="color:var(--gold-dk)">Ambulance + Fire</div><div class="em-sub">Works EU-wide, no SIM needed</div></div>
+      <div class="em-card" style="background:#E0EDF5;border:2px solid #4A7FA0"><div class="em-num" style="color:#1E4A6A;font-size:1.6rem">116 117</div><div class="em-lbl" style="color:#1E4A6A">Medical On-Call</div><div class="em-sub" style="color:#2A5A7A">Non-emergency, nights &amp; weekends</div></div>
+      <div class="em-card" style="background:rgba(255,255,255,.07);border:1px solid rgba(249,168,37,.3)"><div class="em-num" style="color:var(--gold);font-size:1.1rem">0800 111 0 111</div><div class="em-lbl" style="color:#fff">Mental Health</div><div class="em-sub" style="color:rgba(255,255,255,.5)">Telefonseelsorge — free, 24hr</div></div>
+    </div>
+    <div class="safety-list reveal">
+      <div class="safety-item"><div class="si-icon">📞</div><p><strong style="color:var(--gold)">Cipla HR Business Partner</strong> — first call for any work issue or emergency abroad. Save before you leave India.</p></div>
+      <div class="safety-item"><div class="si-icon">🌍</div><p><strong style="color:var(--gold)">Cipla Global Mobility Team</strong> — Anmeldung support, visa, housing, and tax equalization for Germany.</p></div>
+      <div class="safety-item"><div class="si-icon">🏛️</div><p><strong style="color:var(--gold)">Embassy of India, Berlin</strong> — +49 30 2580 1380 · Tiergartenstraße 17, 10785 Berlin</p></div>
+      <div class="safety-item"><div class="si-icon">🏥</div><p><strong style="color:var(--gold)">Munich:</strong> Klinikum rechts der Isar (university hospital) · Schön Klinik (private, English-speaking)</p></div>
+      <div class="safety-item"><div class="si-icon">🏥</div><p><strong style="color:var(--gold)">Frankfurt:</strong> Universitätsklinikum Frankfurt · Klinikum Sachsenhausen (central)</p></div>
+      <div class="safety-item"><div class="si-icon">📱</div><p><strong style="color:var(--gold)">Nina / Katwarn app</strong> — Germany's official government emergency alert app. Install before arrival.</p></div>
+    </div>
+    <div class="tip-box tip-box-dark reveal" style="margin-top:24px"><strong>Before going to hospital for non-emergencies after hours:</strong> Call 116 117 first — they direct you to the right level of care and can save a wasted trip.</div>
+    <h3 style="color:var(--gold);font-family:var(--serif);font-size:1.1rem;margin:28px 0 14px">Safety in Germany</h3>
+    <div class="two-col reveal">
+      <div class="ic ic-dark"><h4>✅ Germany is very safe</h4><ul><li>One of Europe's safest countries — violent crime against visitors is rare</li><li>Public transport is safe at all hours in major cities</li><li>Late-night S-Bahn and U-Bahn run on weekends — check last departure times</li></ul></div>
+      <div class="ic ic-dark"><h4>⚠️ Key precautions</h4><ul><li>Pickpocketing: Cologne Dom, Hamburg Reeperbahn, Berlin Kurfürstendamm, Munich Hauptbahnhof</li><li>Munich rental scams: Never transfer money without physically viewing an apartment</li><li>Autobahn: No speed limit in sections — drive with caution if renting a car</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 CUSTOMS ══ -->
+<section class="section" id="customs" style="background:var(--steel-s)">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--gold)">Section 08 · Customs &amp; Language</div>
+    <h2 class="sh sh-w">Reading German <em>Communication</em></h2>
+    <p class="lead lead-w">German directness is not rudeness — it is respect and efficiency. And 'Prost!' with eye contact is not optional. Both eyes. Always both eyes.</p>
+
+    <!-- Cultural signals decoder -->
+    <div class="decoder-wrap reveal">
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table>
+        <thead><tr><th style="width:40%">What you observe</th><th style="width:40%">What it actually means</th><th>Risk of misreading</th></tr></thead>
+        <tbody>
+          <tr><td class="say">"That will not work."</td><td class="mean">Direct professional assessment — they are trying to help.</td><td><span class="risk r-h">🔴 High</span></td></tr>
+          <tr><td class="say">No praise after a presentation</td><td class="mean">Silent acceptance — the work was fine. Praise is reserved for the genuinely excellent.</td><td><span class="risk r-h">🔴 High</span></td></tr>
+          <tr><td class="say">Colleague leaves at 5pm exactly</td><td class="mean">Healthy work-life boundary. Not laziness — respected discipline.</td><td><span class="risk r-h">🔴 High</span></td></tr>
+          <tr><td class="say">"I have some questions about this."</td><td class="mean">Genuine engagement — they have read it carefully.</td><td><span class="risk r-m">🟡 Medium</span></td></tr>
+          <tr><td class="say">Silence after you make a proposal</td><td class="mean">Serious consideration — not rejection. Wait for them to speak.</td><td><span class="risk r-m">🟡 Medium</span></td></tr>
+          <tr><td class="say">Very formal email tone</td><td class="mean">Professional respect — not coldness. Mirrors what they expect from you.</td><td><span class="risk r-l">🟢 Safe</span></td></tr>
+          <tr><td class="say">"Not bad." (Nicht schlecht.)</td><td class="mean">Actually good. German praise is understated — this is a meaningful compliment.</td><td><span class="risk r-l">🟢 Safe</span></td></tr>
+          <tr><td class="say">They invite you to use du</td><td class="mean">Meaningful trust signal — a social transition, not casual familiarity.</td><td><span class="risk r-l">🟢 Safe</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+
+    <h3 style="color:var(--gold);font-family:var(--serif);font-size:1.1rem;margin:28px 0 12px">Essential German Phrases</h3>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:6px">
+      <table class="phrase-table">
+        <thead><tr><th>English</th><th>German</th><th>Pronunciation</th></tr></thead>
+        <tbody>
+          <tr><td>Hello / Good day</td><td>Hallo / Guten Tag</td><td>Hah-lo / Goo-ten Tahk</td></tr>
+          <tr><td>Good morning</td><td>Guten Morgen</td><td>Goo-ten Mor-gen</td></tr>
+          <tr><td>Thank you</td><td>Danke schön</td><td>Dahn-keh shurn</td></tr>
+          <tr><td>Please / You're welcome</td><td>Bitte</td><td>Bit-teh (does many jobs!)</td></tr>
+          <tr><td>Sorry / Excuse me</td><td>Entschuldigung</td><td>Ent-shool-dee-goong</td></tr>
+          <tr><td>The bill please</td><td>Die Rechnung, bitte</td><td>Dee Rech-noong, bit-teh</td></tr>
+          <tr><td>Keep the change</td><td>Stimmt so</td><td>Shtimmt zo</td></tr>
+          <tr><td>Do you speak English?</td><td>Sprechen Sie Englisch?</td><td>Shprekh-en zee Eng-lish?</td></tr>
+          <tr><td>I don't understand</td><td>Ich verstehe nicht</td><td>Ikh fer-shtay-eh nikht</td></tr>
+          <tr><td>Cheers!</td><td>Prost!</td><td>Prohst! (both eyes, always)</td></tr>
+          <tr><td>Goodbye</td><td>Auf Wiedersehen / Tschüss</td><td>Owf vee-der-zayn / Choos</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two-col reveal" style="margin-top:24px">
+      <div class="ic ic-dark"><h4>🎄 Key Festivals &amp; Holidays</h4><ul><li>Oktoberfest (Munich, mid-Sep to first Sun Oct): 6M visitors — book accommodation months ahead</li><li>Weihnachtsmarkt (Dec): Germany's Christmas markets are extraordinary. Cologne, Nuremberg, Dresden are the best.</li><li>Karneval / Fasching (Feb/Mar): Major carnival in Cologne, Düsseldorf, Mainz</li><li>State-specific holidays: Bavaria has the most — check your city's calendar carefully</li></ul></div>
+      <div class="ic ic-dark"><h4>🤝 Social Norms</h4><ul><li>Personal space: More than in India. Handshakes on first meeting — no hugs.</li><li>Privacy: Salary, age, religion are not office small-talk topics with new colleagues</li><li>Titles: 'Herr/Frau Doktor Müller' — doctorate holders use their title professionally</li><li>Sie/du: Always start formal. Wait for them to suggest du — this is a meaningful moment.</li></ul></div>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">🔧</div><div class="a-quote-text">"'Prost!' with eye contact. Both eyes. Looking away while clinking glasses is genuinely considered bad luck in Germany — and they believe it completely."</div></div>
+  </div>
+</section>
+
+<!-- ══ 09 WORK CULTURE ══ -->
+<section class="section" id="work" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 09 · Work Culture</div>
+    <h2 class="sh">The German <em>Workplace</em></h2>
+    <p class="lead">Germany has the most structured professional culture in the EMEU region. The rules are real, widely followed, and matter significantly to your professional credibility from Day 1.</p>
+    <div class="cult-grid reveal">
+      <div class="cult-card"><div class="cn">01 · Non-negotiable</div><h3>Punctuality — arrive 2 minutes early</h3><p>Being late without calling ahead is considered disrespectful, not merely inconvenient. This applies at every level. For a German colleague, your punctuality is a direct signal of your professionalism. Call ahead even for a 5-minute delay.</p></div>
+      <div class="cult-card"><div class="cn">02 · Core Principle</div><h3>Direct communication — no subtext</h3><p>If a German says 'that will not work', they mean it. This is not rudeness — it is efficiency and respect. Equally, praise means what it says — no false positivity in German professional culture. Be clear, be specific, say what you mean.</p></div>
+      <div class="cult-card"><div class="cn">03 · Sie vs Du</div><h3>Formal address — start with Sie</h3><p>German has two forms of 'you': Sie (formal) and du (informal). Always start with Sie. When a colleague invites du, it is a meaningful social transition. Using du too early is presumptuous — it signals cultural unawareness.</p></div>
+      <div class="cult-card"><div class="cn">04 · Culture Rule</div><h3>Work and life are strictly separated</h3><p>Working late is not dedication in Germany — it is poor planning. Emails after 6pm are frowned upon. Germany has strong employee protection laws and the culture around them is taken seriously at every level of every organisation.</p></div>
+    </div>
+    <div class="tip-list reveal">
+      <h4>For Indian Professionals — Read This Carefully</h4>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Meetings have fixed agendas sent in advance — read them before attending. Come with data.</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">No small talk before business — brief pleasantries, then straight to the agenda</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Titles matter — 'Herr/Frau Doktor Müller' not 'Mr/Ms Müller' if they hold a doctorate</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Decisions take time — German business values consensus, thoroughness, and documented decisions</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Never cancel a meeting at short notice — a significant breach of professional trust</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">After-hours emails signal poor time management, not dedication — follow your team's norms</div>
+      <div class="tip-item" style="color:var(--muted);border-color:var(--border)">Disagreement in meetings is healthy — Germans debate and challenge openly and directly</div>
+    </div>
+    <div class="qblock reveal">
+      <p>"My German manager left the office at 5:01pm every day. He was also the most productive person I have ever worked with. These two facts are directly related."</p>
+    </div>
+
+    <!-- GDPR SECTION -->
+    <h3 style="font-family:var(--serif);font-size:1.15rem;color:var(--steel);margin:32px 0 14px">🔐 GDPR &amp; Data Privacy — Applies From Day 1</h3>
+    <div class="privacy-box reveal">
+      <h4>Germany operates under EU GDPR + BDSG (Bundesdatenschutzgesetz)</h4>
+      <p>Cipla's Munich base operates under EU GDPR and Germany's national data protection law (BDSG), which adds additional restrictions — particularly around employee data. Germany has one of the strictest enforcement records in the EU. Data privacy is not a compliance box to tick; it is a deeply held cultural value.</p>
+      <p><strong style="color:var(--steel)">Key rules that apply to you as a Cipla professional on assignment:</strong></p>
+      <ul>
+        <li>Recording any meeting or call requires explicit consent from all participants — this is legally required</li>
+        <li>WhatsApp is restricted or prohibited in many German companies for work communications due to data residency concerns — use Microsoft Teams or Slack as directed by Cipla IT</li>
+        <li>Colleague personal data (salary, health, family situation) must never be discussed or forwarded without consent</li>
+        <li>Do not store work-related personal data of EU colleagues on personal devices</li>
+        <li>Follow Cipla IT's data handling guidelines strictly — these exist to protect both you and the company</li>
+        <li>Any suspected data breach or privacy incident must be reported to Cipla IT within 72 hours (GDPR requirement)</li>
+      </ul>
+    </div>
+
+    <!-- 5 SCENARIOS CAROUSEL -->
+    <div class="sec-tag" style="margin-top:40px">Test Yourself</div>
+    <h3 style="font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;margin-bottom:8px;color:var(--ink)">Five Scenarios — <em style="color:var(--red)">What Would You Do?</em></h3>
+    <p style="font-size:.87rem;color:var(--muted);margin-bottom:20px">Germany rewards preparation and precision. Click your answer, then move to the next scenario.</p>
+    <div class="sc-progress">
+      <div class="sc-dot active" onclick="goToScenario(0)"></div>
+      <div class="sc-dot" onclick="goToScenario(1)"></div>
+      <div class="sc-dot" onclick="goToScenario(2)"></div>
+      <div class="sc-dot" onclick="goToScenario(3)"></div>
+      <div class="sc-dot" onclick="goToScenario(4)"></div>
+    </div>
+
+    <div class="reveal">
+      <!-- SCENARIO 1 -->
+      <div class="sc-card active" id="sc0">
+        <div class="sc-hd"><div class="sc-num">1</div><h3>The 9:00am Meeting</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">Your first meeting with a German client is at 9:00am. You arrive at 9:02am — there was traffic. Your German counterpart is already seated. She looks up but says nothing.</div>
+          <div id="sc0-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc0-rev')"><span class="opt-l">A</span>Apologise briefly and move on — two minutes is nothing</button>
+            <button class="opt" onclick="ans(this,'B','B','sc0-rev')"><span class="opt-l">B</span>Apologise sincerely, acknowledge it was unacceptable, and commit to punctuality going forward</button>
+            <button class="opt" onclick="ans(this,'C','B','sc0-rev')"><span class="opt-l">C</span>Say nothing — making an issue of it would only waste more time</button>
+          </div>
+          <div class="sc-rev" id="sc0-rev"><strong>✅ Answer: B is correct</strong><p>Two minutes late without a call ahead is a professional signal in Germany — it will have been noticed. A sincere acknowledgement (not a brief brush-off) shows cultural awareness. Option A minimises it. Option C — silence — is the worst choice: it signals you do not recognise that it mattered.</p></div>
+        </div>
+        <div class="sc-nav"><button disabled>← Previous</button><span class="sc-counter">1 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+
+      <!-- SCENARIO 2 -->
+      <div class="sc-card" id="sc1">
+        <div class="sc-hd"><div class="sc-num">2</div><h3>The Direct Feedback</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">After your project update, a German colleague says flatly: <em>"This section of the analysis is not robust. The data does not support the conclusion."</em> No diplomatic preamble.</div>
+          <div id="sc1-opts">
+            <button class="opt" onclick="ans(this,'A','C','sc1-rev')"><span class="opt-l">A</span>Feel defensive — this feels like a personal attack in front of the group</button>
+            <button class="opt" onclick="ans(this,'B','C','sc1-rev')"><span class="opt-l">B</span>Soften the room: "I appreciate the feedback — perhaps we could discuss this offline?"</button>
+            <button class="opt" onclick="ans(this,'C','C','sc1-rev')"><span class="opt-l">C</span>Engage directly: "You're right to flag that. Which specific data point concerns you?"</button>
+          </div>
+          <div class="sc-rev" id="sc1-rev"><strong>✅ Answer: C is correct</strong><p>Your German colleague is being helpful — not hostile. This is professional investment in the quality of your work. Engaging directly and without defensiveness is exactly right. Option B deflects and reads as evasive. Option A is a misread — directness in Germany is respect, not attack.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">2 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+
+      <!-- SCENARIO 3 -->
+      <div class="sc-card" id="sc2">
+        <div class="sc-hd"><div class="sc-num">3</div><h3>The Biergarten Invitation</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">After your first week, three German colleagues invite you to a Biergarten on Friday evening. You don't drink alcohol. Do you go?</div>
+          <div id="sc2-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc2-rev')"><span class="opt-l">A</span>Decline politely — there's nothing there for someone who doesn't drink</button>
+            <button class="opt" onclick="ans(this,'B','B','sc2-rev')"><span class="opt-l">B</span>Accept enthusiastically — mention you don't drink and they will sort it</button>
+            <button class="opt" onclick="ans(this,'C','B','sc2-rev')"><span class="opt-l">C</span>Accept but leave after 30 minutes so you're not pressured</button>
+          </div>
+          <div class="sc-rev" id="sc2-rev"><strong>✅ Answer: B is correct</strong><p>The Biergarten is how German colleagues build trust informally. Non-alcoholic options (Spezi, Apfelschorle, alkoholfreies Bier) are widely available and completely respected. Not going signals disinterest in the team. Go, stay for the full evening, and order an Apfelschorle.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">3 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+
+      <!-- SCENARIO 4 -->
+      <div class="sc-card" id="sc3">
+        <div class="sc-hd"><div class="sc-num">4</div><h3>The Wrong Bin</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You throw a plastic bottle into the grey Restmüll bin in your shared office kitchen. A German colleague sees you and pauses.</div>
+          <div id="sc3-opts">
+            <button class="opt" onclick="ans(this,'A','C','sc3-rev')"><span class="opt-l">A</span>Say nothing — it's a minor mistake, nobody will notice</button>
+            <button class="opt" onclick="ans(this,'B','C','sc3-rev')"><span class="opt-l">B</span>Wait to see if they say anything before acting</button>
+            <button class="opt" onclick="ans(this,'C','C','sc3-rev')"><span class="opt-l">C</span>Retrieve the bottle, ask where the correct bin is, and put it there</button>
+          </div>
+          <div class="sc-rev" id="sc3-rev"><strong>✅ Answer: C is correct</strong><p>Recycling is a social contract in Germany — not optional etiquette. Plastic bottles with Pfand deposit go to the Pfandautomat, not any bin. Retrieving and correcting it immediately shows respect for German rules and saves you a quiet but certain reputation as someone who doesn't care. Ask which bin is correct — Germans will always help if you're genuinely trying.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">4 of 5</span><button onclick="nextScenario()">Next →</button></div>
+      </div>
+
+      <!-- SCENARIO 5 -->
+      <div class="sc-card" id="sc4">
+        <div class="sc-hd"><div class="sc-num">5</div><h3>The Du Moment</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You have worked with a senior German colleague (Frau Becker) for six weeks, always using Sie. At a Friday Biergarten, she raises her glass and says: <em>"Wollen wir uns duzen?"</em> (Shall we use du?)</div>
+          <div id="sc4-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc4-rev')"><span class="opt-l">A</span>Smile but say you prefer to keep it professional with Sie</button>
+            <button class="opt" onclick="ans(this,'B','B','sc4-rev')"><span class="opt-l">B</span>Accept warmly — "Ja, gerne!" — and raise your glass to mark the moment</button>
+            <button class="opt" onclick="ans(this,'C','B','sc4-rev')"><span class="opt-l">C</span>Accept casually and immediately start using her first name without the formality</button>
+          </div>
+          <div class="sc-rev" id="sc4-rev"><strong>✅ Answer: B is correct</strong><p>The transition from Sie to du is a meaningful social milestone in German professional culture — it signals genuine trust and acceptance. Accept it warmly and mark the moment properly (the raised glasses are part of the ritual). Option A declines a genuine olive branch. Option C accepts but casually skips the ritual, which misses the significance of what just happened.</p></div>
+        </div>
+        <div class="sc-nav"><button onclick="prevScenario()">← Previous</button><span class="sc-counter">5 of 5</span><button disabled>Finished ✓</button></div>
+      </div>
+    </div><!-- end reveal -->
+  </div>
+</section>
+
+<!-- ══ 10 RULES ══ -->
+<section class="section" id="rules" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 10 · Golden Rules</div>
+    <h2 class="sh">Germany's <em>Golden Rules</em></h2>
+    <p class="lead">Germany rewards preparation. The professional who arrives on time, sorts recycling, carries cash, and says Prost with eye contact will have an excellent assignment.</p>
+    <div class="dd-wrap reveal">
+      <div class="dd-col">
+        <div class="dd-hd do-hd">✅ DO — Always</div>
+        <div class="dd-item do-item">Arrive 2 minutes early to every meeting</div>
+        <div class="dd-item do-item">Carry cash — at least €30–50 at all times</div>
+        <div class="dd-item do-item">Buy the Deutschlandticket (€29/month) on Day 1</div>
+        <div class="dd-item do-item">Use 'Sie' (formal you) until a colleague invites 'du'</div>
+        <div class="dd-item do-item">Sort recycling correctly — yellow, blue, brown, grey, glass, Pfand</div>
+        <div class="dd-item do-item">Shop for groceries before Sunday — shops are closed by law</div>
+        <div class="dd-item do-item">Register with a Hausarzt (GP) in your first week</div>
+        <div class="dd-item do-item">Install DB Navigator before you arrive in Germany</div>
+        <div class="dd-item do-item">Accept Biergarten invitations — this is how trust is built</div>
+        <div class="dd-item do-item">Check the EUR exchange rate before you travel</div>
+      </div>
+      <div class="dd-col">
+        <div class="dd-hd dn-hd">❌ DON'T — Avoid</div>
+        <div class="dd-item dn-item">Never arrive late without calling ahead — even 5 minutes matters</div>
+        <div class="dd-item dn-item">Never use du or first names immediately with senior colleagues</div>
+        <div class="dd-item dn-item">Never put rubbish in the wrong recycling bin</div>
+        <div class="dd-item dn-item">Never send work emails after 6pm unless genuinely urgent</div>
+        <div class="dd-item dn-item">Never cross a red pedestrian light — even on an empty road</div>
+        <div class="dd-item dn-item">Never make noise after 10pm or Sunday mornings (Ruhezeit)</div>
+        <div class="dd-item dn-item">Never record a meeting without explicit consent from all participants (GDPR)</div>
+        <div class="dd-item dn-item">Never ignore formal letters in German — translate immediately</div>
+        <div class="dd-item dn-item">Never underestimate the Munich rental market — use HR</div>
+        <div class="dd-item dn-item">Never plan important business during Oktoberfest week in Munich</div>
+      </div>
+    </div>
+    <div class="gold-box reveal">
+      <div class="gold-box-icon">⚙️</div>
+      <p><strong>Before you do anything else on Day 1:</strong> Save 110 and 112. Buy a Deutschlandticket. Install DB Navigator. Carry €50 cash. Return your Pfand bottles. Say 'Guten Morgen' to your neighbour. None of this is difficult — it is just different.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="flag-bar" style="position:absolute;top:0;left:0;right:0"><div class="flag-bar-b"></div><div class="flag-bar-r"></div><div class="flag-bar-g"></div></div>
+  <div class="dot-field" id="closingDots"></div>
+  <div class="close-inner" style="padding-top:10px">
+    <div class="hero-flag" style="font-size:52px;margin-bottom:20px">🇩🇪</div>
+    <p class="big-q">"Germany rewards preparation. The professional who arrives on time, sorts their recycling, carries cash, and <strong>says Prost with eye contact</strong> will have an excellent assignment."</p>
+  </div>
+  <div class="flag-bar" style="position:absolute;bottom:0;left:0;right:0"><div class="flag-bar-b"></div><div class="flag-bar-r"></div><div class="flag-bar-g"></div></div>
+</section>
+
+<script>
+/* Progress bar */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('progress-bar').style.width=p+'%';
+  updateActiveNav();
+});
+
+/* Active nav highlight */
+function updateActiveNav(){
+  const ids=['snapshot','daily','dining','housing','transport','cost','emergency','customs','work','rules'];
+  let cur='';
+  ids.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-80)cur=id;});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+}
+
+/* Scroll reveal */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('.stat-card').forEach((c,i)=>{c.style.transitionDelay=(i*.1)+'s'});
+
+/* Floating dots — controlled DOM creation */
+function spawnDots(id){
+  const c=document.getElementById(id);if(!c)return;
+  const cols=['#F9A825','#C42828','rgba(255,255,255,0.25)'];
+  for(let i=0;i<16;i++){
+    const d=document.createElement('div');d.className='gd';
+    const s=Math.random()*6+3;
+    d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${100+Math.random()*30}%;background:${cols[Math.floor(Math.random()*cols.length)]};opacity:${Math.random()*.22+.05};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*6}s;`;
+    c.appendChild(d);
+  }
+}
+spawnDots('dotField');spawnDots('closingDots');
+
+/* Housing tabs */
+function switchTab(tabId,group){
+  document.querySelectorAll(`[id^="tab-"][id$="-${group}"]`).forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${tabId}-${group}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* Scenario carousel */
+let currentScenario=0;
+const totalScenarios=5;
+function goToScenario(idx){
+  document.getElementById('sc'+currentScenario).classList.remove('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.remove('active');
+  currentScenario=idx;
+  document.getElementById('sc'+currentScenario).classList.add('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.add('active');
+}
+function nextScenario(){if(currentScenario<totalScenarios-1)goToScenario(currentScenario+1);}
+function prevScenario(){if(currentScenario>0)goToScenario(currentScenario-1);}
+
+/* Scenario answer checker */
+function ans(btn,chosen,correct,revId){
+  const wrap=btn.closest('[id$="-opts"]')||btn.parentElement;
+  if(wrap.dataset.done)return;
+  wrap.dataset.done='1';
+  wrap.querySelectorAll('.opt').forEach(b=>{
+    const l=b.querySelector('.opt-l').textContent;
+    if(l===correct)b.classList.add('ok');
+    else if(l===chosen&&chosen!==correct)b.classList.add('no');
+    b.style.cursor='default';
+  });
+  document.getElementById(revId).classList.add('show');
+}
+
+/* Mascot — click-triggered */
+const tipsBySection={
+  snapshot:"84 million people, 16 states, and strict rules about which bin is for which rubbish. We will get to that.",
+  daily:"I crossed a red pedestrian light on an empty road in Munich. A retired man spent two minutes explaining why it was dangerous. He was entirely correct.",
+  dining:"I ordered a Weizen at a Biergarten in Munich and a colleague explained the correct pour for 10 minutes. I have not forgotten a word of it.",
+  housing:"Getting a GP appointment took me two weeks. Register with a Hausarzt in Week 1 — not when you actually need one.",
+  transport:"The Deutschlandticket is €29 per month for unlimited transport across the entire country. Buy it on Day 1. Nothing else matters as much.",
+  cost:"€29 per month. Unlimited trains, metros, and buses across Germany. In India this would seem impossible. In Germany it is just a Thursday.",
+  emergency:"Germany is extremely safe. Your primary risk is missing the last U-Bahn. Check departure times before you leave.",
+  customs:"'Prost!' with eye contact. Both eyes. Looking away while clinking is genuinely considered bad luck — and they believe it.",
+  work:"My German manager left the office at 5:01pm every day. He was also the most productive person I have ever worked with. These two facts are related.",
+  rules:"Germany rewards preparation. None of it is difficult — it is just different from what you know."
+};
+let currentTip=tipsBySection.snapshot;
+const bubble=document.getElementById('mascotBubble');
+const mascotText=document.getElementById('mascotText');
+const mascotFig=document.getElementById('mascotFigure');
+const tipBadge=document.getElementById('tipBadge');
+let bubbleOpen=false;
+
+const secObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&tipsBySection[e.target.id]){
+      currentTip=tipsBySection[e.target.id];
+      tipBadge.style.display='block';
+      if(bubbleOpen){mascotText.textContent=currentTip;}
+    }
+  });
+},{threshold:0.3});
+Object.keys(tipsBySection).forEach(id=>{const el=document.getElementById(id);if(el)secObs.observe(el);});
+
+mascotFig.addEventListener('click',()=>{
+  bubbleOpen=!bubbleOpen;
+  mascotText.textContent=currentTip;
+  bubble.classList.toggle('show',bubbleOpen);
+  tipBadge.style.display=bubbleOpen?'none':'block';
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.mascot-wrap')){bubbleOpen=false;bubble.classList.remove('show');}
+});
+
+/* Mobile hamburger */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',e=>{
+  e.stopPropagation();
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#topnav')&&!e.target.closest('#mobileMenu')){
+    hamburger.classList.remove('open');mobileMenu.classList.remove('open');
+  }
+});
+function closeMobile(){hamburger.classList.remove('open');mobileMenu.classList.remove('open');}
+</script>
+</body>
+</html>

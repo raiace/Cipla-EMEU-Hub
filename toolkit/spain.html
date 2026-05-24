@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- SECURITY: Content Security Policy — no external resources permitted.
+     'unsafe-inline' is required for this single-file architecture.
+     NOTE FOR CIPLA IT TEAM: replace 'unsafe-inline' with nonces on migration. -->
+<meta http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; frame-src 'none'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<!-- SECURITY: Prevents internal URL leakage in Referer headers. -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cipla | Spain Cultural Readiness Guide</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+/* ─── WARM SPANISH PALETTE ─── no harsh pure-black reds */
+:root{
+  --red:     #C0392B;   /* Spanish red — accent & borders only */
+  --red-d:   #3D1008;   /* Deep warm burgundy — dark bands */
+  --red-m:   #6B1F12;   /* Mid terracotta — mid bands */
+  --red-l:   #FEE2E2;   /* Blush light */
+  --red-p:   #FFF5F5;   /* Blush very light */
+  --amber:   #D97706;   /* Warm amber gold */
+  --amber-l: #FEF3C7;   /* Light amber */
+  --amber-d: #92400E;   /* Deep amber */
+  --terra:   #9A3412;   /* Terracotta */
+  --terra-l: #FFEDD5;   /* Light terracotta */
+  --warm-d:  #2A1208;   /* Very dark warm — Customs section */
+  --ink:     #1C1917;   /* Warm dark ink */
+  --muted:   #57534E;   /* Warm gray */
+  --cream:   #FFFCF5;   /* Warm cream */
+  --green:   #15803D;
+  --green-l: #DCFCE7;
+  --serif: Georgia,'Times New Roman',serif;
+  --sans:  system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
+  --mono:  'Courier New',Courier,monospace;
+}
+
+body{font-family:var(--sans);background:var(--cream);color:var(--ink);overflow-x:hidden;line-height:1.6}
+
+/* ─── NAV ─── */
+#topnav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(45,12,5,0.97);backdrop-filter:blur(12px);height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:2px solid rgba(217,119,6,0.3)}
+.nav-brand{font-family:var(--mono);font-size:11px;letter-spacing:3px;color:var(--amber);text-transform:uppercase;flex-shrink:0}
+.nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{font-size:11px;color:rgba(255,255,255,.5);text-decoration:none;padding:5px 10px;border-radius:20px;transition:all .2s;white-space:nowrap}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(192,57,43,.45)}
+.btn-back-hub{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.7);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);padding:5px 13px;border-radius:20px;cursor:pointer;transition:all .2s;text-decoration:none;margin-right:8px;white-space:nowrap}
+.btn-back-hub:hover{background:rgba(192,57,43,.4);color:#fff}
+.btn-back-hub svg{width:12px;height:12px}
+#progress-bar{position:absolute;bottom:0;left:0;height:2px;background:var(--amber);width:0;transition:width .1s}
+
+/* ─── HAMBURGER ─── */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;border:none;background:transparent}
+.hamburger span{width:22px;height:2px;background:rgba(255,255,255,.7);border-radius:2px;transition:all .3s;display:block}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:52px;left:0;right:0;z-index:199;background:rgba(40,10,5,0.98);backdrop-filter:blur(12px);padding:16px 20px;flex-direction:column;gap:4px;border-bottom:1px solid rgba(217,119,6,.2)}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-size:13px;color:rgba(255,255,255,.65);text-decoration:none;padding:10px 14px;border-radius:8px;transition:all .2s}
+.mobile-menu a:hover{color:#fff;background:rgba(192,57,43,.35)}
+
+/* ─── MASCOT ─── */
+.mascot-wrap{position:fixed;bottom:24px;right:24px;z-index:100;display:flex;align-items:flex-end;gap:10px}
+.mascot-bubble{background:#fff;border-radius:14px 14px 4px 14px;border:2px solid var(--amber);padding:12px 16px;max-width:240px;font-size:.78rem;line-height:1.5;color:var(--ink);box-shadow:0 4px 20px rgba(0,0,0,.14);opacity:0;transform:translateY(10px);transition:opacity .4s ease,transform .4s ease;pointer-events:none}
+.mascot-bubble.show{opacity:1;transform:translateY(0);pointer-events:auto}
+.mascot-bubble strong{color:var(--red)}
+.mascot-figure{font-size:2.8rem;line-height:1;cursor:pointer;animation:mascotBob 2s ease-in-out infinite;user-select:none;transition:transform .2s}
+.mascot-figure:hover{transform:scale(1.1)}
+@keyframes mascotBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.tip-badge{position:absolute;top:-4px;right:-4px;width:14px;height:14px;background:var(--amber);border-radius:50%;border:2px solid #fff;animation:ping 1.5s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.6}}
+
+/* ─── HERO ─── */
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 64px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 55% 38%, #7A2010 0%, #3D1008 50%, #1E0804 100%)}
+#hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(217,119,6,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(217,119,6,.05) 1px,transparent 1px);background-size:52px 52px;z-index:0}
+.tile-accent{position:absolute;top:0;right:0;width:260px;height:260px;opacity:.05;z-index:0;pointer-events:none}
+.dot-field{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.gd{position:absolute;border-radius:50%;animation:floatGold linear infinite}
+@keyframes floatGold{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:.4}100%{transform:translateY(-100vh);opacity:0}}
+.hero-inner{position:relative;z-index:1;max-width:740px}
+.hero-flag{font-size:72px;display:block;margin-bottom:20px;animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 6px 18px rgba(0,0,0,.4))}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.hero-h1{font-family:var(--serif);font-size:clamp(2.8rem,6vw,5rem);font-weight:700;color:#fff;line-height:1.05;margin-bottom:10px}
+.hero-h1 em{color:var(--amber);font-style:italic}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.65);max-width:540px;margin:0 auto 14px;line-height:1.75}
+.hero-tag{font-family:var(--serif);font-style:italic;font-size:.9rem;color:var(--amber);opacity:.8;margin-bottom:40px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;background:var(--red);color:#fff;font-weight:700;font-size:.95rem;padding:14px 34px;border-radius:4px;text-decoration:none;transition:all .2s;box-shadow:0 4px 18px rgba(192,57,43,.4)}
+.hero-cta:hover{background:var(--amber);color:#fff;transform:translateY(-2px)}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.25);font-size:11px;letter-spacing:2px;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:6px;animation:pulse 2s ease-in-out infinite}
+.scroll-hint::after{content:'';width:1px;height:28px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent)}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ─── SECTIONS ─── */
+.section{padding:88px 28px}
+.section-inner{max-width:880px;margin:0 auto}
+.dark-band{background:var(--red-d)}
+.mid-band{background:var(--red-m)}
+.warm-dark{background:var(--warm-d)}  /* Customs */
+
+/* ─── TYPE SYSTEM ─── */
+.sec-tag{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.sec-tag::before{content:'';width:24px;height:1px;background:var(--amber)}
+.sh{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:700;color:var(--ink);line-height:1.15;margin-bottom:14px}
+.sh em{color:var(--red);font-style:italic}
+.sh-w{color:#fff}.sh-w em{color:var(--amber)}
+.lead{font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:36px;max-width:640px}
+.lead-w{color:rgba(255,255,255,.68)}
+
+/* ─── STATS GRID ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:16px;margin-bottom:36px}
+.stat-card{background:rgba(255,255,255,.07);border:1px solid rgba(217,119,6,.25);border-radius:12px;padding:22px;text-align:center;cursor:pointer;transition:all .25s;opacity:0;transform:translateY(20px)}
+.stat-card.reveal.vis{opacity:1;transform:none}
+.stat-card:hover{background:rgba(217,119,6,.12);border-color:var(--amber);transform:translateY(-3px)}
+.stat-num{font-family:var(--serif);font-size:2.1rem;font-weight:700;color:var(--amber);display:block;margin-bottom:5px}
+.stat-label{font-size:.8rem;color:rgba(255,255,255,.6);letter-spacing:.04em}
+.stat-detail{font-size:.74rem;color:rgba(255,255,255,.45);margin-top:8px;line-height:1.4;display:none}
+.stat-card.open .stat-detail{display:block}
+.stat-hint{font-size:11px;color:rgba(255,255,255,.3);text-align:center;margin-bottom:20px;font-style:italic}
+
+/* ─── TWO-COL & INFO CARDS ─── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px}
+.ic{background:#fff;border-radius:10px;padding:22px;border:1px solid #f5e0c0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.ic h4{font-size:.87rem;font-weight:700;color:var(--red);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em}
+.ic ul{list-style:none;padding:0}
+.ic ul li{font-size:.85rem;color:var(--muted);padding:4px 0;border-bottom:1px solid #f5f0e8;line-height:1.55}
+.ic ul li:last-child{border:none}
+.ic ul li::before{content:'→ ';color:var(--amber-d);font-weight:700}
+.ic p{font-size:.85rem;color:var(--muted);line-height:1.65}
+.ic-dark{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1)}
+.ic-dark h4{color:var(--amber)}
+.ic-dark ul li{color:rgba(255,255,255,.75);border-color:rgba(255,255,255,.07)}
+.ic-dark ul li::before{color:var(--amber)}
+.ic-dark p{color:rgba(255,255,255,.75)}
+
+/* ─── SEASON CARDS ─── */
+.season-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(195px,1fr));gap:14px;margin-bottom:24px}
+.season-card{border-radius:12px;padding:20px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05)}
+.season-icon{font-size:1.9rem;display:block;margin-bottom:8px}
+.season-name{font-weight:700;font-size:.83rem;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.season-temp{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:7px}
+.season-detail{font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.5}
+
+/* ─── KEY FACTS TABLE ─── */
+.kf-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;margin-top:20px}
+.kf-table th{background:rgba(217,119,6,.14);color:var(--amber);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:11px 14px;text-align:left}
+.kf-table td{padding:11px 14px;font-size:.85rem;color:rgba(255,255,255,.78);border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+.kf-table td:first-child{font-weight:600;color:rgba(255,255,255,.92);width:34%}
+.kf-table tr:last-child td{border-bottom:none}
+.kf-table tr:hover td{background:rgba(255,255,255,.04)}
+
+/* ─── TRANSPORT TABLE ─── */
+.tbl{width:100%;border-collapse:collapse;margin-bottom:20px;border-radius:8px;overflow:hidden}
+.tbl thead th{background:var(--red);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.tbl td{padding:12px 14px;font-size:13px;border-bottom:1px solid #f5e0c0;vertical-align:middle;color:var(--ink);background:#fff}
+.tbl tr:nth-child(even) td{background:#FFF8F0;color:var(--ink)}
+.tbl tr:hover td{background:#FEF3C7;color:var(--ink)}
+.tr-rec{display:inline-block;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:20px;letter-spacing:.04em}
+.rec-best{background:var(--amber-l);color:var(--amber-d);border:1px solid rgba(217,119,6,.3)}
+.rec-yes{background:var(--green-l);color:var(--green)}
+.rec-ok{background:rgba(255,255,255,.88);color:var(--muted);border:1px solid #d4c4a0}
+.rec-warn{background:var(--terra-l);color:var(--terra);font-weight:700}
+
+/* ─── DINING TABLE ─── */
+.din-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden}
+.din-table th{background:rgba(61,16,8,.8);color:var(--amber);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:12px 14px;text-align:left}
+.din-table td{padding:11px 14px;font-size:.85rem;color:rgba(255,255,255,.82);border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+.din-table td:first-child{font-weight:600;color:var(--amber)}
+.din-table tr:hover td{background:rgba(255,255,255,.04)}
+.din-table tr:last-child td{border:none}
+
+/* ─── COST TABLE ─── */
+.ctbl{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;margin-bottom:20px}
+.ctbl thead th{background:var(--red-d);color:rgba(255,255,255,.85);font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 14px;text-align:left}
+.ctbl td{padding:12px 14px;font-size:.85rem;color:var(--ink);background:#fff;border-bottom:1px solid #f5e0c0;vertical-align:top}
+.ctbl td:first-child{font-weight:600}
+.ctbl td:nth-child(2){font-weight:700;color:var(--red)}
+.ctbl tr:nth-child(even) td{background:#FFF8F0;color:var(--ink)}
+.ctbl tr:hover td{background:#FEF3C7;color:var(--ink)}
+.ctbl tr.total-row td{background:var(--amber-l);font-weight:700;color:var(--amber-d)}
+.ctbl tfoot td{background:var(--red-d);color:var(--amber);font-weight:700}
+
+/* ─── PHRASE TABLE ─── */
+.phrase-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden}
+.phrase-table th{background:rgba(61,16,8,.75);color:var(--amber);font-size:.73rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:11px 14px;text-align:left}
+.phrase-table td{padding:10px 14px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.phrase-table td:first-child{color:rgba(255,255,255,.72)}
+.phrase-table td:nth-child(2){font-weight:700;color:#FDBA74;font-family:var(--serif);font-style:italic;font-size:.93rem}
+.phrase-table td:nth-child(3){color:rgba(255,255,255,.45);font-size:.76rem}
+.phrase-table tr:hover td{background:rgba(255,255,255,.04)}
+.phrase-table tr:last-child td{border:none}
+
+/* ─── CITY TABLE ─── */
+.city-table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;margin-top:20px}
+.city-table th{background:rgba(217,119,6,.14);color:var(--amber);font-size:.75rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:11px 14px;text-align:left}
+.city-table td{padding:11px 14px;font-size:.84rem;color:rgba(255,255,255,.8);border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+.city-table td:first-child{font-weight:600;color:rgba(255,255,255,.92)}
+.city-table tr:hover td{background:rgba(255,255,255,.04)}
+.city-table tr:last-child td{border:none}
+
+/* ─── WORK CULTURE CARDS ─── */
+.cult-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px;margin-bottom:28px}
+.cult-card{background:#fff;border-radius:12px;padding:26px;border-top:4px solid var(--red);box-shadow:0 2px 14px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s}
+.cult-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.1)}
+.cult-card .cn{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-d);margin-bottom:7px}
+.cult-card h3{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.3}
+.cult-card p{font-size:.84rem;color:var(--muted);line-height:1.65}
+
+/* ─── TIP BOX ─── */
+.tip-box{background:var(--amber-l);border:1px solid rgba(217,119,6,.3);border-left:4px solid var(--amber);border-radius:0 10px 10px 0;padding:14px 18px;margin:20px 0;font-size:.85rem;color:var(--ink);line-height:1.65}
+.tip-box strong{color:var(--amber-d)}
+.tip-box-dark{background:rgba(217,119,6,.1);color:rgba(255,255,255,.82)}
+.tip-box-dark strong{color:var(--amber)}
+
+/* ─── TIP LIST ─── */
+.tip-list{background:rgba(255,255,255,.05);border-radius:8px;padding:20px 24px;margin-bottom:20px}
+.tip-list h4{font-family:var(--mono);font-size:10px;letter-spacing:2px;color:var(--amber);text-transform:uppercase;margin-bottom:12px}
+.tip-item{display:flex;gap:10px;font-size:13px;color:rgba(255,255,255,.75);padding:7px 0;border-bottom:1px solid rgba(255,255,255,.07);line-height:1.5}
+.tip-item:last-child{border-bottom:none}
+.tip-item::before{content:'→';color:var(--amber);flex-shrink:0;font-weight:700}
+
+/* ─── FLIP CARDS ─── */
+.flip-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:24px}
+.fc{height:160px;perspective:1000px;cursor:pointer}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);border-radius:12px}
+.fc.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-f,.fc-b{position:absolute;inset:0;border-radius:12px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;backface-visibility:hidden}
+.fc-f{background:var(--cream);border:2px solid rgba(217,119,6,.35)}
+.fc-b{background:var(--red-d);border:2px solid var(--amber);transform:rotateY(180deg)}
+.fc-f .fi{font-size:2rem;margin-bottom:10px}
+.fc-f p{font-size:.82rem;color:var(--ink);font-weight:500;line-height:1.4}
+.fc-b p{font-size:.82rem;color:rgba(255,255,255,.9);line-height:1.5}
+
+/* ─── QUOTE ─── */
+.a-quote{display:flex;gap:14px;align-items:flex-start;background:var(--red-l);border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:18px 22px;margin-top:28px}
+.a-quote-av{font-size:1.8rem;flex-shrink:0}
+.a-quote-text{font-size:.88rem;color:var(--muted);line-height:1.65;font-style:italic}
+.a-quote-dark{background:rgba(255,255,255,.05);border-left-color:var(--amber)}
+.a-quote-dark .a-quote-text{color:rgba(255,255,255,.72)}
+.qblock{border-left:4px solid var(--amber);padding:20px 26px;background:linear-gradient(to right,var(--amber-l),transparent);border-radius:0 8px 8px 0;margin:24px 0}
+.qblock p{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--ink);line-height:1.75}
+
+/* ─── TAB SWITCHER ─── */
+.tab-row{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.tab-btn{padding:9px 22px;border-radius:30px;border:2px solid #e8d0b0;background:transparent;font-family:var(--sans);font-size:.84rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab-btn.active{background:var(--red);border-color:var(--red);color:#fff}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ─── EMERGENCY ─── */
+.em-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px}
+.em-card{border-radius:12px;padding:22px;text-align:center}
+.em-num{font-family:var(--serif);font-size:2.4rem;font-weight:700;margin-bottom:4px}
+.em-lbl{font-size:.85rem;font-weight:600;margin-bottom:4px}
+.em-sub{font-size:.74rem;opacity:.65}
+.safety-list{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.safety-item{display:flex;align-items:flex-start;gap:12px;background:rgba(255,255,255,.05);border-radius:10px;padding:14px 18px;border-left:3px solid var(--amber)}
+.safety-item .si-icon{font-size:1.1rem;flex-shrink:0}
+.safety-item p{font-size:.84rem;color:rgba(255,255,255,.75);line-height:1.5}
+
+/* ─── SCENARIOS CAROUSEL ─── */
+.sc-progress{display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:18px}
+.sc-dot{width:8px;height:8px;border-radius:50%;background:#e8d0b0;transition:all .3s;cursor:pointer}
+.sc-dot.active{background:var(--red);width:24px;border-radius:4px}
+.sc-card{background:#fff;border-radius:12px;overflow:hidden;display:none;animation:fadeInCard .35s ease;border:1px solid #f5e0c0}
+.sc-card.active{display:block}
+@keyframes fadeInCard{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.sc-hd{background:var(--red-d);padding:14px 20px;display:flex;align-items:center;gap:13px}
+.sc-num{width:34px;height:34px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1rem;font-weight:700;color:#fff;flex-shrink:0}
+.sc-hd h3{color:#fff;font-size:.95rem;font-weight:600}
+.sc-body{padding:22px}
+.sc-sit{background:#FFF8F0;border-left:3px solid var(--amber);border-radius:0 7px 7px 0;padding:13px 16px;font-size:.87rem;color:var(--ink);line-height:1.7;margin-bottom:16px}
+.sc-sit em{font-style:italic;color:var(--terra)}
+.opt{width:100%;text-align:left;padding:11px 14px;background:var(--cream);border:1px solid #f0dfc0;border-radius:6px;margin-bottom:8px;cursor:pointer;font-size:.84rem;color:var(--ink);font-family:var(--sans);transition:all .2s;display:flex;gap:10px;align-items:center}
+.opt:hover{background:var(--amber-l);border-color:var(--amber)}
+.opt.ok{background:var(--green-l);border-color:var(--green);color:var(--green);font-weight:600}
+.opt.no{background:var(--red-l);border-color:var(--red);color:var(--red)}
+.opt-l{width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.76rem;font-weight:700;flex-shrink:0}
+.sc-rev{background:var(--green-l);border:1px solid var(--green);border-radius:7px;padding:13px 16px;display:none;animation:slideDown .3s ease;margin-top:4px}
+.sc-rev.show{display:block}
+.sc-rev strong{font-size:.75rem;color:var(--green);letter-spacing:.06em;text-transform:uppercase;display:block;margin-bottom:4px}
+.sc-rev p{font-size:.83rem;color:var(--ink);line-height:1.7}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.sc-nav{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:0 22px 18px}
+.sc-nav button{background:var(--red);color:#fff;border:none;padding:9px 22px;border-radius:6px;cursor:pointer;font-size:.83rem;font-weight:600;font-family:var(--sans);transition:all .2s;display:flex;align-items:center;gap:5px}
+.sc-nav button:hover{background:var(--amber-d)}
+.sc-nav button:disabled{background:rgba(192,57,43,.22);cursor:default}
+.sc-counter{font-size:.8rem;color:var(--muted);font-family:var(--mono)}
+
+/* ─── DOS & DON'TS ─── */
+.dd-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.dd-col{border-radius:12px;overflow:hidden}
+.dd-hd{padding:14px 18px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.do-hd{background:var(--green);color:#fff}
+.dn-hd{background:var(--terra);color:#fff}
+.dd-item{padding:11px 18px;font-size:.84rem;line-height:1.55;border-bottom:1px solid;display:flex;gap:10px;align-items:flex-start}
+.do-item{background:var(--green-l);border-color:rgba(21,128,61,.12);color:var(--ink)}
+.dn-item{background:var(--terra-l);border-color:rgba(154,52,18,.12);color:var(--ink)}
+.dd-item:last-child{border-bottom:none}
+.do-item::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.dn-item::before{content:'✗';color:var(--terra);font-weight:700;flex-shrink:0}
+
+/* ─── GOLD BOX ─── */
+.gold-box{background:var(--red-d);border-radius:12px;padding:24px 28px;display:flex;gap:16px;align-items:center;margin-bottom:20px}
+.gold-box-icon{font-size:2.2rem;flex-shrink:0}
+.gold-box p{color:rgba(255,255,255,.88);font-size:.9rem;line-height:1.75}
+.gold-box strong{color:var(--amber)}
+
+/* ─── CLOSING ─── */
+#closing{background:radial-gradient(ellipse at 50% 30%,#7A2010 0%,#3D1008 60%,#1E0804 100%);padding:90px 28px;text-align:center;position:relative;overflow:hidden}
+.close-inner{position:relative;z-index:1;max-width:680px;margin:0 auto}
+.big-q{font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.8rem);color:#fff;line-height:1.6;margin-bottom:16px;font-style:italic}
+.big-q strong{color:var(--amber)}
+
+/* ─── SCROLL REVEAL ─── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+.reveal.vis{opacity:1;transform:none}
+
+
+/* ═══════════════════════════════════════════════════════
+   COMPREHENSIVE MOBILE FIX — all country toolkit files
+   ══════════════════════════════════════════════════════ */
+@media(max-width:640px){
+  /* Section padding */
+  .section{padding:56px 16px!important}
+  .hero-h1{font-size:clamp(1.9rem,8vw,2.5rem)!important}
+
+  /* Nav */
+  .nav-links{display:none!important}
+  .hamburger{display:flex!important}
+
+  /* Grids — stack everything */
+  .two-col,.dd-wrap,.cult-grid,.culture-grid{grid-template-columns:1fr!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .season-grid{grid-template-columns:1fr 1fr!important}
+  .flip-row{grid-template-columns:1fr 1fr!important}
+  .transit-grid{grid-template-columns:1fr 1fr!important}
+  .recycle-grid{grid-template-columns:1fr 1fr!important}
+  .wildlife-grid{grid-template-columns:1fr 1fr!important}
+  .coffee-grid{grid-template-columns:1fr 1fr!important}
+  .gold-box{flex-direction:column!important;text-align:center!important}
+  .mascot-wrap{bottom:14px!important;right:10px!important}
+
+  /* ALL TABLES — drastically reduce for narrow screens */
+  table{width:100%!important;font-size:11px!important}
+  thead th{padding:7px 7px!important;font-size:9px!important;
+    letter-spacing:.02em!important;line-height:1.3!important}
+  tbody td,tfoot td{padding:7px 7px!important;font-size:11px!important;line-height:1.4!important}
+
+  /* Table badge labels */
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:9px!important;padding:2px 5px!important;
+    display:inline-block!important;margin-top:2px!important}
+
+  /* Scenario carousel */
+  .sc-nav{padding:0 10px 12px!important}
+  .sc-nav button{padding:8px 12px!important;font-size:.74rem!important}
+  .sc-counter{font-size:.72rem!important}
+  .sc-body{padding:16px!important}
+  .sc-hd{padding:11px 14px!important}
+
+  /* Cards internal */
+  .ic{padding:16px!important}
+  .ic ul li,.ic p{font-size:.8rem!important}
+  .cult-card{padding:18px!important}
+  .season-card{padding:14px!important}
+
+  /* Key facts table first col narrower */
+  .kf-table td:first-child{width:38%!important}
+
+  /* Tab buttons */
+  .tab-row{gap:6px!important;flex-wrap:wrap!important}
+  .tab-btn{padding:7px 13px!important;font-size:.78rem!important}
+
+  /* Tip list fix for mobile */
+  .tip-item{font-size:.8rem!important}
+
+  /* DD items */
+  .dd-item{font-size:.8rem!important;padding:9px 12px!important}
+  .dd-hd{padding:11px 14px!important;font-size:.72rem!important}
+
+  /* Emergency cards */
+  .em-num{font-size:1.8rem!important}
+  .em-lbl{font-size:.78rem!important}
+  .em-sub{font-size:.68rem!important}
+
+  /* Safety items */
+  .safety-item p{font-size:.78rem!important}
+  .safety-item{padding:10px 14px!important}
+
+  /* Phrase/decoder table special */
+  .phrase-table td:last-child,.slang-table td:first-child{font-size:12px!important}
+}
+
+@media(max-width:420px){
+  .section{padding:48px 13px!important}
+  table{font-size:10px!important}
+  thead th{font-size:8px!important;padding:6px 5px!important}
+  tbody td,tfoot td{font-size:10px!important;padding:6px 5px!important}
+  .stats-grid{grid-template-columns:1fr 1fr!important}
+  .em-grid{grid-template-columns:1fr 1fr!important}
+  .dd-wrap{grid-template-columns:1fr!important}
+  .tr-rec,.rec-best,.rec-yes,.rec-ok,.rec-warn,.rec-no{
+    font-size:8px!important;padding:1px 4px!important}
+  .season-card{padding:11px!important}
+  .sc-nav button{padding:6px 10px!important;font-size:.7rem!important}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="topnav">
+  <div class="nav-brand">Cipla · Spain Guide</div>
+  <div class="nav-links">
+    <a class="btn-back-hub" onclick="if(window.parent&&window.parent.closeToolkit){window.parent.closeToolkit();}else{window.history.back();}" href="#">
+      <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 2L4 6l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Hub
+    </a>
+    <a href="#snapshot">Snapshot</a>
+    <a href="#daily">Daily Life</a>
+    <a href="#dining">Dining</a>
+    <a href="#housing">Housing</a>
+    <a href="#transport">Transport</a>
+    <a href="#cost">Cost</a>
+    <a href="#emergency">Emergency</a>
+    <a href="#customs">Customs</a>
+    <a href="#work">Work</a>
+    <a href="#rules">Rules</a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="progress-bar"></div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#snapshot" onclick="closeMobile()">🌍 Snapshot</a>
+  <a href="#daily" onclick="closeMobile()">🏡 Daily Life</a>
+  <a href="#dining" onclick="closeMobile()">🍽️ Dining</a>
+  <a href="#housing" onclick="closeMobile()">🏠 Housing</a>
+  <a href="#transport" onclick="closeMobile()">🚇 Transport</a>
+  <a href="#cost" onclick="closeMobile()">💶 Cost</a>
+  <a href="#emergency" onclick="closeMobile()">🆘 Emergency</a>
+  <a href="#customs" onclick="closeMobile()">🤝 Customs</a>
+  <a href="#work" onclick="closeMobile()">💼 Work</a>
+  <a href="#rules" onclick="closeMobile()">📋 Rules</a>
+</div>
+
+<!-- MASCOT -->
+<div class="mascot-wrap">
+  <div class="mascot-bubble" id="mascotBubble"><strong>💡 Tip:</strong> <span id="mascotText">Click me for tips as you explore each section!</span></div>
+  <div style="position:relative;">
+    <div class="mascot-figure" id="mascotFigure" title="Click for a tip">💃</div>
+    <div class="tip-badge" id="tipBadge"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <svg class="tile-accent" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs><pattern id="tile" x="0" y="0" width="52" height="52" patternUnits="userSpaceOnUse">
+      <rect width="52" height="52" fill="none" stroke="#D97706" stroke-width=".8"/>
+      <circle cx="26" cy="26" r="9" fill="none" stroke="#D97706" stroke-width=".6"/>
+      <line x1="0" y1="0" x2="52" y2="52" stroke="#D97706" stroke-width=".4"/>
+      <line x1="52" y1="0" x2="0" y2="52" stroke="#D97706" stroke-width=".4"/>
+    </pattern></defs>
+    <rect width="260" height="260" fill="url(#tile)"/>
+  </svg>
+  <div class="dot-field" id="dotField"></div>
+  <div class="hero-inner">
+    <span class="hero-flag">🇪🇸</span>
+    <h1 class="hero-h1">Welcome to <em>España</em></h1>
+    <p class="hero-sub">A Cultural Readiness Guide for Cipla Professionals</p>
+    <p class="hero-tag">"Everything you wish someone had told you before landing in Madrid."</p>
+    <a href="#snapshot" class="hero-cta">Start the Guide</a>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ══ 01 SNAPSHOT ══ -->
+<section class="section dark-band" id="snapshot">
+  <div class="section-inner">
+    <div class="sec-tag">Section 01 · Country Snapshot</div>
+    <h2 class="sh sh-w">Spain at a <em>Glance</em></h2>
+    <p class="lead lead-w">47 million people, 17 autonomous regions, world-class food, and one national obsession: the long lunch.</p>
+    <p class="stat-hint">👆 Click each card for more context</p>
+    <div class="stats-grid">
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')"><span class="stat-num">47.4M</span><div class="stat-label">Population</div><div class="stat-detail">4th largest in the EU. Madrid: 3.4M city. Barcelona: 1.6M. Highly regional — each area has its own identity.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.1s"><span class="stat-num">€ EUR</span><div class="stat-label">Currency</div><div class="stat-detail">1 EUR ≈ ₹93 — check current rate before travelling. Bizum is Spain's UPI: instant free transfers between Spanish bank accounts.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.2s"><span class="stat-num">CET/CEST</span><div class="stat-label">Time Zone</div><div class="stat-detail">UTC+1 winter (CET), UTC+2 summer (CEST). India is 4.5 hrs ahead in winter, 3.5 hrs in summer. Plan India calls before 2pm local.</div></div>
+      <div class="stat-card reveal" onclick="this.classList.toggle('open')" style="transition-delay:.3s"><span class="stat-num">ES+</span><div class="stat-label">Languages</div><div class="stat-detail">Spanish official nationally. Catalan in Barcelona, Basque in Bilbao, Galician in Santiago. Business is always in Spanish or English.</div></div>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="kf-table reveal">
+      <thead><tr><th>Fact</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>Capital</td><td>Madrid — political and business hub. Barcelona is Spain's second city and major international business centre.</td></tr>
+        <tr><td>Emergency number</td><td>112 — police, ambulance, fire. Works across ALL of Spain and the EU. Works from any mobile, even without a SIM.</td></tr>
+        <tr><td>Driving side</td><td>Right — same as most of Europe</td></tr>
+        <tr><td>Time from India</td><td>IST is 4.5 hrs ahead in winter (CET) · 3.5 hrs ahead in summer (CEST)</td></tr>
+        <tr><td>Exchange rate</td><td>1 EUR ≈ ₹93 <em style="font-size:11px;color:rgba(255,255,255,.45)">(check current rate before travelling — rates fluctuate)</em></td></tr>
+        <tr><td>Visa for Indians</td><td>Schengen Business Visa — covers all Schengen zone countries. Apply 3–6 weeks before travel through HR.</td></tr>
+        <tr><td>NIE number</td><td>Foreign identity number — needed for stays 1 month+, leases, bank accounts. HR Global Mobility will assist.</td></tr>
+        <tr><td>⚠️ August — holiday month</td><td>Spain effectively shuts down Aug 1–20 for national vacation. Do NOT plan critical business, contracts, or decisions during this period. Many businesses close entirely.</td></tr>
+        <tr><td>Regional languages</td><td>In Barcelona, colleagues may speak Catalan among themselves — completely normal. Business is always in Spanish or English.</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- WEATHER & SEASONS -->
+    <h3 style="color:var(--amber);font-family:var(--serif);font-size:1.2rem;margin:36px 0 16px">Climate & Seasons</h3>
+    <div class="season-grid reveal">
+      <div class="season-card"><span class="season-icon">☀️</span><div class="season-name">Summer · Jun–Sep</div><div class="season-temp">28°C – 40°C</div><div class="season-detail">Very hot and dry in Madrid — 38–40°C in July is not unusual. Barcelona is milder with a sea breeze. Carry water. Heavy AC indoors — bring a light layer.</div></div>
+      <div class="season-card"><span class="season-icon">🍂</span><div class="season-name">Autumn · Oct–Nov</div><div class="season-temp">12°C – 20°C</div><div class="season-detail">Pleasant and mild — one of the best times to visit. Occasional rain. Perfect for outdoor dining and exploring on foot.</div></div>
+      <div class="season-card"><span class="season-icon">❄️</span><div class="season-name">Winter · Dec–Feb</div><div class="season-temp">2°C – 12°C</div><div class="season-detail">Madrid can snow. Barcelona milder: 8–16°C. Coats required. Short days but cities are lively and festive.</div></div>
+      <div class="season-card"><span class="season-icon">🌸</span><div class="season-name">Spring · Mar–May</div><div class="season-temp">14°C – 22°C</div><div class="season-detail">Beautiful — flowers bloom, ideal for outdoor dining. Some rain in April. Best season for walking Spanish cities.</div></div>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>☀️ Madrid summer warning:</strong> Schedule any outdoor activity before 11am. Stay hydrated at all times. AC offices can be very cold — carry a light layer despite 40°C outside.</div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"47 million people, 17 autonomous regions, and everyone is convinced their region does tapas best. They're all right."</div></div>
+  </div>
+</section>
+
+<!-- ══ 02 DAILY LIFE ══ -->
+<section class="section" id="daily" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 02 · Daily Life</div>
+    <h2 class="sh">Daily <em>Life</em> in Spain</h2>
+    <p class="lead">The small things nobody briefed you on — including the Sunday shutdown and why you must always ask for the bill.</p>
+    <div class="two-col reveal">
+      <div class="ic">
+        <h4>🛒 Groceries</h4>
+        <ul>
+          <li>Mercadona — best value, excellent quality, everywhere in Spain</li>
+          <li>Carrefour (large hypermarkets), Lidl &amp; Aldi (budget, great quality)</li>
+          <li>El Corte Inglés Supermercado — premium, open Sundays</li>
+          <li>Indian groceries → Lavapiés (Madrid), El Raval (Barcelona)</li>
+          <li>Online: Mercadona.es, Carrefour.es — set up in Week 1</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>📱 SIM &amp; Banking</h4>
+        <ul>
+          <li>SIM: Orange, Vodafone, or Movistar — bring passport. Plans from €15/month.</li>
+          <li>eSIM available if your phone supports it — useful for short stays</li>
+          <li>Banking: Revolut or N26 — open before travel, zero fees, works immediately</li>
+          <li>Longer stays: CaixaBank or BBVA — open with passport + NIE</li>
+          <li>Bizum — Spain's free instant payment app. Set up via Spanish bank if staying 1 month+.</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🧹 Domestic Life</h4>
+        <ul>
+          <li>Domestic help ('asistenta'): €12–18/hour via agencies or TaskRabbit Spain</li>
+          <li>Less common than India — more self-service culture here</li>
+          <li>Serviced apartments: Weekly cleaning typically included</li>
+          <li>Laundromats (lavanderías): Available in all major cities</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>📅 Sunday &amp; Siesta Reality</h4>
+        <ul>
+          <li>Sunday = family and rest. Most small shops and many restaurants close.</li>
+          <li>El Corte Inglés and some Carrefour stay open — plan groceries Saturday</li>
+          <li>Siesta: A cultural concept, not modern business practice — offices open all day</li>
+          <li>Business calls on Sunday are not expected — respect the boundary</li>
+          <li>Healthcare basics → see Housing section for full detail</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;font-style:italic">👆 Click each card for the correct behaviour</p>
+    <div class="flip-row reveal">
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🍽️</div><p>You finish your meal in a Spanish restaurant and want the bill</p></div><div class="fc-b"><p>✅ Ask for it: 'La cuenta, por favor.' The bill NEVER arrives automatically in Spain — you must request it.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🏪</div><p>You walk into a small bar or shop in Madrid</p></div><div class="fc-b"><p>✅ Say 'hola' or 'buenas' as you enter. Greetings are expected — entering silently is considered rude.</p></div></div></div>
+      <div class="fc" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-f"><div class="fi">🌙</div><p>A colleague suggests dinner at 9:30pm on a weeknight</p></div><div class="fc-b"><p>✅ Accept and arrive around 9:45pm. Completely normal — you may still be one of the first there.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 03 DINING ══ -->
+<section class="section mid-band" id="dining">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--amber)">Section 03 · Dining</div>
+    <h2 class="sh sh-w">Tapas, <em>Menú del Día</em> &amp; the Late Dinner</h2>
+    <p class="lead lead-w">Spain eats late. Lunch 2pm–4pm. Dinner 9pm–11pm. At 7pm a restaurant is empty. Plan accordingly.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px">
+      <table class="din-table">
+        <thead><tr><th>Type</th><th>Cost per person</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Menú del día</td><td>€10–18</td><td>Spain's best value — starter + main + dessert + drink + bread. Weekdays 1pm–3:30pm at almost all restaurants.</td></tr>
+          <tr><td>Tapas bar</td><td>€2–6 per tapa</td><td>The social way to eat. Order several, share. Some regions give tapas free with drinks.</td></tr>
+          <tr><td>Pintxos (Basque-style)</td><td>€2–4 each</td><td>Snacks on bread, eaten standing at the bar. San Sebastián is the pinnacle.</td></tr>
+          <tr><td>Casual restaurant</td><td>€15–30</td><td>Full service, traditional Spanish food</td></tr>
+          <tr><td>Mid-range (business lunch)</td><td>€30–60</td><td>Wine included — where most Spanish business lunches happen.</td></tr>
+          <tr><td>Fine dining</td><td>€80–200+</td><td>More Michelin stars per capita than France. El Celler de Can Roca, DiverXO, Arzak are world-class.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two-col reveal" style="margin-top:20px">
+      <div class="ic ic-dark">
+        <h4>☕ Coffee &amp; drinking rules</h4>
+        <ul>
+          <li>Café con leche = morning only (before 12pm)</li>
+          <li>After noon: café solo (espresso) or cortado — never café con leche</li>
+          <li>Milky coffee after noon immediately marks you as a tourist</li>
+          <li>Wine at lunch is normal — one or two glasses is the social standard</li>
+          <li>¡Salud! is the toast — learn it before your first dinner</li>
+        </ul>
+      </div>
+      <div class="ic ic-dark">
+        <h4>🥗 Vegetarian &amp; dietary</h4>
+        <ul>
+          <li>Spain is meat and seafood heavy — say 'soy vegetariano/a'</li>
+          <li>Vegan growing in Malasaña (Madrid) and Gràcia (Barcelona)</li>
+          <li>Indian food: Lavapiés (Madrid), El Raval (Barcelona)</li>
+          <li>Spanish cuisine is NOT spicy by Indian standards</li>
+          <li>Pork is everywhere — always confirm dietary restrictions with staff</li>
+        </ul>
+      </div>
+    </div>
+    <h3 style="color:var(--amber);font-family:var(--serif);font-size:1.15rem;margin:28px 0 14px">Where to Eat — by City</h3>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="city-table reveal">
+      <thead><tr><th>City &amp; Context</th><th>Best Area</th></tr></thead>
+      <tbody>
+        <tr><td>Madrid — business lunch</td><td>Salamanca &amp; Justicia — upscale, business-friendly, excellent menú del día</td></tr>
+        <tr><td>Madrid — tapas &amp; evening</td><td>La Latina (traditional tapas), Malasaña (trendy), Lavapiés (multicultural)</td></tr>
+        <tr><td>Barcelona — business lunch</td><td>Eixample — smart, central, good wine lists</td></tr>
+        <tr><td>Barcelona — tapas &amp; evening</td><td>El Born (pintxos), Barceloneta (seafood), Gràcia (neighbourhood feel)</td></tr>
+        <tr><td>Bilbao (if visiting)</td><td>Casco Viejo — widely considered Spain's best pintxos destination</td></tr>
+      </tbody>
+    </table></div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"I ordered a café con leche at 3pm. The barman gave me a look I will never forget. Café solo after noon. Write it on your hand if you have to."</div></div>
+  </div>
+</section>
+
+<!-- ══ 04 HOUSING ══ -->
+<section class="section" id="housing" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 04 · Housing</div>
+    <h2 class="sh">Where to <em>Live</em> — and the Green Cross</h2>
+    <p class="lead">How to find accommodation, what to expect from Spanish healthcare, and what to do when things go wrong at midnight.</p>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('short','housing')">Short Stay &lt;4 weeks</button>
+      <button class="tab-btn" onclick="switchTab('long','housing')">Long Stay 4 weeks–6 months</button>
+    </div>
+    <div id="tab-short-housing" class="tab-panel active">
+      <div class="two-col reveal">
+        <div class="ic">
+          <h4>🏨 Best option: Serviced apartment</h4>
+          <ul>
+            <li>Fully furnished, bills included, flexible term — typically €1,800–3,500/month for 1BR</li>
+            <li>Madrid: Salamanca, Chamberí, Retiro, Justicia — safe, central, well-connected</li>
+            <li>Barcelona: Eixample, Sarrià-Sant Gervasi, Gràcia — safe, expat-friendly</li>
+            <li>Cipla HR typically arranges and confirms short-stay accommodation</li>
+          </ul>
+        </div>
+        <div class="ic">
+          <h4>💡 Short Stay Tips</h4>
+          <ul>
+            <li>Download Google Maps and Cabify before arrival</li>
+            <li>Nearest Mercadona or Carrefour for groceries — set up online delivery Week 1</li>
+            <li>Keep HR contact saved — they manage booking logistics</li>
+            <li>Card payments accepted almost everywhere — cash rarely needed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="tab-long-housing" class="tab-panel">
+      <!-- July/August demand warning -->
+      <div style="background:rgba(217,119,6,.1);border-left:4px solid var(--amber);border-radius:0 8px 8px 0;padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--ink);line-height:1.7">
+        <strong style="color:var(--amber-d)">⚠️ July–August: Book at least 8 weeks early or expect a very difficult search.</strong> This is Spain's peak holiday and tourist season — accommodation demand is at its highest, prices spike, and quality properties in Madrid and Barcelona are taken fast. Many landlords raise rents during this period. If your assignment falls in or near August, confirm housing with Cipla HR well before departure.
+      </div>
+      <div class="two-col reveal">
+        <div class="ic">
+          <h4>🏠 Private Rental</h4>
+          <ul>
+            <li>Competitive market — quality apartments go quickly in both cities</li>
+            <li>NIE required for leases of 3 months+ — HR Global Mobility assists (apply 2–3 weeks before arrival)</li>
+            <li>Deposit: Typically 2 months rent + first month upfront</li>
+            <li>Furnished apartments often offer flexible 3–6 month contracts</li>
+            <li>Platforms: Idealista, Fotocasa, Spotahome</li>
+          </ul>
+        </div>
+        <div class="ic">
+          <h4>💼 HR Global Mobility</h4>
+          <ul>
+            <li>NIE registration support — contact 2–3 weeks before arrival</li>
+            <li>Lease negotiation and landlord liaison</li>
+            <li>Tax, visa, and banking setup support</li>
+            <li>Always contact HR before starting your own housing search</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Healthcare — always visible -->
+    <h3 style="font-family:var(--serif);font-size:1.15rem;color:var(--red);margin:32px 0 14px">Healthcare in Spain</h3>
+    <div class="two-col reveal">
+      <div class="ic">
+        <h4>🏥 Private — Seguro Médico (use this)</h4>
+        <ul>
+          <li>Cipla provides private insurance — confirm network (Sanitas, Adeslas, or Mapfre) with HR before travel</li>
+          <li>Hospital Clínica Quirónsalud: Best private network, English-speaking, recommended</li>
+          <li>Use Sanitas/Adeslas app to book same-day appointments</li>
+          <li>Always carry your insurance card — without it you pay upfront and claim later</li>
+          <li>Indian medicines: Bring 3-month supply — Spanish brand names differ</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🟢 Farmacia — Your First Stop</h4>
+        <ul>
+          <li>The green cross (farmacia) is everywhere in Spain — and pharmacists are excellent</li>
+          <li>Pharmacists can advise and prescribe some medications — brilliant for minor issues, no appointment needed</li>
+          <li>Farmacia de guardia: 24-hour emergency pharmacy — any closed farmacia lists the nearest open one on their door</li>
+          <li>Urgencias (A&amp;E): Any hospital must treat emergencies regardless of insurance status</li>
+          <li>Emergency: 112 for all emergencies — works anywhere in the EU</li>
+        </ul>
+      </div>
+    </div>
+    <div class="a-quote reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"I had a stomach issue in Week 2. The farmacia on the corner sorted it in 5 minutes without a prescription. The green cross is everywhere — and it is your best friend."</div></div>
+  </div>
+</section>
+
+<!-- ══ 05 TRANSPORT ══ -->
+<section class="section dark-band" id="transport">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--amber)">Section 05 · Transport</div>
+    <h2 class="sh sh-w">Getting <em>Around Spain</em></h2>
+    <p class="lead lead-w">The metro will change your daily life. The AVE will make you never want to fly again. And never take an unlicensed taxi near Las Ramblas.</p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px">
+      <table class="tbl">
+        <thead><tr><th>Mode</th><th>Cost</th><th>Recommendation</th></tr></thead>
+        <tbody>
+          <tr><td>🚇 Metro — Madrid / Barcelona</td><td>€1.50–2.00/trip</td><td><span class="tr-rec rec-best">⭐ Best for city travel</span></td></tr>
+          <tr><td>🚕 Cabify</td><td>€8–18 typical</td><td><span class="tr-rec rec-best">⭐ Dominant ride-hailing in Spain</span></td></tr>
+          <tr><td>🚗 Uber</td><td>€8–20 typical</td><td><span class="tr-rec rec-yes">✅ Available Madrid &amp; Barcelona</span></td></tr>
+          <tr><td>🚕 Licensed taxi (yellow/white)</td><td>€6–20 meter</td><td><span class="tr-rec rec-yes">✅ Safe — check sticker &amp; meter</span></td></tr>
+          <tr><td>🚌 Bus (EMT/TMB)</td><td>€1.50–2.00</td><td><span class="tr-rec rec-ok">Good — slightly slower than metro</span></td></tr>
+          <tr><td>🚂 Cercanías (regional rail)</td><td>€2–5</td><td><span class="tr-rec rec-ok">Connects suburbs &amp; airports</span></td></tr>
+          <tr><td>🚄 Renfe AVE (high-speed)</td><td>€20–120</td><td><span class="tr-rec rec-best">⭐ Madrid–Barcelona in 2.5 hrs</span></td></tr>
+          <tr><td>🚫 Unlicensed taxis</td><td>—</td><td><span class="tr-rec rec-warn">⚠️ NEVER USE</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Metro zones -->
+    <div class="tip-list reveal">
+      <h4>🗺️ Metro Zone System — Madrid &amp; Barcelona</h4>
+      <div style="font-size:13px;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:14px">Spain's metros use zone-based fares — your cost depends on how many zones you cross. An <strong style="color:#fff">abono transporte</strong> monthly pass (optional) is excellent value if staying 2+ weeks.</div>
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:8px;margin-bottom:4px"><table class="tbl" style="margin-bottom:0;font-size:12px">
+        <thead><tr><th>City</th><th>Zone / Coverage</th><th>Single trip</th><th>Monthly pass</th></tr></thead>
+        <tbody>
+          <tr><td>Madrid Zone A</td><td>All city-centre metro lines (most relevant)</td><td>€1.50–2.00</td><td>€54.60 abono</td></tr>
+          <tr><td>Madrid Zone B</td><td>Suburbs up to 30km from centre</td><td>€2.00–3.50</td><td>€74–115/mo</td></tr>
+          <tr><td>Barcelona Zone 1</td><td>City metro + bus + Cercanías</td><td>€2.40</td><td>T-Casual 10-trip: €12.15</td></tr>
+          <tr><td>Barcelona Zone 2+</td><td>Metropolitan area beyond city</td><td>Higher</td><td>Proportionally higher</td></tr>
+        </tbody>
+      </table></div>
+      <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:10px;font-style:italic">💡 For short assignments, a contactless card works everywhere — no separate transport card required. Monthly abono is optional but saves money for 2+ week stays.</div>
+    </div>
+    <div class="tip-list reveal" style="margin-top:12px">
+      <h4>🚄 AVE High-Speed Rail Routes</h4>
+      <div class="tip-item">Madrid → Barcelona: 2h 30min — faster than flying door-to-door. Book on Renfe app, Tarifa Promo saves up to 60%.</div>
+      <div class="tip-item">Madrid → Seville: 2h 30min · Madrid → Valencia: 1h 45min · Madrid → Bilbao: Driving or fly (no AVE)</div>
+      <div class="tip-item">Book AVE 2+ weeks ahead — weekend routes sell out fast and prices rise sharply close to travel date</div>
+    </div>
+    <div class="tip-box tip-box-dark reveal"><strong>⚠️ Unlicensed taxis:</strong> Near Las Ramblas (Barcelona) and Puerta del Sol (Madrid), unofficial taxi touts operate. Always use Cabify, Uber, or a clearly marked licensed taxi with a visible meter and licence sticker.</div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"The Madrid metro will take you anywhere in under 20 minutes. The AVE will take you to Barcelona faster than you can get through the airport."</div></div>
+  </div>
+</section>
+
+<!-- ══ 06 COST ══ -->
+<section class="section" id="cost" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 06 · Cost of Living</div>
+    <h2 class="sh">Your Spain <em>Budget Guide</em></h2>
+    <p class="lead">Spain is 40–60% more expensive than India but significantly cheaper than London or Paris. <strong>Always check the current EUR/INR exchange rate before travelling — rates fluctuate.</strong></p>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px">
+      <table class="ctbl">
+        <thead><tr><th>Expense</th><th>Monthly Cost (€)</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>🏠 Serviced apartment (1BR)</td><td>€1,800–3,500</td><td>Salamanca/Chamberí (Madrid), Eixample (Barcelona). Bills usually included.</td></tr>
+          <tr><td>🏠 Private rental (1BR, 1 month+)</td><td>€1,200–2,500</td><td>Requires NIE, references, 2-month deposit. Start search early.</td></tr>
+          <tr><td>⚡ Utilities (incl. broadband)</td><td>€100–180</td><td>Usually included in serviced apartments. Spain has excellent fibre optic.</td></tr>
+          <tr><td>🛒 Groceries</td><td>€250–400</td><td>Mercadona is best value. Much cheaper than the UK.</td></tr>
+          <tr><td>🍽️ Dining out (evening)</td><td>€25–50 per meal</td><td>Per person, mid-range with a glass of wine</td></tr>
+          <tr><td>🚇 Transport (metro/Cabify)</td><td>€80–200</td><td>Monthly abono: €54.60 in Madrid. Cabify adds up — metro is better value.</td></tr>
+          <tr><td>📱 Mobile SIM</td><td>€15–40</td><td>Orange, Vodafone, Movistar. eSIM available for short stays.</td></tr>
+          <tr><td>🏥 Health insurance</td><td>Covered by Cipla</td><td>Confirm network (Sanitas/Adeslas) with HR before travel.</td></tr>
+        </tbody>
+        <tfoot><tr><td>💶 Total — single, comfortable</td><td>€2,200–4,000/month</td><td>Madrid or Barcelona — lifestyle dependent</td></tr></tfoot>
+      </table>
+    </div>
+    <div class="two-col reveal">
+      <div class="ic">
+        <h4>💡 Money-Saving Tips</h4>
+        <ul>
+          <li>Always eat menú del día for weekday lunch — €10–18 for 3 courses, drink, bread</li>
+          <li>Mercadona for all groceries — Spain's best quality-to-price ratio</li>
+          <li>Hora feliz (happy hour) 6–8pm: 2-for-1 drinks at many bars</li>
+          <li>Book AVE trains 2+ weeks ahead — Tarifa Promo saves up to 60%</li>
+          <li>Free: Prado Museum evenings, Parque del Retiro, Sagrada Família (exterior)</li>
+          <li>Use Revolut or Wise for zero-fee currency conversion</li>
+        </ul>
+      </div>
+      <div class="ic">
+        <h4>🇮🇳 vs 🇪🇸 Key Comparisons</h4>
+        <ul>
+          <li>Rent: 3–5× more than Indian metros — but cheaper than UK or France</li>
+          <li>Menú del día: Extraordinary value — comparable to a good Indian lunch out</li>
+          <li>Evening dining: Significantly more expensive than India</li>
+          <li>Transport metro: Very affordable — monthly pass excellent value</li>
+          <li>Wine: Cheaper than water in many Spanish restaurants</li>
+          <li><em style="font-size:11px">Exchange rate conversions are approximate — verify before travel</em></li>
+        </ul>
+      </div>
+    </div>
+    <div class="a-quote reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"I spent €80 on one dinner in Week 1. Then I found the menú del día. Three courses, wine, bread — €12. Game changed."</div></div>
+  </div>
+</section>
+
+<!-- ══ 07 EMERGENCY ══ -->
+<section class="section mid-band" id="emergency">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--amber)">Section 07 · Emergency</div>
+    <h2 class="sh sh-w">Emergency <em>Contacts</em></h2>
+    <p class="lead lead-w">Save these before you do anything else on Day 1. 112 covers all emergencies in Spain and works from any mobile — even without a SIM.</p>
+    <div class="em-grid reveal">
+      <div class="em-card" style="background:var(--red-l);border:2px solid var(--red)"><div class="em-num" style="color:var(--red)">112</div><div class="em-lbl" style="color:var(--red)">Universal Emergency</div><div class="em-sub" style="color:var(--red)">Police · Ambulance · Fire · EU-wide</div></div>
+      <div class="em-card" style="background:rgba(255,255,255,.07);border:1px solid rgba(217,119,6,.35)"><div class="em-num" style="color:var(--amber)">091</div><div class="em-lbl" style="color:#fff">National Police</div><div class="em-sub" style="color:rgba(255,255,255,.5)">Policía Nacional</div></div>
+      <div class="em-card" style="background:rgba(255,255,255,.07);border:1px solid rgba(217,119,6,.3)"><div class="em-num" style="color:var(--amber)">061</div><div class="em-lbl" style="color:#fff">Medical Emergency</div><div class="em-sub" style="color:rgba(255,255,255,.5)">Also covered by 112</div></div>
+      <div class="em-card" style="background:var(--amber-l);border:2px solid var(--amber)"><div class="em-num" style="color:var(--amber-d);font-size:1.8rem">016</div><div class="em-lbl" style="color:var(--terra)">Gender Violence</div><div class="em-sub" style="color:var(--muted)">Free · confidential · 24hrs</div></div>
+    </div>
+    <div class="safety-list reveal">
+      <div class="safety-item"><div class="si-icon">📞</div><p><strong style="color:var(--amber)">Cipla HR Business Partner</strong> — first call for any work issue or emergency abroad. Save before you leave India.</p></div>
+      <div class="safety-item"><div class="si-icon">🌍</div><p><strong style="color:var(--amber)">Cipla Global Mobility Team</strong> — NIE registration, visa, housing, and tax support throughout your assignment.</p></div>
+      <div class="safety-item"><div class="si-icon">🏛️</div><p><strong style="color:var(--amber)">Embassy of India, Madrid</strong> — +34 91 309 8836 · Avda. Pío XII, 30–32, 28016 Madrid</p></div>
+      <div class="safety-item"><div class="si-icon">🏥</div><p><strong style="color:var(--amber)">Hospital Clínica Quirónsalud</strong> (Madrid + Barcelona) — Best private network, English-speaking, accepts most international insurance.</p></div>
+      <div class="safety-item"><div class="si-icon">💊</div><p><strong style="color:var(--amber)">Farmacia de guardia</strong> — 24-hour pharmacy. Any closed farmacia lists the nearest open one on its door. Look for the green cross.</p></div>
+    </div>
+    <h3 style="color:var(--amber);font-family:var(--serif);font-size:1.15rem;margin:30px 0 14px">Safety in Spain</h3>
+    <div class="two-col reveal">
+      <div class="ic ic-dark"><h4>✅ Spain is generally very safe</h4><ul><li>Violent crime against visitors is rare — main risk is pickpocketing</li><li>Night safety: Cities are safe after dark — outdoor social life continues late</li><li>Use Cabify or licensed taxi after midnight in unfamiliar areas</li><li>Normal urban caution applies in busy tourist areas</li></ul></div>
+      <div class="ic ic-dark"><h4>⚠️ Pickpocket hotspots</h4><ul><li>Las Ramblas (Barcelona), Sagrada Família queue, La Boqueria market</li><li>Puerta del Sol and Gran Vía (Madrid), Metro Line 1 tourist routes</li><li>Prevention: Money belt or front pocket. Backpack in front in crowds.</li><li>Scams: Friendship bracelet on Las Ramblas, shell game near tourist spots</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 CUSTOMS ══ -->
+<section class="section warm-dark" id="customs">
+  <div class="section-inner">
+    <div class="sec-tag" style="color:var(--amber)">Section 08 · Customs &amp; Language</div>
+    <h2 class="sh sh-w">Social Customs &amp; <em>Spanish Essentials</em></h2>
+    <p class="lead lead-w">You don't need to be fluent. Even 'hola, gracias, la cuenta, ¡Salud!' earns immediate warmth. Spanish is phonetic — what you see is what you say.</p>
+    <div class="cult-grid reveal">
+      <div class="cult-card" style="border-top-color:var(--red)"><div class="cn" style="color:var(--amber-d)">01 · Norm</div><h3>Dos besos — two cheek kisses</h3><p>The standard Spanish greeting among people who know each other — left cheek first. In business, handshakes on first meeting. Over time, as trust builds, physical greetings become warmer. Lean in and engage warmly — pulling back reads as coldness.</p></div>
+      <div class="cult-card" style="border-top-color:var(--amber)"><div class="cn" style="color:var(--amber-d)">02 · Norm</div><h3>Spain is loud — and that's engagement</h3><p>Spanish social settings are genuinely loud. Everyone talking at once, interrupting, laughing across the table — this is engagement, not chaos. In meetings, people talking over each other during debate shows they are interested. It is not rudeness.</p></div>
+      <div class="cult-card" style="border-top-color:var(--terra)"><div class="cn" style="color:var(--terra)">03 · Norm</div><h3>Regionalism is real and matters deeply</h3><p>A Catalan in Barcelona, a Basque in Bilbao, and an Andalusian in Seville have genuinely different cultures. Acknowledge regional identity — never dismiss it or confuse it with being 'just Spanish'. Asking about their city is always a great conversation starter.</p></div>
+    </div>
+    <h3 style="color:var(--amber);font-family:var(--serif);font-size:1.15rem;margin:30px 0 12px">Essential Spanish Phrases</h3>
+    <div class="reveal" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:10px">
+      <table class="phrase-table">
+        <thead><tr><th>English</th><th>Spanish</th><th>Pronunciation</th></tr></thead>
+        <tbody>
+          <tr><td>Hello / Hi</td><td>Hola / Buenas</td><td>Oh-lah / Bweh-nas</td></tr>
+          <tr><td>Good morning</td><td>Buenos días</td><td>Bweh-nos dee-as</td></tr>
+          <tr><td>Good afternoon</td><td>Buenas tardes</td><td>Bweh-nas tar-des</td></tr>
+          <tr><td>Thank you</td><td>Gracias</td><td>Gra-thee-as</td></tr>
+          <tr><td>Please</td><td>Por favor</td><td>Por fah-bor</td></tr>
+          <tr><td>The bill please</td><td>La cuenta, por favor</td><td>La kwen-ta, por fah-bor</td></tr>
+          <tr><td>Cheers (toast)</td><td>¡Salud!</td><td>Sah-lood</td></tr>
+          <tr><td>I don't drink</td><td>No bebo, gracias</td><td>No beh-bo, gra-thee-as</td></tr>
+          <tr><td>I'm vegetarian</td><td>Soy vegetariano/a</td><td>Soy veh-heh-ta-rya-no</td></tr>
+          <tr><td>Where is...?</td><td>¿Dónde está...?</td><td>Don-deh es-tah</td></tr>
+          <tr><td>Do you speak English?</td><td>¿Habla inglés?</td><td>Ah-bla in-gles</td></tr>
+          <tr><td>I don't understand</td><td>No entiendo</td><td>No en-tyen-do</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="a-quote a-quote-dark reveal"><div class="a-quote-av">💃</div><div class="a-quote-text">"¡Salud! is how you toast in Spain. Learn it before your first business dinner — you will use it every week. The moment you say it correctly, the whole table relaxes."</div></div>
+  </div>
+</section>
+
+<!-- ══ 09 WORK CULTURE ══ -->
+<section class="section" id="work" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 09 · Work Culture</div>
+    <h2 class="sh">The Spanish <em>Workplace</em></h2>
+    <p class="lead">Relationship-driven, hierarchy-aware, and lunch-serious. Adjust your calendar — and your expectations — before your first meeting.</p>
+    <div class="cult-grid reveal">
+      <div class="cult-card"><div class="cn">01 · Core Principle</div><h3>The long lunch is a business meeting</h3><p>Business lunches in Spain last 1.5–2.5 hours. Eating quickly and returning to your desk signals you are not investing in the relationship. If a Spanish colleague invites you to lunch — stay for the full meal, including dessert and coffee.</p></div>
+      <div class="cult-card"><div class="cn">02 · Core Principle</div><h3>Hierarchy exists — relationships cut across it</h3><p>Spanish organisations have clear hierarchy. But genuine trust with someone unlocks their support regardless of position. Invest in the relationship first; professional results follow naturally. Personal warmth is the foundation of everything.</p></div>
+      <div class="cult-card"><div class="cn">03 · Core Principle</div><h3>Time is flexible — professionally and socially</h3><p>Business meetings may start 5–10 minutes late. Social events: 20–30 minutes late. Dinner at 9pm means 9:30pm. This is cultural rhythm. Arriving exactly on time for a Spanish dinner makes you the first guest by 30 minutes.</p></div>
+    </div>
+    <div class="tip-list reveal">
+      <h4>For Indian Professionals — Read This Carefully</h4>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">More relaxed formality than India — first-name basis in most Spanish companies from Day 1</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">Never book a meeting 2pm–4pm — this is the lunch window. Move it if you already have one.</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">Debate and push-back in meetings is healthy and welcomed — not disrespectful</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">WhatsApp used for informal follow-up; email is primary for formal communication</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">Networking is everything — the people who get things done in Spain are the ones who know everyone</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">In Barcelona: acknowledge Catalan culture warmly — ask about the city, not just Spain</div>
+      <div class="tip-item" style="color:var(--muted);border-color:#e8d0b0">August (1–20): Do not plan any critical decisions, contract signings, or approvals — Spain is on vacation</div>
+    </div>
+    <div class="qblock reveal">
+      <p>"In Spain, the relationship always comes before the transaction. Build the personal connection first — and the professional results will follow, reliably and warmly."</p>
+    </div>
+
+    <!-- GDPR / DATA PRIVACY -->
+    <h3 style="font-family:var(--serif);font-size:1.1rem;color:var(--terra);margin:32px 0 12px">🔐 GDPR &amp; Data Privacy — Applies From Day 1</h3>
+    <div style="background:#FEF9F0;border:1px solid #E8D0A0;border-left:4px solid var(--amber);border-radius:0 8px 8px 0;padding:18px 22px;margin-bottom:24px;font-size:.84rem;line-height:1.7;color:var(--ink)">
+      <strong style="color:var(--amber-d);display:block;margin-bottom:8px;font-size:.82rem;text-transform:uppercase;letter-spacing:.06em">Spain operates under EU GDPR + LOPDGDD (Ley Orgánica 3/2018)</strong>
+      <p style="margin-bottom:10px">As an EU member state, Spain follows the General Data Protection Regulation (GDPR). Spain's national LOPDGDD adds further obligations around employee data and digital rights. These rules apply to you as a Cipla professional from the moment you arrive.</p>
+      <ul style="list-style:none;padding:0">
+        <li style="padding:4px 0;border-bottom:1px solid #E8D8B8">→ Recording any meeting or call requires explicit consent from all participants</li>
+        <li style="padding:4px 0;border-bottom:1px solid #E8D8B8">→ WhatsApp for work is restricted in many Spanish companies — use Teams or Slack as directed by Cipla IT</li>
+        <li style="padding:4px 0;border-bottom:1px solid #E8D8B8">→ Colleague personal data (salary, health, family) must never be shared without consent</li>
+        <li style="padding:4px 0;border-bottom:1px solid #E8D8B8">→ Do not store work-related EU personal data on personal devices</li>
+        <li style="padding:4px 0">→ Any suspected data breach must be reported to Cipla IT within 72 hours (GDPR requirement)</li>
+      </ul>
+    </div>
+
+    <div class="sec-tag" style="margin-top:40px">Test Yourself</div>
+    <h3 style="font-family:var(--serif);font-size:clamp(1.2rem,3vw,1.6rem);font-weight:700;margin-bottom:8px;color:var(--ink)">Five Scenarios — <em style="color:var(--red)">What Would You Do?</em></h3>
+    <p style="font-size:.87rem;color:var(--muted);margin-bottom:22px">Cultural fluency is about reading the situation. Click your answer, then move to the next scenario.</p>
+    <div class="sc-progress">
+      <div class="sc-dot active" onclick="goToScenario(0)"></div>
+      <div class="sc-dot" onclick="goToScenario(1)"></div>
+      <div class="sc-dot" onclick="goToScenario(2)"></div>
+      <div class="sc-dot" onclick="goToScenario(3)"></div>
+      <div class="sc-dot" onclick="goToScenario(4)"></div>
+    </div>
+
+    <div class="reveal">
+      <!-- SCENARIO 1 -->
+      <div class="sc-card active" id="sc0">
+        <div class="sc-hd"><div class="sc-num">1</div><h3>The 2pm Meeting</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You've scheduled a video call with your Spanish counterpart at 2:15pm. They don't join. At 2:35pm you receive a WhatsApp message saying they'll be 30 more minutes — they're still at lunch.</div>
+          <div id="sc0-opts">
+            <button class="opt" onclick="ans(this,'A','C','sc0-rev')"><span class="opt-l">A</span>Send a note noting that punctuality is important for Cipla calls</button>
+            <button class="opt" onclick="ans(this,'B','C','sc0-rev')"><span class="opt-l">B</span>Reschedule and note this internally as a recurring issue</button>
+            <button class="opt" onclick="ans(this,'C','C','sc0-rev')"><span class="opt-l">C</span>Reply warmly, reschedule to 4pm, and never book 2pm–4pm again</button>
+          </div>
+          <div class="sc-rev" id="sc0-rev"><strong>✅ Answer: C is correct</strong><p>2pm–4pm is prime lunch time in Spain — this is your scheduling error, not bad behaviour. The correct move is to reschedule without comment and learn the golden rule: never book over the Spanish lunch window. Option A is culturally tone-deaf. Option B creates a problem where there isn't one.</p></div>
+        </div>
+        <div class="sc-nav">
+          <button disabled>← Previous</button>
+          <span class="sc-counter">1 of 5</span>
+          <button onclick="nextScenario()">Next →</button>
+        </div>
+      </div>
+
+      <!-- SCENARIO 2 -->
+      <div class="sc-card" id="sc1">
+        <div class="sc-hd"><div class="sc-num">2</div><h3>The Business Lunch</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">A Spanish client invites you to a business lunch. It is 3:15pm, the main course just arrived, and you have a meeting back at the office at 4pm. What do you do?</div>
+          <div id="sc1-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc1-rev')"><span class="opt-l">A</span>Eat quickly, apologise, and leave as soon as your main course is done</button>
+            <button class="opt" onclick="ans(this,'B','B','sc1-rev')"><span class="opt-l">B</span>Move the 4pm meeting and stay for the full lunch including dessert and coffee</button>
+            <button class="opt" onclick="ans(this,'C','B','sc1-rev')"><span class="opt-l">C</span>Explain you have a prior commitment but will stay for the main course</button>
+          </div>
+          <div class="sc-rev" id="sc1-rev"><strong>✅ Answer: B is correct</strong><p>The Spanish business lunch is a relationship event — leaving early signals the relationship matters less than your next calendar slot. Move the meeting. The client relationship has more long-term value than a 4pm internal call. Option C partially works but still signals disengagement at a crucial moment.</p></div>
+        </div>
+        <div class="sc-nav">
+          <button onclick="prevScenario()">← Previous</button>
+          <span class="sc-counter">2 of 5</span>
+          <button onclick="nextScenario()">Next →</button>
+        </div>
+      </div>
+
+      <!-- SCENARIO 3 -->
+      <div class="sc-card" id="sc2">
+        <div class="sc-hd"><div class="sc-num">3</div><h3>The Barcelona Colleague</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You are introduced to a new colleague based in Barcelona. She mentions her pride in being Catalan and her frustration when people dismiss Catalonia as 'just another Spanish region'.</div>
+          <div id="sc2-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc2-rev')"><span class="opt-l">A</span>Explain that from a business perspective, regional differences are not significant</button>
+            <button class="opt" onclick="ans(this,'B','B','sc2-rev')"><span class="opt-l">B</span>Express genuine curiosity — ask what makes Catalan culture distinct and what she loves about Barcelona</button>
+            <button class="opt" onclick="ans(this,'C','B','sc2-rev')"><span class="opt-l">C</span>Acknowledge it briefly and move on to work topics</button>
+          </div>
+          <div class="sc-rev" id="sc2-rev"><strong>✅ Answer: B is correct</strong><p>Catalan identity is deeply meaningful — dismissing it (Option A) is a significant relationship error. Genuine curiosity about Barcelona and Catalan culture builds trust immediately and is always the right response. Option C is neutral but misses a valuable opportunity to connect warmly and start the relationship well.</p></div>
+        </div>
+        <div class="sc-nav">
+          <button onclick="prevScenario()">← Previous</button>
+          <span class="sc-counter">3 of 5</span>
+          <button onclick="nextScenario()">Next →</button>
+        </div>
+      </div>
+
+      <!-- SCENARIO 4 -->
+      <div class="sc-card" id="sc3">
+        <div class="sc-hd"><div class="sc-num">4</div><h3>The Coffee Rule</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You're at a café with two Spanish colleagues after lunch — it's 3:30pm. You order a café con leche. Your colleagues exchange a quick glance.</div>
+          <div id="sc3-opts">
+            <button class="opt" onclick="ans(this,'A','B','sc3-rev')"><span class="opt-l">A</span>Ignore it — coffee preferences are personal and this is not a big deal</button>
+            <button class="opt" onclick="ans(this,'B','B','sc3-rev')"><span class="opt-l">B</span>Ask what they ordered and follow their lead in future — café solo or cortado after noon</button>
+            <button class="opt" onclick="ans(this,'C','B','sc3-rev')"><span class="opt-l">C</span>Ask why they looked at each other and clarify your preference</button>
+          </div>
+          <div class="sc-rev" id="sc3-rev"><strong>✅ Answer: B is correct</strong><p>Milky coffee after noon is a tourist signal in Spain — not a rule, but a strong cultural cue. Café solo (espresso) or cortado (small white, like a macchiato) after 12pm is the Spanish standard. Observing and adapting quietly (B) shows cultural awareness. Asking directly (C) is awkward. Ignoring (A) misses a small but meaningful local norm.</p></div>
+        </div>
+        <div class="sc-nav">
+          <button onclick="prevScenario()">← Previous</button>
+          <span class="sc-counter">4 of 5</span>
+          <button onclick="nextScenario()">Next →</button>
+        </div>
+      </div>
+
+      <!-- SCENARIO 5 -->
+      <div class="sc-card" id="sc4">
+        <div class="sc-hd"><div class="sc-num">5</div><h3>The Lively Meeting</h3></div>
+        <div class="sc-body">
+          <div class="sc-sit">You're in a Spanish team meeting. Two colleagues are talking over each other — animated and loud — debating an approach. A third is laughing. You have a point to contribute but can't find a gap in the conversation.</div>
+          <div id="sc4-opts">
+            <button class="opt" onclick="ans(this,'A','C','sc4-rev')"><span class="opt-l">A</span>Wait politely for complete silence before speaking — it will come eventually</button>
+            <button class="opt" onclick="ans(this,'B','C','sc4-rev')"><span class="opt-l">B</span>Raise your hand slightly to signal you want the floor</button>
+            <button class="opt" onclick="ans(this,'C','C','sc4-rev')"><span class="opt-l">C</span>Jump in with confidence — a clear, direct opener like "Y yo creo que..." or "One thing I'd add —"</button>
+          </div>
+          <div class="sc-rev" id="sc4-rev"><strong>✅ Answer: C is correct</strong><p>In Spanish professional culture, animated overlap is participation — not chaos. Waiting for silence (A) may mean you never speak and signals you have nothing to contribute. Raising a hand (B) reads as overly formal and can actually disrupt the flow. Jumping in confidently with a clear opener is how Spanish meetings work — it shows engagement, not aggression.</p></div>
+        </div>
+        <div class="sc-nav">
+          <button onclick="prevScenario()">← Previous</button>
+          <span class="sc-counter">5 of 5</span>
+          <button disabled>Finished ✓</button>
+        </div>
+      </div>
+    </div><!-- end reveal -->
+
+    <div class="a-quote reveal" style="margin-top:22px"><div class="a-quote-av">💃</div><div class="a-quote-text">"I scheduled a call at 2:30pm on my first day. My Spanish colleague gently suggested we move it. I didn't understand why until Week 2."</div></div>
+  </div>
+</section>
+
+<!-- ══ 10 RULES ══ -->
+<section class="section" id="rules" style="background:var(--cream)">
+  <div class="section-inner">
+    <div class="sec-tag">Section 10 · Golden Rules</div>
+    <h2 class="sh">Spain's <em>Golden Rules</em></h2>
+    <p class="lead">The most important things to remember. Screenshot this. Read it again on the plane.</p>
+    <div class="dd-wrap reveal">
+      <div class="dd-col">
+        <div class="dd-hd do-hd">✅ DO — Always</div>
+        <div class="dd-item do-item">Eat the menú del día for lunch — every weekday you possibly can</div>
+        <div class="dd-item do-item">Say 'hola' or 'buenas' when entering any space</div>
+        <div class="dd-item do-item">Accept and attend business lunches — stay for the full meal</div>
+        <div class="dd-item do-item">Learn at minimum: hola, gracias, la cuenta, ¡Salud!</div>
+        <div class="dd-item do-item">Save 112 and your HR contact before Day 1</div>
+        <div class="dd-item do-item">Carry your health insurance card at all times</div>
+        <div class="dd-item do-item">Download Cabify and Google Maps before arrival</div>
+        <div class="dd-item do-item">Book AVE trains on Renfe app 2+ weeks ahead</div>
+        <div class="dd-item do-item">Expect and embrace dinner at 9pm–11pm socially</div>
+        <div class="dd-item do-item">Acknowledge regional identity — especially in Barcelona and Bilbao</div>
+        <div class="dd-item do-item">Check the EUR exchange rate before you travel</div>
+      </div>
+      <div class="dd-col">
+        <div class="dd-hd dn-hd">❌ DON'T — Avoid</div>
+        <div class="dd-item dn-item">Never schedule meetings 2pm–4pm if you can avoid it</div>
+        <div class="dd-item dn-item">Never order café con leche after 12pm</div>
+        <div class="dd-item dn-item">Don't expect meetings to start exactly on time — adjust</div>
+        <div class="dd-item dn-item">Don't plan important business in August (1–20)</div>
+        <div class="dd-item dn-item">Don't dismiss regional languages or identities — ever</div>
+        <div class="dd-item dn-item">Never take unlicensed taxis near tourist areas</div>
+        <div class="dd-item dn-item">Don't display valuables openly in crowded tourist areas</div>
+        <div class="dd-item dn-item">Don't skip the tapas or drinks invitation after work</div>
+        <div class="dd-item dn-item">Don't wait for the bill — always ask: 'la cuenta, por favor'</div>
+        <div class="dd-item dn-item">Don't raise Spanish Civil War, Franco, or Catalan independence politics</div>
+      </div>
+    </div>
+    <div class="gold-box reveal">
+      <div class="gold-box-icon">🚀</div>
+      <p><strong>Before you do anything else on Day 1:</strong> Save 112 and your Cipla HR contact. Download Cabify and Google Maps. Say 'buenos días' to your neighbour. Everything else can wait.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="dot-field" id="closingDots"></div>
+  <div class="close-inner">
+    <div class="hero-flag" style="font-size:52px;margin-bottom:20px">🇪🇸</div>
+    <p class="big-q">"Nobody expects you to speak perfect Spanish or understand every regional nuance. They just want to see that you are <strong>curious, warm, and willing to stay for dessert.</strong>"</p>
+  </div>
+</section>
+
+<script>
+/* Progress bar */
+window.addEventListener('scroll',()=>{
+  const p=window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
+  document.getElementById('progress-bar').style.width=p+'%';
+  updateActiveNav();
+});
+
+/* Active nav highlight */
+function updateActiveNav(){
+  const ids=['snapshot','daily','dining','housing','transport','cost','emergency','customs','work','rules'];
+  let cur='';
+  ids.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-80)cur=id;});
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+cur);
+  });
+}
+
+/* Scroll reveal */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+document.querySelectorAll('.stat-card').forEach((c,i)=>{c.style.transitionDelay=(i*0.1)+'s'});
+
+/* Floating particles — controlled DOM creation, no user data involved */
+function spawnDots(id){
+  const c=document.getElementById(id);if(!c)return;
+  const colors=['#C0392B','#D97706','#fff'];
+  for(let i=0;i<18;i++){
+    const d=document.createElement('div');d.className='gd';
+    const s=Math.random()*7+3;
+    d.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${100+Math.random()*30}%;background:${colors[Math.floor(Math.random()*colors.length)]};opacity:${Math.random()*.28+.06};animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*6}s;`;
+    c.appendChild(d);
+  }
+}
+spawnDots('dotField');spawnDots('closingDots');
+
+/* Tab switcher */
+function switchTab(tabId,group){
+  document.querySelectorAll(`[id^="tab-"][id$="-${group}"]`).forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(`tab-${tabId}-${group}`).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* Scenario carousel */
+let currentScenario=0;
+const totalScenarios=5;
+function goToScenario(idx){
+  document.getElementById('sc'+currentScenario).classList.remove('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.remove('active');
+  currentScenario=idx;
+  document.getElementById('sc'+currentScenario).classList.add('active');
+  document.querySelectorAll('.sc-dot')[currentScenario].classList.add('active');
+}
+function nextScenario(){if(currentScenario<totalScenarios-1)goToScenario(currentScenario+1);}
+function prevScenario(){if(currentScenario>0)goToScenario(currentScenario-1);}
+
+/* Scenario answer checker */
+function ans(btn,chosen,correct,revId){
+  const wrap=btn.closest('[id$="-opts"]')||btn.parentElement;
+  if(wrap.dataset.done)return;
+  wrap.dataset.done='1';
+  wrap.querySelectorAll('.opt').forEach(b=>{
+    const l=b.querySelector('.opt-l').textContent;
+    if(l===correct)b.classList.add('ok');
+    else if(l===chosen&&chosen!==correct)b.classList.add('no');
+    b.style.cursor='default';
+  });
+  document.getElementById(revId).classList.add('show');
+}
+
+/* Mascot — click-triggered */
+const tipsBySection={
+  snapshot:"47 million people, 17 regions, and everyone is convinced their city does tapas best. They're all right. Also — never plan anything important in August.",
+  daily:"I waited 40 minutes for my bill on my first night in Madrid. Nobody told me you have to ask for it. 'La cuenta, por favor' — say it, don't wait.",
+  dining:"The menú del día changed my life. Three courses, wine, bread — €12. Weekdays only, 1pm–3:30pm. It is how Spaniards eat lunch every single day.",
+  housing:"I had a stomach issue in Week 2. The farmacia on the corner sorted it in 5 minutes without a prescription. The green cross is everywhere — and it's brilliant.",
+  transport:"The Madrid metro will take you anywhere in under 20 minutes. The AVE will take you to Barcelona faster than you can get through the airport.",
+  cost:"In Madrid you can have a 3-course lunch with wine for €12. Or you can spend €80 on dinner like I did in Week 1. The menú del día exists for a reason.",
+  emergency:"Spain is very safe. The only real threat is a skilled pickpocket on Las Ramblas. Keep your phone in your front pocket and your bag in front of you.",
+  customs:"¡Salud! is how you toast in Spain. Learn it before your first dinner. The moment you say it correctly, the whole table relaxes.",
+  work:"I scheduled a call at 2:30pm on my first day. My colleague gently suggested we move it. Never book 2pm–4pm — ever.",
+  rules:"Nobody expects perfect Spanish. They just want to see you are curious, warm, and willing to stay for dessert."
+};
+let currentTip=tipsBySection.snapshot;
+const bubble=document.getElementById('mascotBubble');
+const mascotText=document.getElementById('mascotText');
+const mascotFig=document.getElementById('mascotFigure');
+const tipBadge=document.getElementById('tipBadge');
+let bubbleOpen=false;
+
+const secObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&tipsBySection[e.target.id]){
+      currentTip=tipsBySection[e.target.id];
+      tipBadge.style.display='block';
+      if(bubbleOpen){mascotText.textContent=currentTip;}
+    }
+  });
+},{threshold:0.3});
+Object.keys(tipsBySection).forEach(id=>{const el=document.getElementById(id);if(el)secObs.observe(el);});
+
+mascotFig.addEventListener('click',()=>{
+  bubbleOpen=!bubbleOpen;
+  mascotText.textContent=currentTip;
+  bubble.classList.toggle('show',bubbleOpen);
+  tipBadge.style.display=bubbleOpen?'none':'block';
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.mascot-wrap')){bubbleOpen=false;bubble.classList.remove('show');}
+});
+
+/* Mobile hamburger */
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+hamburger.addEventListener('click',e=>{
+  e.stopPropagation();
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#topnav')&&!e.target.closest('#mobileMenu')){
+    hamburger.classList.remove('open');mobileMenu.classList.remove('open');
+  }
+});
+function closeMobile(){hamburger.classList.remove('open');mobileMenu.classList.remove('open');}
+</script>
+</body>
+</html>
